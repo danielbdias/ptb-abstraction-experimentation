@@ -4,6 +4,12 @@ Experiments on how to create abstractions for RDDL to improve PtB performance.
 
 ## Development instructions
 
+### Clone repo
+
+```sh
+git clone --recurse-submodules git@github.com:danielbdias/ptb-abstraction-experimentation.git
+```
+
 ### Create env 
 ```sh
 python -m venv ./_venv
