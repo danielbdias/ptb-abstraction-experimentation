@@ -1,0 +1,12 @@
+[submodule "pyRDDLGym"]
+	path = pyRDDLGym
+	url = git@github.com:pyrddlgym-project/pyRDDLGym.git
+[submodule "pyRDDLGym-jax"]
+	path = pyRDDLGym-jax
+	url = git@github.com:pyrddlgym-project/pyRDDLGym-jax.git
+[submodule "pyRDDLGym-symbolic"]
+	path = pyRDDLGym-symbolic
+	url = git@github.com:pyrddlgym-project/pyRDDLGym-symbolic.git
+[submodule "rddlrepository"]
+	path = rddlrepository
+	url = git@github.com:pyrddlgym-project/rddlrepository.git
