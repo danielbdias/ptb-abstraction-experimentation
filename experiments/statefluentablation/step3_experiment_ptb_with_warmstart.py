@@ -5,8 +5,8 @@ import time
 
 import jax.nn.initializers as initializers
 
-from pyRDDLGym import RDDLEnv
-from pyRDDLGym.Core.Jax.JaxRDDLBackpropPlanner import JaxStraightLinePlan
+import pyRDDLGym
+from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
 from _domains import domains, jax_seeds, silent, experiment_params
 from _utils import run_experiment, save_data, PlannerParameters
@@ -34,7 +34,7 @@ for domain in domains:
     # Runs with regular domain (just to use as comparison)
     #########################################################################################################
 
-    regular_environment = RDDLEnv.RDDLEnv(domain=f'{root_folder}/domains/{domain.name}/regular/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/regular/{domain.instance}.rddl')
+    regular_environment = pyRDDLGym.make(domain=f'{root_folder}/domains/{domain.name}/regular/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/regular/{domain.instance}.rddl')
     regular_env_experiment_stats = []
 
     regular_experiment_name = f"{domain.name} (regular) - Straight line"
@@ -56,7 +56,7 @@ for domain in domains:
     # Runs with abstracted domain (Regular domain with ablated state variable set as initial state)
     #########################################################################################################
 
-    abstraction_environment = RDDLEnv.RDDLEnv(domain=f'{root_folder}/domains/{domain.name}/abstraction/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/abstraction/{domain.instance}.rddl')
+    abstraction_environment = pyRDDLGym.make(domain=f'{root_folder}/domains/{domain.name}/abstraction/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/abstraction/{domain.instance}.rddl')
     env_experiment_stats = []
 
     for jax_seed in jax_seeds:

@@ -3,8 +3,8 @@ import jax
 
 import time
 
-from pyRDDLGym import RDDLEnv
-from pyRDDLGym.Core.Jax.JaxRDDLBackpropPlanner import JaxStraightLinePlan
+import pyRDDLGym
+from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
 from _domains import domains, jax_seeds, silent, experiment_params
 from _utils import run_experiment, save_data, PlannerParameters
@@ -21,7 +21,7 @@ start_time = time.time()
 def run_planner_experiment(domain, bound_name, experiment_name):
     domain_path = f"{root_folder}/domains/{domain.name}/abstraction-{state_fluent}-{bound_name}"
 
-    environment = RDDLEnv.RDDLEnv(domain=f'{domain_path}/domain.rddl', instance=f'{domain_path}/{domain.instance}.rddl')
+    environment = pyRDDLGym.make(domain=f'{domain_path}/domain.rddl', instance=f'{domain_path}/{domain.instance}.rddl')
     experiment_stats = []
 
     for jax_seed in jax_seeds:

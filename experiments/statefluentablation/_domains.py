@@ -17,20 +17,20 @@ jax_seeds = [
 ]
 
 domains = [
-    # DomainExperiment(
-    #     name='HVAC',
-    #     instance='instance1',
-    #     action_bounds={'fan-in': (0.05001, None), 'heat-input': (0.0, None)},
-    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-    #     policy_hyperparams=None
-    # ),
-    # DomainExperiment(
-    #     name='UAV',
-    #     instance='instance1',
-    #     action_bounds={'set-acc': (-1, 1), 'set-phi': (-1, 1), 'set-theta': (-1, 1)},
-    #     state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
-    #     policy_hyperparams=None
-    # ),
+    DomainExperiment(
+        name='HVAC',
+        instance='instance1',
+        action_bounds={'fan-in': (0.05001, None), 'heat-input': (0.0, None)},
+        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+        policy_hyperparams=None
+    ),
+    DomainExperiment(
+        name='UAV',
+        instance='instance1',
+        action_bounds={'set-acc': (-1, 1), 'set-phi': (-1, 1), 'set-theta': (-1, 1)},
+        state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
+        policy_hyperparams=None
+    ),
     DomainExperiment(
         name='MarsRover',
         instance='instance0',
@@ -47,7 +47,6 @@ experiment_params = {
     'optimizer': optax.rmsprop,
     'learning_rate': 0.1,
     'epochs': 1000,
-    'report_statistics_interval': 1,
     'epsilon_error': 0.001,
     'epsilon_iteration_stop': 10,
 }
