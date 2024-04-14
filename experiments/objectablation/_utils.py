@@ -1,7 +1,7 @@
 import jax
 import optax
 
-from pyRDDLGym.Core.Jax.JaxRDDLBackpropPlanner import JaxRDDLBackpropPlanner, JaxDeepReactivePolicy
+from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan
 
 from dataclasses import dataclass
 import time
@@ -11,12 +11,11 @@ import csv
 @dataclass(frozen=True)
 class PlannerParameters:
     batch_size_train:           int
-    plan:                       JaxDeepReactivePolicy
+    plan:                       JaxPlan
     optimizer:                  optax.GradientTransformation
     learning_rate:              float
     epochs:                     int
-    seed:                       jax.random.KeyArray
-    report_statistics_interval: int
+    seed:                       jax.random.PRNGKey
     action_bounds:              dict
     epsilon_error:              float
     epsilon_iteration_stop:     int
@@ -62,8 +61,8 @@ def run_experiment(name, environment, planner_parameters, silent=True):
     start_time = time.time()
 
     # initialize the planner
-    planner = JaxRDDLBackpropPlanner(
-        environment.model,
+    planner = JaxBackpropPlanner(
+        rddl=environment.model,
         batch_size_train=planner_parameters.batch_size_train,
         plan=planner_parameters.plan,
         optimizer=planner_parameters.optimizer,
@@ -74,9 +73,9 @@ def run_experiment(name, environment, planner_parameters, silent=True):
     planner_callbacks = planner.optimize(
         planner_parameters.seed, 
         epochs=planner_parameters.epochs, 
-        step=planner_parameters.report_statistics_interval,
         epsilon_error=planner_parameters.epsilon_error,
         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
+        return_callback=True,
     )
 
     final_policy_weights = None

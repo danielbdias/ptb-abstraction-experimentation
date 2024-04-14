@@ -3,7 +3,7 @@
 	url = git@github.com:pyrddlgym-project/pyRDDLGym.git
 [submodule "pyRDDLGym-jax"]
 	path = pyRDDLGym-jax
-	url = git@github.com:pyrddlgym-project/pyRDDLGym-jax.git
+	url = git@github.com:danielbdias/pyRDDLGym-jax.git
 [submodule "pyRDDLGym-symbolic"]
 	path = pyRDDLGym-symbolic
 	url = git@github.com:pyrddlgym-project/pyRDDLGym-symbolic.git

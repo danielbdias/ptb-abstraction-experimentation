@@ -28,6 +28,8 @@ pip install -r requirements.txt
 ### Install local pyRDDLGym libs
 ```sh
 pip install ./pyRDDLGym
+pip install ./pyRDDLGym-jax
+pip install ./pyRDDLGym-symbolic
 ```
 
 ### Run script

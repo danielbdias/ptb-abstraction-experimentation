@@ -9,7 +9,8 @@ class DomainExperiment:
     variables_removed: list
 
 jax_seeds = [
-    42, 101, 967, 103, 61, 107, 647, 109, 347, 113, 139, 127, 367, 131, 13, 137, 971, 139, 31, 149
+    42, 
+    # 101, 967, 103, 61, 107, 647, 109, 347, 113, 139, 127, 367, 131, 13, 137, 971, 139, 31, 149
 ]
 
 domains = [
@@ -34,7 +35,6 @@ experiment_params = {
     'optimizer': optax.rmsprop,
     'learning_rate': 0.1,
     'epochs': 1000,
-    'report_statistics_interval': 1,
     'epsilon_error': 0.001,
     'epsilon_iteration_stop': 10,
 }

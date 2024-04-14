@@ -5,8 +5,9 @@ import time
 
 import jax.nn.initializers as initializers
 
-from pyRDDLGym import RDDLEnv
-from pyRDDLGym.Core.Jax.JaxRDDLBackpropPlanner import JaxStraightLinePlan
+import pyRDDLGym
+
+from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
 from _domains import domains, jax_seeds, silent, experiment_params
 from _utils import run_experiment, save_data, PlannerParameters
@@ -25,13 +26,13 @@ for domain in domains:
     print('--------------------------------------------------------------------------------')
     print()
 
-    regular_environment = RDDLEnv.RDDLEnv(domain=f'{root_folder}/domains/{domain.name}/regular/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/regular/{domain.instance}.rddl')
+    regular_environment = pyRDDLGym.make(domain=f'{root_folder}/domains/{domain.name}/regular/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/regular/{domain.instance}.rddl')
 
     #########################################################################################################
     # Runs with heuristic-ready domain
     #########################################################################################################
 
-    heuristic_environment = RDDLEnv.RDDLEnv(domain=f'{root_folder}/domains/{domain.name}/heuristic/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/heuristic/{domain.instance}.rddl')
+    heuristic_environment = pyRDDLGym.make(domain=f'{root_folder}/domains/{domain.name}/heuristic/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/heuristic/{domain.instance}.rddl')
     env_experiment_stats = []
 
     for jax_seed in jax_seeds:
