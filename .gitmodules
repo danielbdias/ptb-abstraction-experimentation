@@ -10,3 +10,6 @@
 [submodule "rddlrepository"]
 	path = rddlrepository
 	url = git@github.com:pyrddlgym-project/rddlrepository.git
+[submodule "rddl-for-vscode"]
+	path = rddl-for-vscode
+	url = git@github.com:pyrddlgym-project/rddl-for-vscode-plugin.git
