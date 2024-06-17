@@ -1,6 +1,8 @@
 # PtB Abstraction Experimentation
 
-Experiments on how to create abstractions for RDDL to improve PtB performance.
+These are the experiments on how to create abstractions for RDDL to improve PtB performance.
+
+Since we are using a slightly modified version (forked from the original ones) of the pyRDDLGym and pyRDDLGym-jax, we need to install it locally.
 
 ## Development instructions
 
