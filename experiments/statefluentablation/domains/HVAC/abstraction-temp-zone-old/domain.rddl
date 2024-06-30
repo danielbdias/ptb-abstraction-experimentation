@@ -2,8 +2,8 @@
 // by Ti{\u{g}}rek, T{\^u}ba and Dasgupta, Soura and Smith, Theodore F.
 // added an occupancy to enforce learning an efficient policy
 
-// abstraction without occupied
-// occupied
+// abstraction without tempzone
+// temp-zone
 
 domain hvac{
 
@@ -48,7 +48,9 @@ domain hvac{
 	};
 
 	cpfs {
-		occupied'(?z) = occupied(?z);
+	
+		// occupation switch: simplified to allow people to leave premises gradually (e.g. end of workday)
+		occupied'(?z) = occupied(?z) ^ Bernoulli(1.0 - P-SWITCH(?z));
 
 		// derived air temperature before each heater
 		temp-1(?h) = if ((sum_{?z : zone}[ADJ-HEATER(?h, ?z)]) > 0)
@@ -66,16 +68,7 @@ domain hvac{
 					         + DELTA-T / (K * HEATER-VOL(?h)) * heat-input(?h);
 
 		// zone's new inner temperature
-		temp-zone'(?z) =
-		                - K-dz * pow[temp-zone(?z) - TEMP-OUT, 2] +
-    		            if ((sum_{?h : heater}[ADJ-HEATER(?h, ?z)]) > 0)
-    		            then temp-zone(?z)
-    		                 + DELTA-T / (ZONE-VOL(?z) * (sum_{?h : heater}[ADJ-HEATER(?h, ?z)])) * fan-in(?z) * (sum_{?h : heater}[(temp-heater(?h) - temp-zone(?z)) * ADJ-HEATER(?h, ?z)])
-    		                 + DELTA-T * (sum_{?z2 : zone} [ ZONE-VOL(?z2)/ZONE-VOL(?z)*SIGMA(?z) * (temp-zone(?z2) - temp-zone(?z)) *
-							 (ADJ-ZONES(?z, ?z2) | ADJ-ZONES(?z2, ?z))])
-						else temp-zone(?z)
-						     + DELTA-T * (sum_{?z2 : zone} [ ZONE-VOL(?z2)/ZONE-VOL(?z)*SIGMA(?z) * (temp-zone(?z2) - temp-zone(?z)) *
-							 (ADJ-ZONES(?z, ?z2) | ADJ-ZONES(?z2, ?z))]);
+		temp-zone'(?z) = temp-zone(?z);
 	};
 
 	reward = -(sum_{?h : heater}[HEAT-COST(?h) * pow[heat-input(?h), 2]])
@@ -86,6 +79,7 @@ domain hvac{
 				else if (occupied(?z1) ^ (temp-zone(?z1) > TEMP-ZONE-MAX))
 				   then pow[temp-zone(?z1) - TEMP-ZONE-MAX, 2]
 				else 0.0]);
+
 
 	action-preconditions {
 		forall_{?z : zone} [ fan-in(?z) >= OUT-AIR-FLOW ];
