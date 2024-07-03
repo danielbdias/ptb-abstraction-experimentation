@@ -1,16 +1,17 @@
 import os
-from dataclasses import dataclass
-from typing import Dict, List
-
 import time
 
-import pyRDDLGym
-from pyRDDLGym.core.policy import RandomAgent
-
-from _domains import domains, DomainExperiment
-from _utils import run_single_simulation
+from _domains import domains
+from _utils import run_simulations
 
 root_folder = os.path.dirname(__file__)
+
+def run_experiment(domain):
+    domain_path = f"{root_folder}/domains/{domain.name}/regular"
+    domain_file_path = f'{domain_path}/domain.rddl'
+    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
+
+    return run_simulations(domain_file_path, instance_file_path, domain.state_fluents, 1)
 
 print('--------------------------------------------------------------------------------')
 print('Experiment Part 1 - Analysis of Fluent Dynamics')
@@ -20,13 +21,6 @@ print()
 # possible analysis - per grounded fluent, per lifted fluent
 
 start_time = time.time()
-
-def run_experiment(domain):
-    domain_path = f"{root_folder}/domains/{domain.name}/regular"
-    domain_file_path = f'{domain_path}/domain.rddl'
-    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
-
-    return run_single_simulation(domain_file_path, instance_file_path)
 
 #########################################################################################################
 # Runs with simplified domains

@@ -1,13 +1,14 @@
 import optax
 from dataclasses import dataclass
+from typing import Dict, List
 
 @dataclass(frozen=True)
 class DomainExperiment:
     name:                      str
     instance:                  str
-    action_bounds:             dict
-    state_fluents:             list
-    policy_hyperparams:        dict
+    action_bounds:             Dict
+    state_fluents:             List[str]
+    policy_hyperparams:        Dict
 
 jax_seeds = [
     42
