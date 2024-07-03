@@ -1,11 +1,17 @@
+import csv
+import jax
+import optax
+import time
+
 from dataclasses import dataclass
 from typing import Dict, List
 
 import pyRDDLGym
 from pyRDDLGym import RDDLEnv
 from pyRDDLGym.core.policy import RandomAgent
+from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan
 
-import numpy
+import numpy as np
 
 @dataclass(frozen=True)
 class GroundFluentData:
@@ -20,7 +26,28 @@ class LiftedFluentData:
 @dataclass(frozen=True)
 class SimulationData:
     simulation_number:      int
-    data_per_lifted_fluent: Dict[str, LiftedFluentData]
+    lifted_fluent_data:     Dict[str, LiftedFluentData]
+
+@dataclass(frozen=True)
+class FluentValueStatististic:
+    fluent_name:        str
+    mean:               float
+    standard_deviation: float
+    variance:           float
+    entropy:            float
+
+@dataclass(frozen=True)
+class PlannerParameters:
+    batch_size_train:           int
+    plan:                       JaxPlan
+    optimizer:                  optax.GradientTransformation
+    learning_rate:              float
+    epochs:                     int
+    seed:                       jax.random.PRNGKey
+    action_bounds:              dict
+    epsilon_error:              float
+    epsilon_iteration_stop:     int
+    policy_hyperparams:         dict
 
 def find_lifted_fluent(ground_fluent_name: str, lifted_fluents: List[str]) -> str:
     for lifted_fluent in lifted_fluents:
@@ -29,18 +56,8 @@ def find_lifted_fluent(ground_fluent_name: str, lifted_fluents: List[str]) -> st
     
     return ""
 
-def run_simulations(domain_file_path : str, instance_file_path : str, lifted_fluents: List[str], number_of_simulations: int) -> List[SimulationData]:
-    environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
-
-    simulations = []
-
-    for i in range(number_of_simulations):
-        simulations.append(run_single_simulation(environment, lifted_fluents, i)) 
-
-    return simulations
-
 def convert_to_number(value):
-    if type(value) != numpy.bool_:
+    if type(value) != np.bool_:
         return value
     
     if value:
@@ -94,4 +111,106 @@ def run_single_simulation(environment : RDDLEnv, lifted_fluents: List[str], simu
         if terminated or truncated:
             break
 
-    return SimulationData(data_per_lifted_fluent=statistics, simulation_number=simulation_number)
+    return SimulationData(lifted_fluent_data=statistics, simulation_number=simulation_number)
+
+def run_simulations(environment: pyRDDLGym.RDDLEnv, lifted_fluents: List[str], number_of_simulations: int) -> List[SimulationData]:
+    simulations = []
+
+    for i in range(number_of_simulations):
+        simulations.append(run_single_simulation(environment, lifted_fluents, i)) 
+
+    return simulations
+
+def aggregate_simulation_data(data : List[SimulationData]):
+    lifted_fluent_data = {}
+    ground_fluent_data = {}
+
+    # initialize lists
+    first_lifted_fluent_data = data[0].lifted_fluent_data 
+    for lifted_fluent_name in first_lifted_fluent_data.keys():
+        lifted_fluent_data[lifted_fluent_name] = []
+        for ground_fluent_name in first_lifted_fluent_data[lifted_fluent_name].ground_fluent_data.keys():
+            ground_fluent_data[ground_fluent_name] = []
+
+    # aggregate series
+    for simulation_data in data:
+        for lifted_fluent_name in simulation_data.lifted_fluent_data.keys():
+            for ground_fluent_name in simulation_data.lifted_fluent_data[lifted_fluent_name].ground_fluent_data.keys():
+                data_points = simulation_data.lifted_fluent_data[lifted_fluent_name].ground_fluent_data[ground_fluent_name].data_points
+                
+                lifted_fluent_data[lifted_fluent_name] += data_points
+                ground_fluent_data[ground_fluent_name] += data_points
+
+    return lifted_fluent_data, ground_fluent_data
+
+def compute_fluent_stats(fluent_name, data):
+    return FluentValueStatististic(
+        fluent_name=fluent_name,
+        mean=np.mean(data),
+        standard_deviation=np.std(data),
+        variance=np.var(data),
+        entropy=0.0 #TODO
+    )
+
+def compute_statistics(data : List[SimulationData]) -> List[FluentValueStatististic]:
+    lifted_fluent_data, ground_fluent_data = aggregate_simulation_data(data)
+
+    result = []
+
+    for key in lifted_fluent_data.keys():
+        result.append(compute_fluent_stats(key, lifted_fluent_data[key]))
+
+    for key in ground_fluent_data.keys():
+        result.append(compute_fluent_stats(key, ground_fluent_data[key]))
+
+    return result
+
+def record_csv(file_path: str, domain_name: str, data: List[FluentValueStatististic]):
+    with open(file_path, 'a') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(['Domain', 'Fluent', 'Mean', 'StdDev', 'Variance', 'Entropy'])
+
+        for item in data:
+            writer.writerow([domain_name, item.fluent_name, item.mean, item.standard_deviation, item.variance, item.entropy])
+    
+def run_jaxplanner(name, environment, planner_parameters, silent=True):
+    if not silent:
+        print('--------------------------------------------------------------------------------')
+        print('Domain: ', name)
+        print('Seed: ', planner_parameters.seed)
+        print('--------------------------------------------------------------------------------')
+        print()
+    
+    start_time = time.time()
+
+    # initialize the planner
+    planner = JaxBackpropPlanner(
+        environment.model,
+        batch_size_train=planner_parameters.batch_size_train,
+        plan=planner_parameters.plan,
+        optimizer=planner_parameters.optimizer,
+        optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
+        action_bounds=planner_parameters.action_bounds)
+
+    # run the planner as an optimization process
+    planner_callbacks = planner.optimize(
+        planner_parameters.seed, 
+        epochs=planner_parameters.epochs, 
+        epsilon_error=planner_parameters.epsilon_error,
+        epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
+        policy_hyperparams=planner_parameters.policy_hyperparams,
+        return_callback=True,
+    )
+
+    statistics_history = []
+
+    for callback in planner_callbacks:
+        statistics_history.append(callback)
+
+        if not silent:
+            print(callback)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    return statistics_history, elapsed_time
