@@ -10,20 +10,20 @@ class DomainExperiment:
     policy_hyperparams:        dict
 
 jax_seeds = [
-    # 42
-    42, 101, 967, 103, 61, 
-    107, 647, 109, 347, 113, 
+    42
+    # 42, 101, 967, 103, 61, 
+    # 107, 647, 109, 347, 113, 
     # 139, 127, 367, 131, 13, 137, 971, 139, 31, 149
 ]
 
 domains = [
-    DomainExperiment(
-        name='HVAC',
-        instance='instance1',
-        action_bounds={},
-        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-        policy_hyperparams=None
-    ),
+    # DomainExperiment(
+    #     name='HVAC',
+    #     instance='instance1',
+    #     action_bounds={},
+    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+    #     policy_hyperparams=None
+    # ),
     DomainExperiment(
         name='UAV',
         instance='instance1',
