@@ -26,6 +26,7 @@ start_time = time.time()
 print('--------------------------------------------------------------------------------')
 
 batch_size = experiment_params['batch_size_train']
+bins = 100
 
 for domain in domains:
     domain_path = f"{root_folder}/domains/{domain.name}/regular"
@@ -38,7 +39,7 @@ for domain in domains:
 
     # Random policy
     simulations = run_simulations(environment, domain.state_fluents, batch_size)
-    statistics = compute_statistics(simulations)
+    statistics = compute_statistics(simulations, bins)
     record_csv(output_file_random_policy, domain.name, statistics)
 
     # JaxPlan
@@ -54,7 +55,7 @@ for domain in domains:
         simulations, _ = run_jaxplanner(domain.name, environment=environment, planner_parameters=env_params, silent=silent)
         jax_simulations_per_seed.append(simulations)
 
-    statistics = compute_jax_simulation_statistics(jax_simulations_per_seed, domain.state_fluents)
+    statistics = compute_jax_simulation_statistics(jax_simulations_per_seed, domain.state_fluents, bins)
     record_csv(output_file_jax_plan, domain.name, statistics)
 
 end_time = time.time()

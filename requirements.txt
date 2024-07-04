@@ -9,6 +9,7 @@ optax>=0.1.9
 pillow>=9.2.0
 ply
 pygame
+scipy
 symengine>=0.11.0
 sympy>=1.12
 tensorflow-probability>=0.21.0

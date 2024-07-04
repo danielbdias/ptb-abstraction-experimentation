@@ -3,6 +3,8 @@ import jax
 import optax
 import time
 
+from scipy.stats import entropy
+
 from dataclasses import dataclass
 from typing import Dict, List
 
@@ -143,25 +145,29 @@ def aggregate_simulation_data(data : List[SimulationData]):
 
     return lifted_fluent_data, ground_fluent_data
 
-def compute_fluent_stats(fluent_name, data):
+def compute_fluent_stats(fluent_name, data, entropy_bin):
     return FluentValueStatististic(
         fluent_name=fluent_name,
         mean=np.mean(data),
         standard_deviation=np.std(data),
         variance=np.var(data),
-        entropy=0.0 #TODO
+        entropy=compute_entropy(data, entropy_bin)
     )
 
-def compute_statistics(data : List[SimulationData]) -> List[FluentValueStatististic]:
+def compute_entropy(data, entropy_bin):
+    _, bins = np.histogram(data, bins=entropy_bin)
+    return entropy(bins)
+
+def compute_statistics(data : List[SimulationData], entropy_bin) -> List[FluentValueStatististic]:
     lifted_fluent_data, ground_fluent_data = aggregate_simulation_data(data)
 
     result = []
 
     for key in lifted_fluent_data.keys():
-        result.append(compute_fluent_stats(key, lifted_fluent_data[key]))
+        result.append(compute_fluent_stats(key, lifted_fluent_data[key], entropy_bin))
 
     for key in ground_fluent_data.keys():
-        result.append(compute_fluent_stats(key, ground_fluent_data[key]))
+        result.append(compute_fluent_stats(key, ground_fluent_data[key], entropy_bin))
 
     return result
 
@@ -241,15 +247,15 @@ def aggregate_and_fix_jax_simulations(jax_simulations, lifted_fluents):
         
     return lifted_fluent_data, ground_fluent_data
 
-def compute_jax_simulation_statistics(jax_simulations, lifted_fluents):
+def compute_jax_simulation_statistics(jax_simulations, lifted_fluents, entropy_bin):
     lifted_fluent_data, ground_fluent_data = aggregate_and_fix_jax_simulations(jax_simulations, lifted_fluents)
 
     result = []
 
     for key in lifted_fluent_data.keys():
-        result.append(compute_fluent_stats(key, lifted_fluent_data[key]))
+        result.append(compute_fluent_stats(key, lifted_fluent_data[key], entropy_bin))
 
     for key in ground_fluent_data.keys():
-        result.append(compute_fluent_stats(key, ground_fluent_data[key]))
+        result.append(compute_fluent_stats(key, ground_fluent_data[key], entropy_bin))
 
     return result
