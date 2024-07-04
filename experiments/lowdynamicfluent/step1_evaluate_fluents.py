@@ -3,7 +3,7 @@ import jax
 import time
 
 from _domains import domains, experiment_params, jax_seeds, silent
-from _utils import run_simulations, compute_statistics, record_csv, run_jaxplanner, PlannerParameters
+from _utils import run_simulations, compute_statistics, record_csv, run_jaxplanner, compute_jax_simulation_statistics, PlannerParameters
 
 import pyRDDLGym
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
@@ -42,6 +42,7 @@ for domain in domains:
     # record_csv(output_file_random_policy, domain.name, statistics)
 
     # JaxPlan
+    jax_simulations_per_seed = []
     for jax_seed in jax_seeds:
         experiment_params['plan'] = JaxStraightLinePlan()
         experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
@@ -50,7 +51,11 @@ for domain in domains:
 
         env_params = PlannerParameters(**experiment_params)
 
-        experiment_summary = run_jaxplanner(domain.name, environment=environment, planner_parameters=env_params, silent=silent)
+        simulations, _ = run_jaxplanner(domain.name, environment=environment, planner_parameters=env_params, silent=silent)
+        jax_simulations_per_seed.append(simulations)
+
+    statistics = compute_jax_simulation_statistics(jax_simulations_per_seed, domain.state_fluents)
+    record_csv(output_file_jax_plan, domain.name, statistics)
 
 end_time = time.time()
 elapsed_time = end_time - start_time

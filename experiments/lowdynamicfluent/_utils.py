@@ -200,12 +200,19 @@ def run_jaxplanner(name, environment, planner_parameters, silent=True):
         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
         policy_hyperparams=planner_parameters.policy_hyperparams,
         return_callback=True,
+        record_training_batches=True,
     )
 
-    statistics_history = []
+    values_per_state_variable = {}
 
     for callback in planner_callbacks:
-        statistics_history.append(callback)
+        training_batches = callback['training_batches']
+
+        for key in training_batches.keys():
+            if key not in values_per_state_variable.keys():
+                values_per_state_variable[key] = []
+
+            values_per_state_variable[key] += training_batches[key]
 
         if not silent:
             print(callback)
@@ -213,4 +220,34 @@ def run_jaxplanner(name, environment, planner_parameters, silent=True):
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    return statistics_history, elapsed_time
+    return values_per_state_variable, elapsed_time
+
+def aggregate_and_fix_jax_simulations(jax_simulations, lifted_fluents):
+    ground_fluent_data = {}
+
+    for simulation in jax_simulations:
+        for ground_fluent_name in simulation.keys():
+            if ground_fluent_name not in ground_fluent_data.keys():
+                ground_fluent_data[ground_fluent_name] = []
+            ground_fluent_data[ground_fluent_name] += simulation[ground_fluent_name]
+
+    # add lifted values
+    lifted_fluent_data = {}
+    for ground_fluent_name in ground_fluent_data.keys():
+        lifted_fluent_name = find_lifted_fluent(ground_fluent_name, lifted_fluents)
+        lifted_fluent_data[lifted_fluent_name] += ground_fluent_data[ground_fluent_name]
+        
+    return lifted_fluent_data, ground_fluent_data
+
+def compute_jax_simulation_statistics(jax_simulations, lifted_fluents):
+    lifted_fluent_data, ground_fluent_data = aggregate_and_fix_jax_simulations(jax_simulations, lifted_fluents)
+
+    result = []
+
+    for key in lifted_fluent_data.keys():
+        result.append(compute_fluent_stats(key, lifted_fluent_data[key]))
+
+    for key in ground_fluent_data.keys():
+        result.append(compute_fluent_stats(key, ground_fluent_data[key]))
+
+    return result
