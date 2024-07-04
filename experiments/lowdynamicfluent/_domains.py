@@ -25,13 +25,13 @@ domains = [
         state_fluents=['occupied', 'temp-heater', 'temp-zone'],
         policy_hyperparams=None
     ),
-    # DomainExperiment(
-    #     name='UAV',
-    #     instance='instance1',
-    #     action_bounds={},
-    #     state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
-    #     policy_hyperparams=None
-    # ),
+    DomainExperiment(
+        name='UAV',
+        instance='instance1',
+        action_bounds={},
+        state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
+        policy_hyperparams=None
+    ),
     # DomainExperiment(
     #     name='MarsRover',
     #     instance='instance0',
