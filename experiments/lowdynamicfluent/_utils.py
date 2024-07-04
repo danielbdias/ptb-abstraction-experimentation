@@ -235,6 +235,8 @@ def aggregate_and_fix_jax_simulations(jax_simulations, lifted_fluents):
     lifted_fluent_data = {}
     for ground_fluent_name in ground_fluent_data.keys():
         lifted_fluent_name = find_lifted_fluent(ground_fluent_name, lifted_fluents)
+        if lifted_fluent_name not in lifted_fluent_data.keys():
+            lifted_fluent_data[lifted_fluent_name] = []
         lifted_fluent_data[lifted_fluent_name] += ground_fluent_data[ground_fluent_name]
         
     return lifted_fluent_data, ground_fluent_data

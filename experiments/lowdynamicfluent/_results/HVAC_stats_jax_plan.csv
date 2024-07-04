@@ -1,0 +1,10 @@
+Domain;Fluent;Mean;StdDev;Variance;Entropy
+HVAC;temp-zone;3.0;2.0;4.0;0.0
+HVAC;temp-heater;0.5;0.5;0.25;0.0
+HVAC;occupied;1.0;0.0;0.0;0.0
+HVAC;temp-zone___z1;5.0;0.0;0.0;0.0
+HVAC;temp-zone___z2;1.0;0.0;0.0;0.0
+HVAC;temp-heater___h1;0.0;0.0;0.0;0.0
+HVAC;temp-heater___h2;1.0;0.0;0.0;0.0
+HVAC;occupied___z1;1.0;0.0;0.0;0.0
+HVAC;occupied___z2;1.0;0.0;0.0;0.0

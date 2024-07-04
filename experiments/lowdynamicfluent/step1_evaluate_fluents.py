@@ -37,9 +37,9 @@ for domain in domains:
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
 
     # Random policy
-    # simulations = run_simulations(environment, domain.state_fluents, batch_size)
-    # statistics = compute_statistics(simulations)
-    # record_csv(output_file_random_policy, domain.name, statistics)
+    simulations = run_simulations(environment, domain.state_fluents, batch_size)
+    statistics = compute_statistics(simulations)
+    record_csv(output_file_random_policy, domain.name, statistics)
 
     # JaxPlan
     jax_simulations_per_seed = []
