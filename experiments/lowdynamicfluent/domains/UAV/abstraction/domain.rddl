@@ -69,9 +69,7 @@ cpfs {
     pos-y'(?a) = if (CONTROLLABLE(?a))
                  then pos-y(?a) + SCALE-FACTOR * vel(?a) * sin[psi(?a)]
                  else pos-y(?a) + Normal(0.0, RANDOM-WALK-COEFF);
-    pos-z'(?a) = if (CONTROLLABLE(?a))
-                 then pos-z(?a) + SCALE-FACTOR * vel(?a) * sin[theta(?a)]
-                 else pos-z(?a) + Normal(0.0, RANDOM-WALK-COEFF);
+    pos-z'(?a) = pos-z(?a);
 
     // velocity
     vel'(?a) = if (CONTROLLABLE(?a))

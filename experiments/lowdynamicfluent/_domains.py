@@ -18,13 +18,13 @@ jax_seeds = [
 ]
 
 domains = [
-    DomainExperiment(
-        name='HVAC',
-        instance='instance1',
-        action_bounds={},
-        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-        policy_hyperparams=None
-    ),
+    # DomainExperiment(
+    #     name='HVAC',
+    #     instance='instance1',
+    #     action_bounds={},
+    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+    #     policy_hyperparams=None
+    # ),
     DomainExperiment(
         name='UAV',
         instance='instance1',
@@ -33,11 +33,11 @@ domains = [
         policy_hyperparams=None
     ),
     # DomainExperiment(
-    #     name='MarsRover',
-    #     instance='instance0',
-    #     action_bounds={'power-x': (-0.0999, 0.0999), 'power-y': (-0.0999, 0.0999)},
-    #     state_fluents=['mineral-harvested', 'pos-x', 'pos-y', 'vel-x', 'vel-y'],
-    #     policy_hyperparams={'harvest': 5.0}
+    #     name='Reservoir',
+    #     instance='instance1',
+    #     action_bounds={},
+    #     state_fluents=['rlevel'],
+    #     policy_hyperparams=None
     # )
 ]
 
