@@ -37,4 +37,12 @@ pip install ./pyRDDLGym-symbolic
 ### Run script
 ```sh
 PYTHONWARNINGS=ignore python ./experiment_file_.py
-``````
+```
+
+### Install python with Tkinter
+```sh
+#based on https://stackoverflow.com/questions/59003269/getting-tkinter-to-work-with-python-3-x-on-macos-with-asdf
+brew install python-tk@3.12
+
+PYTHON_CONFIGURE_OPTS="--with-tcltk-includes='-I/usr/local/opt/tcl-tk/include' --with-tcltk-libs='-L/usr/local/opt/tcl-tk/lib -ltcl8.6 -ltk8.6'" asdf install python 3.12.4
+```
