@@ -45,6 +45,8 @@ domains = [
 
 silent = True
 
+bins = 100
+
 experiment_params = {
     'batch_size_train': 256,
     'optimizer': optax.rmsprop,
