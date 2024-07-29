@@ -7,7 +7,7 @@ import pickle
 from scipy.stats import entropy
 
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Set
 
 import pyRDDLGym
 from pyRDDLGym import RDDLEnv
@@ -51,6 +51,7 @@ class PlannerParameters:
     epsilon_error:              float
     epsilon_iteration_stop:     int
     policy_hyperparams:         dict
+    ground_fluents_to_freeze:   Set[str]
 
 def find_lifted_fluent(ground_fluent_name: str, lifted_fluents: List[str]) -> str:
     for lifted_fluent in lifted_fluents:
@@ -278,7 +279,9 @@ def run_jaxplanner(name, environment, planner_parameters, silent=True):
         plan=planner_parameters.plan,
         optimizer=planner_parameters.optimizer,
         optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
-        action_bounds=planner_parameters.action_bounds)
+        action_bounds=planner_parameters.action_bounds,
+        ground_fluents_to_freeze=planner_parameters.ground_fluents_to_freeze
+    )
 
     # run the planner as an optimization process
     planner_callbacks = planner.optimize(

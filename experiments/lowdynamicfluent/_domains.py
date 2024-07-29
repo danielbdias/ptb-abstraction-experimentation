@@ -1,6 +1,6 @@
 import optax
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Set
 
 @dataclass(frozen=True)
 class DomainExperiment:
@@ -9,6 +9,7 @@ class DomainExperiment:
     action_bounds:             Dict
     state_fluents:             List[str]
     policy_hyperparams:        Dict
+    ground_fluents_to_freeze:  Set[str]
 
 jax_seeds = [
     42
@@ -30,7 +31,8 @@ domains = [
         instance='instance1',
         action_bounds={},
         state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
-        policy_hyperparams=None
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['pos-z___a1'])
     ),
     # DomainExperiment(
     #     name='Reservoir',
