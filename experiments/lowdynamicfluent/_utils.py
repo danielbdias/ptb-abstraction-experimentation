@@ -4,6 +4,7 @@ import optax
 import time
 import pickle
 
+import pyRDDLGym.core
 from scipy.stats import entropy
 
 from dataclasses import dataclass
@@ -11,6 +12,7 @@ from typing import Dict, List, Set
 
 import pyRDDLGym
 from pyRDDLGym import RDDLEnv
+from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym.core.policy import RandomAgent
 from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxOfflineController
 
@@ -378,7 +380,7 @@ class ExperimentStatisticsSummary:
     elapsed_time:                float
     last_iteration_improved:     int
 
-def run_experiment(name, environment, planner_parameters, silent=True):
+def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameters : PlannerParameters, silent : bool = True):
     if not silent:
         print('--------------------------------------------------------------------------------')
         print('Experiment: ', name)
@@ -390,7 +392,7 @@ def run_experiment(name, environment, planner_parameters, silent=True):
 
     # initialize the planner
     planner = JaxBackpropPlanner(
-        environment.model,
+        rddl_model,
         batch_size_train=planner_parameters.batch_size_train,
         plan=planner_parameters.plan,
         optimizer=planner_parameters.optimizer,

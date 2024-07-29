@@ -1,5 +1,4 @@
 import os
-import jax
 import time
 
 from _domains import domains, experiment_params, bins
@@ -8,6 +7,7 @@ from _utils import run_simulations, compute_statistics, record_csv
 import pyRDDLGym
 
 root_folder = os.path.dirname(__file__)
+batch_size = experiment_params['batch_size_train']
 
 print('--------------------------------------------------------------------------------')
 print('Experiment Part 1 - Analysis of Fluent Dynamics')
@@ -15,16 +15,11 @@ print('-------------------------------------------------------------------------
 print()
 
 # possible analysis - per grounded fluent, per lifted fluent
-
 start_time = time.time()
 
 #########################################################################################################
-# Runs with simplified domains
+# This script will run simulations for each domain and instance, and record statistics
 #########################################################################################################
-
-print('--------------------------------------------------------------------------------')
-
-batch_size = experiment_params['batch_size_train']
 
 for domain in domains:
     domain_path = f"{root_folder}/domains/{domain.name}"
