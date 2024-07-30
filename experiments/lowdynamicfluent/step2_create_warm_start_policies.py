@@ -38,10 +38,12 @@ for domain in domains:
         experiment_params['plan'] = JaxStraightLinePlan()
         experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
         experiment_params['action_bounds'] = domain.action_bounds
+        experiment_params['policy_hyperparams'] = domain.policy_hyperparams
+        experiment_params['ground_fluents_to_freeze'] = domain.ground_fluents_to_freeze
 
         abstraction_env_params = PlannerParameters(**experiment_params)
 
-        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", model=grounded_model, planner_parameters=abstraction_env_params, silent=silent)
+        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=grounded_model, planner_parameters=abstraction_env_params, silent=silent)
 
     # save_data(env_experiment_stats, f'{root_folder}/_results/{domain.name}_warmstart_statistics.pickle')
 
