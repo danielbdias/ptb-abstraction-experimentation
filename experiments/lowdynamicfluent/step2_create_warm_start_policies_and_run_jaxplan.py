@@ -46,6 +46,29 @@ for domain in domains:
     print()
 
     #########################################################################################################
+    # Runs with regular domain (just to use as comparison)
+    #########################################################################################################
+
+    regular_environment = pyRDDLGym.make(domain=f'{root_folder}/domains/{domain.name}/domain.rddl', instance=f'{root_folder}/domains/{domain.name}/{domain.instance}.rddl')
+    regular_env_experiment_stats = []
+
+    regular_experiment_name = f"{domain.name} (regular) - Straight line"
+
+    for jax_seed in jax_seeds:
+        experiment_params['plan'] = JaxStraightLinePlan()
+        experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
+        experiment_params['action_bounds'] = domain.action_bounds
+        experiment_params['policy_hyperparams'] = domain.policy_hyperparams
+        experiment_params['ground_fluents_to_freeze'] = domain.ground_fluents_to_freeze
+
+        env_params = PlannerParameters(**experiment_params)
+
+        experiment_summary = run_experiment(regular_experiment_name, rddl_model=regular_environment.model, planner_parameters=env_params, silent=silent)
+        regular_env_experiment_stats.append(experiment_summary)
+
+    save_data(regular_env_experiment_stats, f'{root_folder}/_results/{domain.name}_regular_statistics.pickle')
+
+    #########################################################################################################
     # Runs PtB with modified domain (that has ground fluents frozen with initial state values)
     #########################################################################################################
 

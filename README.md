@@ -6,40 +6,44 @@ Since we are using a slightly modified version (forked from the original ones) o
 
 ## Development instructions
 
-### Clone repo
+### Starting new env from scratch
 
 ```sh
+# clone with submodules
 git clone --recurse-submodules git@github.com:danielbdias/ptb-abstraction-experimentation.git
-```
 
-### Create env 
-```sh
+# create venv
 python -m venv ./_venv
-```
 
-### Activate env 
-```sh
+# activate env
 source _venv/bin/activate
-```
 
-### Install requirements
-```sh
+# install requirements
 pip install -r requirements.txt
-```
 
-### Install local pyRDDLGym libs
-```sh
+# install local pyRDDLGym libs
 pip install ./pyRDDLGym
 pip install ./pyRDDLGym-jax
 pip install ./pyRDDLGym-symbolic
 ```
 
-### Run script
+### Run Experiments
 ```sh
-PYTHONWARNINGS=ignore python ./experiment_file_.py
+
+# Low dynamic fluent
+
+# Step 1: Evaluate fluents
+PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step1_evaluate_fluents.py
+
+# Step 2: Choose best fluents from CSVs and update ./experiments/lowdynamicfluent/_domains.py
+#         then run the following command:
+PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step2_create_warm_start_policies_and_run_jaxplan.py
+
+# Step 3: Compute statistics
+PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step3_compute_experiment_statistics.py
 ```
 
-### Install python with Tkinter
+### Install python with Tkinter on MacOSX
 ```sh
 #based on https://stackoverflow.com/questions/59003269/getting-tkinter-to-work-with-python-3-x-on-macos-with-asdf
 brew install python-tk@3.12

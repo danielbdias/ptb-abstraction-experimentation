@@ -19,28 +19,30 @@ jax_seeds = [
 ]
 
 domains = [
-    # DomainExperiment(
-    #     name='HVAC',
-    #     instance='instance1',
-    #     action_bounds={},
-    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-    #     policy_hyperparams=None
-    # ),
+    DomainExperiment(
+        name='HVAC',
+        instance='instance1',
+        action_bounds={},
+        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['occupied___z1', 'occupied___z2'])
+    ),
     DomainExperiment(
         name='UAV',
         instance='instance1',
         action_bounds={},
         state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['pos-z___a1'])
+        ground_fluents_to_freeze=set(['pos-x___a1', 'pos-y___a1', 'pos-z___a1'])
     ),
-    # DomainExperiment(
-    #     name='Reservoir',
-    #     instance='instance1',
-    #     action_bounds={},
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None
-    # )
+    DomainExperiment(
+        name='Reservoir',
+        instance='instance1',
+        action_bounds={},
+        state_fluents=['rlevel'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['rlevel___t2'])
+    )
 ]
 
 silent = True
