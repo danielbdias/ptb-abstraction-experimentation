@@ -75,7 +75,7 @@ for domain in domains:
 
         warm_start_env_params = PlannerParameters(**experiment_params)
 
-        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm start) - Straight line", environment=regular_environment, planner_parameters=warm_start_env_params, silent=silent)
+        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm start) - Straight line", rddl_model=regular_environment.model, planner_parameters=warm_start_env_params, silent=silent)
         env_experiment_stats.append(warm_start_env_experiment_summary)
 
     save_data(env_experiment_stats, f'{root_folder}/_results/{domain.name}_warmstart_statistics.pickle')
