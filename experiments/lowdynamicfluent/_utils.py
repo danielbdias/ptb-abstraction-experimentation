@@ -4,7 +4,6 @@ import optax
 import time
 import pickle
 
-import pyRDDLGym.core
 from scipy.stats import entropy
 
 from dataclasses import dataclass
