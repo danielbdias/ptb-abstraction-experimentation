@@ -33,7 +33,7 @@ domains = [
             'learning_rate': 0.1,
             'epochs': 2000,
             'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 10,
+            'epsilon_iteration_stop': 50,
         }
     ),
     DomainExperiment(
