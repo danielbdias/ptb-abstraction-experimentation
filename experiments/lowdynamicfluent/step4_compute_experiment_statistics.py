@@ -12,7 +12,7 @@ def plot_convergence_time(plot_folder, domain_name, evaluation_time, warm_start_
         "Warm Start Policy"
     )
     metrics = {
-        "Eval Time": np.array([0, evaluation_time]),
+        "Fluent Eval Time": np.array([0, evaluation_time]),
         "Warm Start Computation": np.array([0, warm_start_computation]),
         "JaxPlan Execution": np.array([baseline_execution, warm_start_execution]),
     }
@@ -126,13 +126,18 @@ def stat_curves(experiment_summaries, attribute_getter):
 
     return larger_iteration_curve, curves_mean, curves_stddev
     
-def plot_cost_curve_per_iteration(plot_folder, domain_name, statistics, cost_getter):
+def plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats, warm_start_stats):
     plt.subplots(1, figsize=(8,5))
+
+    statistics = {
+        'Random Policy': random_policy_stats,
+        'Warm Start': warm_start_stats
+    }
 
     for key in statistics.keys():
         stats = statistics[key]
 
-        iterations, best_return_curves_mean, best_return_curves_stddev = stat_curves(stats, cost_getter)
+        iterations, best_return_curves_mean, best_return_curves_stddev = stat_curves(stats, lambda item : item.best_return)
         
         plt.plot(iterations, best_return_curves_mean, '-', label=key)
         plt.fill_between(iterations, (best_return_curves_mean - best_return_curves_stddev), (best_return_curves_mean + best_return_curves_stddev), alpha=0.2)
@@ -162,12 +167,10 @@ for domain in domains:
     # Convergence value
     ############################################################
 
-    statistics = {
-        'Regular': load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}.pickle'),
-        'Warm Start': load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')
-    }
+    random_policy_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}.pickle')
+    warm_start_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')   
 
-    plot_cost_curve_per_iteration(plot_folder, domain_name, statistics, lambda item : item.best_return)
+    plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats, warm_start_stats)
 
     ############################################################
     # Convergence time
