@@ -18,6 +18,8 @@ def plot_convergence_time(plot_folder, domain_name, evaluation_time, warm_start_
     }
     width = 0.5
 
+    y_axis_height = np.max([baseline_execution, evaluation_time + warm_start_computation + warm_start_execution]) * 1.4
+
     fig, ax = plt.subplots()
     bottom = np.zeros(2)
 
@@ -26,12 +28,13 @@ def plot_convergence_time(plot_folder, domain_name, evaluation_time, warm_start_
         bottom += weight_count
 
     ax.set_title(f"Convergence time ({domain_name})")
-    ax.legend(loc="upper right")
+    ax.legend(loc="upper right", fontsize=14)
 
     plt.rcParams.update({'font.size':15})
     plt.rc('font', family='serif')
 
     plt.ylabel("Time (seconds)")
+    plt.ylim(0, y_axis_height)
 
     plt.savefig(f'{plot_folder}/convergence_time_{domain_name}.pdf', format='pdf')
 
@@ -58,6 +61,8 @@ def plot_time_to_elect(plot_folder, domain_name, evaluation_time_low_fluent, war
     }
     width = 0.5
 
+    y_axis_height = np.max([evaluation_time_low_fluent + warm_start_computation_low_fluent, evaluation_time_interval_analysis + warm_start_computation_interval_analysis]) * 1.4
+
     fig, ax = plt.subplots()
     bottom = np.zeros(2)
 
@@ -66,12 +71,13 @@ def plot_time_to_elect(plot_folder, domain_name, evaluation_time_low_fluent, war
         bottom += weight_count
 
     ax.set_title(f"Time to elect fluent ({domain_name})")
-    ax.legend(loc="upper right")
+    ax.legend(loc="upper right", fontsize=14)
 
     plt.rcParams.update({'font.size':15})
     plt.rc('font', family='serif')
 
     plt.ylabel("Time (seconds)")
+    plt.ylim(0, y_axis_height)
 
     plt.savefig(f'{plot_folder}/time_to_elect_fluent_{domain_name}.pdf', format='pdf')
 
