@@ -79,9 +79,7 @@ domain kinematic_UAVs_con {
 
 	cpfs {
 
-		pos-x___a1' = if (CONTROLLABLE___a1)
-			then ( pos-x___a1 + ( ( SCALE-FACTOR * vel___a1 ) * cos[psi___a1] ) )
-			else ( pos-x___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
+		pos-x___a1' = pos-x___a1;
 
 		pos-x___a2' = if (CONTROLLABLE___a2)
 			then ( pos-x___a2 + ( ( SCALE-FACTOR * vel___a2 ) * cos[psi___a2] ) )
@@ -91,9 +89,7 @@ domain kinematic_UAVs_con {
 			then ( pos-x___a3 + ( ( SCALE-FACTOR * vel___a3 ) * cos[psi___a3] ) )
 			else ( pos-x___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
 
-		pos-y___a1' = if (CONTROLLABLE___a1)
-			then ( pos-y___a1 + ( ( SCALE-FACTOR * vel___a1 ) * sin[psi___a1] ) )
-			else ( pos-y___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
+		pos-y___a1' = pos-y___a1;
 
 		pos-y___a2' = if (CONTROLLABLE___a2)
 			then ( pos-y___a2 + ( ( SCALE-FACTOR * vel___a2 ) * sin[psi___a2] ) )
@@ -103,9 +99,7 @@ domain kinematic_UAVs_con {
 			then ( pos-y___a3 + ( ( SCALE-FACTOR * vel___a3 ) * sin[psi___a3] ) )
 			else ( pos-y___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
 
-		pos-z___a1' = if (CONTROLLABLE___a1)
-			then ( pos-z___a1 + ( ( SCALE-FACTOR * vel___a1 ) * sin[theta___a1] ) )
-			else ( pos-z___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
+		pos-z___a1' = pos-z___a1;
 
 		pos-z___a2' = if (CONTROLLABLE___a2)
 			then ( pos-z___a2 + ( ( SCALE-FACTOR * vel___a2 ) * sin[theta___a2] ) )
@@ -127,11 +121,17 @@ domain kinematic_UAVs_con {
 			then ( theta___a3 + ( SCALE-FACTOR * max[min[set-theta___a3, MAX-DELTA-THETA___a3], MIN-DELTA-THETA___a3] ) )
 			else ( theta___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
 
-		phi___a1' = phi___a1;
+		phi___a1' = if (CONTROLLABLE___a1)
+			then ( phi___a1 + ( SCALE-FACTOR * max[min[set-phi___a1, MAX-DELTA-PHI___a1], MIN-DELTA-PHI___a1] ) )
+			else ( phi___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
 
-		phi___a2' = phi___a2;
+		phi___a2' = if (CONTROLLABLE___a2)
+			then ( phi___a2 + ( SCALE-FACTOR * max[min[set-phi___a2, MAX-DELTA-PHI___a2], MIN-DELTA-PHI___a2] ) )
+			else ( phi___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
 
-		phi___a3' = phi___a3;
+		phi___a3' = if (CONTROLLABLE___a3)
+			then ( phi___a3 + ( SCALE-FACTOR * max[min[set-phi___a3, MAX-DELTA-PHI___a3], MIN-DELTA-PHI___a3] ) )
+			else ( phi___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
 
 		psi___a1' = if (CONTROLLABLE___a1)
 			then ( psi___a1 + ( ( SCALE-FACTOR * ( tan[phi___a1] / ( vel___a1 + VEL-REG ) ) ) * GRAVITY ) )

@@ -8,7 +8,7 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
-from _domains import domains, jax_seeds, silent, experiment_params
+from _domains import domains, jax_seeds, silent
 from _utils import run_experiment, save_data, PlannerParameters
 
 root_folder = os.path.dirname(__file__)
@@ -43,6 +43,7 @@ for domain in domains:
     regular_experiment_name = f"{domain.name} (regular) - Straight line"
 
     for jax_seed in jax_seeds:
+        experiment_params = domain.experiment_params.copy()
         experiment_params['plan'] = JaxStraightLinePlan()
         experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
         experiment_params['action_bounds'] = domain.action_bounds

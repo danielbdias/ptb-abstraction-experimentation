@@ -30,7 +30,10 @@ pip install ./pyRDDLGym-symbolic
 ### Run Experiments
 ```sh
 
-# Low dynamic fluent
+# Low dynamic fluent experiments
+
+# Step 0: Evaluate fluents
+PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step1_evaluate_fluents.py
 
 # Step 1: Evaluate fluents
 PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step1_evaluate_fluents.py

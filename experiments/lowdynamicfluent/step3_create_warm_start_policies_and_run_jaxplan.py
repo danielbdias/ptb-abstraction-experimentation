@@ -10,7 +10,7 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
-from _domains import domains, jax_seeds, silent, experiment_params
+from _domains import domains, jax_seeds, silent
 from _utils import run_experiment, save_data, load_data, PlannerParameters
 
 root_folder = os.path.dirname(__file__)
@@ -48,6 +48,7 @@ for domain in domains:
     warm_start_run_experiment_stats = []
 
     for jax_seed in jax_seeds:
+        experiment_params = domain.experiment_params.copy()
         experiment_params['plan'] = JaxStraightLinePlan()
         experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
         experiment_params['action_bounds'] = domain.action_bounds
@@ -63,9 +64,12 @@ for domain in domains:
         for key in abstraction_env_experiment_summary.final_policy_weights.keys():
             initializers_per_action[key] = initializers.constant(abstraction_env_experiment_summary.final_policy_weights[key])
 
+        experiment_params = domain.experiment_params.copy()
         experiment_params['plan'] = JaxStraightLinePlan(initializer_per_action=initializers_per_action)
         experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
         experiment_params['action_bounds'] = domain.action_bounds
+        experiment_params['policy_hyperparams'] = domain.policy_hyperparams
+        experiment_params['ground_fluents_to_freeze'] = set()
 
         warm_start_env_params = PlannerParameters(**experiment_params)
 
