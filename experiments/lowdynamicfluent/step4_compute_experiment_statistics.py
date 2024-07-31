@@ -54,7 +54,7 @@ for domain in domains:
         'Warm Start': load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')
     }
 
-    graph_path = f'{root_folder}/_plots/{domain_name}_slp.pdf'
+    graph_path = f'{root_folder}/_plots/convergence_value_{domain_name}.pdf'
     plot_cost_curve_per_iteration(f'Best Costs per Iteration ({domain_name})', statistics, lambda item : -item.best_return, graph_path)
 
     # TODO fix plot time to consider upper and lower bound
