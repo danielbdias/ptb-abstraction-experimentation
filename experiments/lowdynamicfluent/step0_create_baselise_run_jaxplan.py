@@ -3,18 +3,12 @@ import os
 import time
 import jax
 
-import jax.nn.initializers as initializers
-
 import pyRDDLGym
-from pyRDDLGym import RDDLEnv
-from pyRDDLGym.core.debug.decompiler import RDDLDecompiler
 from pyRDDLGym.core.grounder import RDDLGrounder
-from pyRDDLGym.core.compiler.model import RDDLPlanningModel
-from pyRDDLGym.core.parser.expr import Expression
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
-from _domains import domains, jax_seeds, silent, experiment_params, DomainExperiment
+from _domains import domains, jax_seeds, silent, experiment_params
 from _utils import run_experiment, save_data, PlannerParameters
 
 root_folder = os.path.dirname(__file__)
@@ -41,6 +35,9 @@ for domain in domains:
     instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
 
     regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
+    grounder = RDDLGrounder(regular_environment.model.ast)
+    grounded_model = grounder.ground()
+
     regular_env_experiment_stats = []
 
     regular_experiment_name = f"{domain.name} (regular) - Straight line"
@@ -54,7 +51,7 @@ for domain in domains:
 
         env_params = PlannerParameters(**experiment_params)
 
-        experiment_summary = run_experiment(regular_experiment_name, rddl_model=regular_environment.model, planner_parameters=env_params, silent=silent)
+        experiment_summary = run_experiment(regular_experiment_name, rddl_model=grounded_model, planner_parameters=env_params, silent=silent)
         regular_env_experiment_stats.append(experiment_summary)
 
     save_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_run_data_{domain.name}.pickle')

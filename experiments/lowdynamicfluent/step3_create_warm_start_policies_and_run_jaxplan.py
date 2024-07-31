@@ -6,6 +6,7 @@ import jax
 import jax.nn.initializers as initializers
 
 import pyRDDLGym
+from pyRDDLGym.core.grounder import RDDLGrounder
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
@@ -37,9 +38,11 @@ for domain in domains:
     regular_instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
 
     regular_environment = pyRDDLGym.make(domain=regular_domain_file_path, instance=regular_instance_file_path)
+    grounder = RDDLGrounder(regular_environment.model.ast)
+    regular_grounded_model = grounder.ground()
     
     ablated_model_file_path = f'{domain_path}/ablated/domain_{domain.instance}.model'
-    grounded_model = load_data(ablated_model_file_path)
+    ablated_grounded_model = load_data(ablated_model_file_path)
 
     warm_start_creation_experiment_stats = []
     warm_start_run_experiment_stats = []
@@ -53,7 +56,7 @@ for domain in domains:
 
         abstraction_env_params = PlannerParameters(**experiment_params)
 
-        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=grounded_model, planner_parameters=abstraction_env_params, silent=silent)
+        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=ablated_grounded_model, planner_parameters=abstraction_env_params, silent=silent)
         warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
         
         initializers_per_action = {}
@@ -66,7 +69,7 @@ for domain in domains:
 
         warm_start_env_params = PlannerParameters(**experiment_params)
 
-        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm start) - Straight line", rddl_model=regular_environment.model, planner_parameters=warm_start_env_params, silent=silent)
+        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm start) - Straight line", rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
         warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)
 
     save_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_run_data_{domain.name}.pickle')
