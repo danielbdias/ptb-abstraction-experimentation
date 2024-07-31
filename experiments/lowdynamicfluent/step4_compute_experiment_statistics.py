@@ -137,9 +137,9 @@ def plot_cost_curve_per_iteration(plot_folder, domain_name, statistics, cost_get
         plt.plot(iterations, best_return_curves_mean, '-', label=key)
         plt.fill_between(iterations, (best_return_curves_mean - best_return_curves_stddev), (best_return_curves_mean + best_return_curves_stddev), alpha=0.2)
 
-    plt.title(f'Best Costs per Iteration ({domain_name})', fontsize=14, fontweight='bold')
+    plt.title(f'Best Reward per Iteration ({domain_name})', fontsize=14, fontweight='bold')
     plt.xlabel("Iterations", fontsize=14)
-    plt.ylabel("Costs", fontsize=14)
+    plt.ylabel("Reward", fontsize=14)
     plt.legend(loc="best", fontsize=14)
     plt.tight_layout()
 
@@ -167,7 +167,7 @@ for domain in domains:
         'Warm Start': load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')
     }
 
-    plot_cost_curve_per_iteration(plot_folder, domain_name, statistics, lambda item : -item.best_return)
+    plot_cost_curve_per_iteration(plot_folder, domain_name, statistics, lambda item : item.best_return)
 
     ############################################################
     # Convergence time
