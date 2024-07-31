@@ -31,7 +31,7 @@ domains = [
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
             'learning_rate': 0.1,
-            'epochs': 1000,
+            'epochs': 2000,
             'epsilon_error': 0.001,
             'epsilon_iteration_stop': 10,
         }
@@ -47,7 +47,7 @@ domains = [
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
             'learning_rate': 0.0005,
-            'epochs': 1000,
+            'epochs': 5000,
             'epsilon_error': 0.001,
             'epsilon_iteration_stop': 10,
         }
