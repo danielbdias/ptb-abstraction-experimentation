@@ -23,10 +23,9 @@ start_time = time.time()
 
 for domain in domains:
     domain_path = f"{root_folder}/domains/{domain.name}"
-    domain_file_path = f'{domain_path}/domain.rddl'
-    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
-    output_file_random_policy=f"{root_folder}/_results/{domain.name}_stats_random_policy.csv"
-    output_file_jax_plan=f"{root_folder}/_results/{domain.name}_stats_jax_plan.csv"
+    domain_file_path = f'{domain_path}/regular/domain.rddl'
+    instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
+    output_file_random_policy=f"{root_folder}/_results/statistics_table_random_policy_{domain.name}.csv"
 
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
 

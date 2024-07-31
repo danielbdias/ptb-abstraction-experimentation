@@ -40,7 +40,7 @@ def plot_time_bars(title, planner, regular_stats, cold_start_stats, simplified_s
     plt.savefig(f'{root_folder}/_plots/{domain_name}_graph_time_{planner}.pdf', format='pdf')
 
 print('--------------------------------------------------------------------------------')
-print('Experiment Part 3 - Generating graphs for PtB with warm start')
+print('Experiment Part 4 - Generating graphs for PtB with warm start')
 print('--------------------------------------------------------------------------------')
 print()
 
@@ -50,8 +50,8 @@ for domain in domains:
     domain_name = domain.name
 
     statistics = {
-        'Regular': load_data(f'{root_folder}/_results/{domain_name}_regular_statistics.pickle'),
-        'Warm Start': load_data(f'{root_folder}/_results/{domain_name}_warmstart_statistics.pickle')
+        'Regular': load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}.pickle'),
+        'Warm Start': load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')
     }
 
     graph_path = f'{root_folder}/_plots/{domain_name}_slp.pdf'
