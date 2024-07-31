@@ -21,25 +21,25 @@ jax_seeds = [
 ]
 
 domains = [
-    # DomainExperiment(
-    #     name='HVAC',
-    #     instance='instance1',
-    #     action_bounds={},
-    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['occupied___z1', 'occupied___z2']),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.1,
-    #         'epochs': 2000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 50,
-    #     },
-    #     metadata={
-    #         'topology': [64, 64]
-    #     }
-    # ),
+    DomainExperiment(
+        name='HVAC',
+        instance='instance1',
+        action_bounds={},
+        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['occupied___z1', 'occupied___z2']),
+        experiment_params = {
+            'batch_size_train': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.1,
+            'epochs': 6000,
+            'epsilon_error': 0.001,
+            'epsilon_iteration_stop': 100,
+        },
+        metadata={
+            'topology': [64, 64]
+        }
+    ),
     DomainExperiment(
         name='Reservoir',
         instance='instance2',
@@ -51,9 +51,9 @@ domains = [
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
             'learning_rate': 0.0002,
-            'epochs': 1000,
+            'epochs': 5000,
             'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 10,
+            'epsilon_iteration_stop': 100,
         },
         metadata={
             'topology': [64, 32]
