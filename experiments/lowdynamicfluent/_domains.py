@@ -22,11 +22,11 @@ jax_seeds = [
 domains = [
     DomainExperiment(
         name='HVAC',
-        instance='instance1',
+        instance='instance3',
         action_bounds={},
         state_fluents=['occupied', 'temp-heater', 'temp-zone'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['occupied___z1', 'occupied___z2']),
+        ground_fluents_to_freeze=set(['occupied___z1', 'occupied___z4', 'occupied___z5', 'temp-zone___z2']), # var < .05
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
@@ -36,29 +36,29 @@ domains = [
             'epsilon_iteration_stop': 50,
         }
     ),
-    DomainExperiment(
-        name='UAV',
-        instance='instance1',
-        action_bounds={},
-        state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
-        policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['pos-x___a1', 'pos-y___a1', 'pos-z___a1']),
-        experiment_params = {
-            'batch_size_train': 256,
-            'optimizer': optax.rmsprop,
-            'learning_rate': 0.0005,
-            'epochs': 5000,
-            'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 10,
-        }
-    ),
+    # DomainExperiment(
+    #     name='UAV',
+    #     instance='instance1',
+    #     action_bounds={},
+    #     state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
+    #     policy_hyperparams=None,
+    #     ground_fluents_to_freeze=set(['pos-x___a1', 'pos-y___a1', 'pos-z___a1']),
+    #     experiment_params = {
+    #         'batch_size_train': 256,
+    #         'optimizer': optax.rmsprop,
+    #         'learning_rate': 0.0005,
+    #         'epochs': 5000,
+    #         'epsilon_error': 0.001,
+    #         'epsilon_iteration_stop': 10,
+    #     }
+    # ),
     DomainExperiment(
         name='Reservoir',
-        instance='instance2',
+        instance='instance3',
         action_bounds={},
         state_fluents=['rlevel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t2', 'rlevel___t5']),
+        ground_fluents_to_freeze=set(['rlevel___t6', 'rlevel___t8']), # var < 50
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
@@ -66,6 +66,22 @@ domains = [
             'epochs': 1000,
             'epsilon_error': 0.001,
             'epsilon_iteration_stop': 10,
+        }
+    ),
+    DomainExperiment(
+        name='PowerGen',
+        instance='instance3',
+        action_bounds={},
+        state_fluents=['prevProd', 'prevOn', 'temperature'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4']), # var < .06
+        experiment_params = {
+            'batch_size_train': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.05,
+            'epochs': 3000,
+            'epsilon_error': 0.001,
+            'epsilon_iteration_stop': 100,
         }
     )
 ]
