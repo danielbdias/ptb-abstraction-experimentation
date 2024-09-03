@@ -29,6 +29,18 @@ def record_reward_bounds(file_path: str, domain_name: str, fluent_name: str, rew
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([domain_name, fluent_name, reward_lower, reward_upper])
 
+def build_ground_fluent_list(environment : RDDLEnv):
+    ground_fluents = []
+    
+    for lifted_fluent in environment.model.state_fluents:
+        params = environment.model.variable_params[lifted_fluent]
+        grounded_objects = environment.model.ground_types(params)
+
+        for object_name in grounded_objects:
+            ground_fluents.append(f"{lifted_fluent}___{object_name[0]}")
+
+    return ground_fluents
+
 def build_fluent_values_to_freeze(ground_fluent : str, analysis : RDDLIntervalAnalysis):
     lifted_fluent, object_name = ground_fluent.split('___')
 
@@ -92,7 +104,9 @@ for domain in domains:
     analysis = RDDLIntervalAnalysis(environment.model)
     action_bounds = compute_action_bounds(environment)
 
-    for ground_fluent in domain.ground_fluents_to_freeze:
+    ground_fluents = build_ground_fluent_list(environment)
+
+    for ground_fluent in ground_fluents:
         # test of fluent bounds 
         fluent_values = build_fluent_values_to_freeze(ground_fluent, analysis)
         
@@ -100,7 +114,7 @@ for domain in domains:
         bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True, 
                                 fluent_values=fluent_values)
         reward_lower, reward_upper = bounds['reward'] 
-        record_reward_bounds(output_file_random_policy, domain.name, ground_fluent, reward_lower, reward_upper)
+        record_reward_bounds(output_file_random_policy, domain.name, ground_fluent, reward_lower[-1], reward_upper[-1])
 
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
 

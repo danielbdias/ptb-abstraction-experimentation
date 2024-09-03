@@ -1,6 +1,8 @@
 Domain;Fluent;Reward Lower;Reward Upper
-Domain;Fluent;Reward Lower;Reward Upper
-Domain;Fluent;Reward Lower;Reward Upper
+HVAC;occupied___z5;-inf;inf
+HVAC;occupied___z1;-inf;inf
+HVAC;occupied___z4;-inf;inf
+HVAC;temp-zone___z2;-inf;inf
 Domain;Fluent;Reward Lower;Reward Upper
 Domain;Fluent;Reward Lower;Reward Upper
 Domain;Fluent;Reward Lower;Reward Upper
