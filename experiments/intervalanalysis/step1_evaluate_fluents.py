@@ -22,12 +22,32 @@ def record_time(file_path: str, time: float):
 def record_reward_bounds_header(file_path: str):
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(['Domain', 'Fluent', 'Reward Lower', 'Reward Upper'])
+        writer.writerow([
+            'Domain', 'Fluent', 
+            'Reward Lower (h=0)', 'Reward Upper (h=0)', 'Reward Diff (h=0)',
+            'Reward Lower (h=halfway)', 'Reward Upper (h=halfway)', 'Reward Diff (h=halfway)',
+            'Reward Lower (h=end)', 'Reward Upper (h=end)', 'Reward Diff (h=end)'
+        ])
 
 def record_reward_bounds(file_path: str, domain_name: str, fluent_name: str, reward_lower: float, reward_upper: float):
+    reward_lower_begin, reward_upper_begin = reward_lower[0], reward_upper[0]
+    reward_diff_begin = np.abs(reward_upper_begin - reward_lower_begin)
+
+    halfway_index = len(reward_lower) // 2
+    reward_lower_halfway, reward_upper_halfway = reward_lower[halfway_index], reward_upper[halfway_index]
+    reward_diff_halfway = np.abs(reward_upper_halfway - reward_lower_halfway)
+
+    reward_lower_end, reward_upper_end = reward_lower[-1], reward_upper[-1]
+    reward_diff_end = np.abs(reward_upper_end - reward_lower_end)
+
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow([domain_name, fluent_name, reward_lower, reward_upper])
+        writer.writerow([
+            domain_name, fluent_name, 
+            reward_lower_begin, reward_upper_begin, reward_diff_begin,
+            reward_lower_halfway, reward_upper_halfway, reward_diff_halfway, 
+            reward_lower_end, reward_upper_end, reward_diff_end
+        ])
 
 def build_ground_fluent_list(environment : RDDLEnv):
     ground_fluents = []
@@ -37,25 +57,35 @@ def build_ground_fluent_list(environment : RDDLEnv):
         grounded_objects = environment.model.ground_types(params)
 
         for object_name in grounded_objects:
-            ground_fluents.append(f"{lifted_fluent}___{object_name[0]}")
+            if len(object_name) == 0:
+                ground_fluents.append(lifted_fluent)
+            else:    
+                ground_fluents.append(f"{lifted_fluent}___{object_name[0]}")
 
     return ground_fluents
 
 def build_fluent_values_to_freeze(ground_fluent : str, analysis : RDDLIntervalAnalysis):
-    lifted_fluent, object_name = ground_fluent.split('___')
+    lifted_fluent = ground_fluent
+    object_name = ''
+
+    splitted_values = ground_fluent.split('___')
+
+    if len(splitted_values) > 1:
+        lifted_fluent, object_name = splitted_values[0], splitted_values[1]
 
     initial_values = analysis._bound_initial_values()
-    
-    params = analysis.rddl.variable_params[lifted_fluent]
-    shape = analysis.rddl.object_counts(params)
-
-    fluent_values = {lifted_fluent: np.full(shape=shape, fill_value=np.nan)}
 
     # both bounds are equal, just grab the first one
     ground_fluent_initial_values = initial_values[lifted_fluent][0]
 
+    if object_name == '': # that means that there is no object to this fluent, just return the initial value
+        return {lifted_fluent: ground_fluent_initial_values}
+    
+    params = analysis.rddl.variable_params[lifted_fluent]
+    shape = analysis.rddl.object_counts(params)
     object_index = analysis.rddl.object_to_index[object_name]
 
+    fluent_values = {lifted_fluent: np.full(shape=shape, fill_value=np.nan)}
     fluent_values[lifted_fluent][object_index] = ground_fluent_initial_values[object_index]
 
     return fluent_values
@@ -113,8 +143,8 @@ for domain in domains:
         # evaluate lower and upper bounds on accumulated reward of random policy
         bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True, 
                                 fluent_values=fluent_values)
-        reward_lower, reward_upper = bounds['reward'] 
-        record_reward_bounds(output_file_random_policy, domain.name, ground_fluent, reward_lower[-1], reward_upper[-1])
+        reward_lower, reward_upper = bounds['reward'] # reward per horizon
+        record_reward_bounds(output_file_random_policy, domain.name, ground_fluent, reward_lower, reward_upper)
 
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
 

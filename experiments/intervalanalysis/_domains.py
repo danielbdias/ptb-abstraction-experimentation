@@ -36,22 +36,6 @@ domains = [
             'epsilon_iteration_stop': 50,
         }
     ),
-    # DomainExperiment(
-    #     name='UAV',
-    #     instance='instance1',
-    #     action_bounds={},
-    #     state_fluents=['phi', 'pos-x', 'pos-y', 'pos-z', 'psi', 'theta', 'vel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['pos-x___a1', 'pos-y___a1', 'pos-z___a1']),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.0005,
-    #         'epochs': 5000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 10,
-    #     }
-    # ),
     DomainExperiment(
         name='Reservoir',
         instance='instance3',

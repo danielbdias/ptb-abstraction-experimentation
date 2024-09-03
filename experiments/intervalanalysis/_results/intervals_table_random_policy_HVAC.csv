@@ -1,8 +1,16 @@
-Domain;Fluent;Reward Lower;Reward Upper
-HVAC;occupied___z5;-inf;inf
-HVAC;occupied___z1;-inf;inf
-HVAC;occupied___z4;-inf;inf
-HVAC;temp-zone___z2;-inf;inf
-Domain;Fluent;Reward Lower;Reward Upper
-Domain;Fluent;Reward Lower;Reward Upper
-Domain;Fluent;Reward Lower;Reward Upper
+Domain;Fluent;Reward Lower (h=0);Reward Upper (h=0);Reward Diff (h=0);Reward Lower (h=halfway);Reward Upper (h=halfway);Reward Diff (h=halfway);Reward Lower (h=end);Reward Upper (h=end);Reward Diff (h=end)
+HVAC;temp-zone___z1;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-zone___z2;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-zone___z3;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-zone___z4;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-zone___z5;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-heater___h1;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-heater___h2;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-heater___h3;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-heater___h4;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;temp-heater___h5;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;occupied___z1;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;occupied___z2;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;occupied___z3;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;occupied___z4;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
+HVAC;occupied___z5;-inf;-21171.49013008458;inf;-inf;inf;inf;-inf;inf;inf
