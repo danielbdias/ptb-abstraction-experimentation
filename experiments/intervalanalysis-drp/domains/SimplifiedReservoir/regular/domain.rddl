@@ -1,0 +1,51 @@
+domain simplified_reservoir_control_cont {
+
+	requirements = {
+		concurrent,           // different reservoirs are controlled independently
+		reward-deterministic, // this domain does not use a stochastic reward
+		intermediate-nodes,   // this domain uses intermediate pvariable nodes
+		constrained-state     // this domain uses state constraints
+	};
+
+	types {
+		reservoir: object;
+	};
+
+    pvariables {
+        // Intermediate fluents
+        levelAfterRelease(reservoir): {interm-fluent, real}; // Reservoir level after release action
+
+        // State fluents
+        raining: {state-fluent, bool, default = false}; // Tells if it is raining?
+        level(reservoir): {state-fluent, real, default = 50.0 }; // Reservoir level
+
+        // Action fluents
+        release(reservoir): { action-fluent, real, default = 0.0 }; // Action to set outflow of reservoir
+    };
+
+    cpfs {
+        levelAfterRelease(?r) = level(?r) - release(?r);
+
+        penalty(?r) = if level(?r) < 25 then 25 - level(?r)
+                      else if level(?r) > 90 then level(?r) - 90
+                      else 0;
+
+        raining' = Bernoulli(0.15);
+
+        level'(?r) = if raining then level(?r) + Normal(10, 5) else level(?r);
+    };
+
+    reward = (sum_{?r: reservoir} [-penalty(?r)]);
+
+
+    action-preconditions {
+		forall_{?r : reservoir} release(?r) <= 100;
+		forall_{?r : reservoir} release(?r) >= 0;
+	};
+
+	state-invariants {
+		forall_{?r : reservoir} rlevel(?r) >= 0;
+		forall_{?r : reservoir} rlevel(?r) <= 100;
+	};
+
+}

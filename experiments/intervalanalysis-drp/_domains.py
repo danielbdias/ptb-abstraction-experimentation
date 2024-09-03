@@ -12,6 +12,7 @@ class DomainExperiment:
     policy_hyperparams:                  Dict
     ground_fluents_to_freeze:            Set[str]
     experiment_params:                   Dict
+    metadata:                            Dict = None     
 
 jax_seeds = [
     42
@@ -39,6 +40,9 @@ domains = [
     #         'epochs': 2000,
     #         'epsilon_error': 0.001,
     #         'epsilon_iteration_stop': 50,
+    #     },
+    #     metadata={
+    #         'topology': [64, 64]
     #     }
     # ),
     DomainExperiment(
@@ -56,6 +60,9 @@ domains = [
             'epochs': 1000,
             'epsilon_error': 0.001,
             'epsilon_iteration_stop': 100,
+        },
+        metadata={
+            'topology': [64, 32]
         }
     ),
     # DomainExperiment(
@@ -73,7 +80,10 @@ domains = [
     #         'epochs': 3000,
     #         'epsilon_error': 0.001,
     #         'epsilon_iteration_stop': 100,
-    #     }
+    #     },
+        # metadata={
+        #     'topology': [256, 128]
+        # }
     # )
 ]
 
