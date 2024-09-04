@@ -81,15 +81,15 @@ domain power_gen {
 
 	cpfs {
 
-		prevProd___p1' = effectiveProd___p1;
+		prevProd___p1' = prevProd___p1;
 
-		prevProd___p2' = effectiveProd___p2;
+		prevProd___p2' = prevProd___p2;
 
-		prevProd___p3' = effectiveProd___p3;
+		prevProd___p3' = prevProd___p3;
 
-		prevProd___p4' = effectiveProd___p4;
+		prevProd___p4' = prevProd___p4;
 
-		prevProd___p5' = effectiveProd___p5;
+		prevProd___p5' = prevProd___p5;
 
 		prevOn___p1' = prevOn___p1;
 
@@ -99,7 +99,7 @@ domain power_gen {
 
 		prevOn___p4' = prevOn___p4;
 
-		prevOn___p5' = curOn___p5;
+		prevOn___p5' = prevOn___p5;
 
 		temperature' = max[min[Normal(temperature, TEMP-VARIANCE), TEMP-MAX], TEMP-MIN];
 

@@ -65,7 +65,8 @@ domains = [
         action_bounds_for_interval_analysis=None,
         state_fluents=['prevProd', 'prevOn', 'temperature'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['temperature']), # tau > 0.92
+        ground_fluents_to_freeze=set(['prevProd___p1', 'prevProd___p2', 'prevProd___p3', 'prevProd___p4', 'prevProd___p5',
+                                      'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5']), # tau > 0.9
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,

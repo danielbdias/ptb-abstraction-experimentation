@@ -65,26 +65,27 @@ domains = [
             'topology': [64, 32]
         }
     ),
-    # DomainExperiment(
-    #     name='PowerGen',
-    #     instance='instance3',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['prevProd', 'prevOn', 'temperature'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['temperature']), # var < .06
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.05,
-    #         'epochs': 3000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 100,
-    #     },
-        # metadata={
-        #     'topology': [256, 128]
-        # }
-    # )
+    DomainExperiment(
+        name='PowerGen',
+        instance='instance3',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['prevProd', 'prevOn', 'temperature'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['prevProd___p1', 'prevProd___p2', 'prevProd___p3', 'prevProd___p4', 'prevProd___p5',
+                                      'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5']), # tau > 0.9
+        experiment_params = {
+            'batch_size_train': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.05,
+            'epochs': 3000,
+            'epsilon_error': 0.001,
+            'epsilon_iteration_stop': 100,
+        },
+        metadata={
+            'topology': [256, 128]
+        }
+    )
 ]
 
 silent = True
