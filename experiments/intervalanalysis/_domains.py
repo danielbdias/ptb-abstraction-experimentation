@@ -58,23 +58,23 @@ domains = [
             'epsilon_iteration_stop': 100,
         }
     ),
-    # DomainExperiment(
-    #     name='PowerGen',
-    #     instance='instance3',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['prevProd', 'prevOn', 'temperature'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['temperature']), # var < .06
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.05,
-    #         'epochs': 3000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 100,
-    #     }
-    # )
+    DomainExperiment(
+        name='PowerGen',
+        instance='instance3',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['prevProd', 'prevOn', 'temperature'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['temperature']), # tau > 0.92
+        experiment_params = {
+            'batch_size_train': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.05,
+            'epochs': 3000,
+            'epsilon_error': 0.001,
+            'epsilon_iteration_stop': 100,
+        }
+    ),
 ]
 
 silent = True
