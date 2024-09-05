@@ -65,7 +65,7 @@ domains = [
             'learning_rate': 0.2,
             'epochs': 1000,
             'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 10,
+            'epsilon_iteration_stop': 100,
         }
     ),
     DomainExperiment(
@@ -74,7 +74,7 @@ domains = [
         action_bounds={},
         state_fluents=['prevProd', 'prevOn', 'temperature'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4']), # var < .06
+        ground_fluents_to_freeze=set(['prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4']), # var < .6
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
