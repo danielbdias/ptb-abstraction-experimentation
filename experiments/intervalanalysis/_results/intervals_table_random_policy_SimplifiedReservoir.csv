@@ -1,7 +1,8 @@
 Domain;Fluent;Accumulated Reward (LB);Accumulated Reward (UB);Score
-SimplifiedReservoir;regular;-44.5;50.0;0.0
-SimplifiedReservoir;rlevel___t1;-206.0;78.5;190.0
-SimplifiedReservoir;rlevel___t2;-405.5;69.0;380.0
+Domain;Fluent;Accumulated Reward (LB);Accumulated Reward (UB);Score
+SimplifiedReservoir;regular;-50.0;55.0;0.0
+Domain;Fluent;Accumulated Reward (LB);Accumulated Reward (UB);Score
+SimplifiedReservoir;regular;-50.0;55.0;0.0
 Domain;Fluent;Accumulated Reward (LB);Accumulated Reward (UB);Score
 SimplifiedReservoir;regular;-50.0;55.0;0.0
 SimplifiedReservoir;rlevel___t1;-220.0;85.0;200.0

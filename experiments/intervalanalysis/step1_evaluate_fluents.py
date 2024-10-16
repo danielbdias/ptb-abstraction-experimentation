@@ -12,7 +12,10 @@ from pyRDDLGym import RDDLEnv
 import numpy as np
 
 from collections import namedtuple
+from typing import Tuple
+
 BoudedTrajectory = namedtuple('BoundedTrajectory', ['fluent', 'reward_lower', 'reward_upper'])
+BoundedAccumulatedReward = Tuple[float, float]
 
 root_folder = os.path.dirname(__file__)
 
@@ -30,7 +33,7 @@ def record_reward_bounds_header(file_path: str):
             'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 'Score'
         ])
 
-def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bounds: BoudedTrajectory):
+def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bounds: BoudedTrajectory) -> BoundedAccumulatedReward:
     accumulated_reward_lower_bound = 0.0
     accumulated_reward_upper_bound = 0.0
 
@@ -38,14 +41,11 @@ def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bou
         accumulated_reward_lower_bound += (discount_factor**i * fluent_bounds.reward_lower[i])
         accumulated_reward_upper_bound += (discount_factor**i * fluent_bounds.reward_upper[i])
 
-    return accumulated_reward_lower_bound, accumulated_reward_upper_bound
+    return (accumulated_reward_lower_bound, accumulated_reward_upper_bound)
 
-def record_reward_bounds(file_path: str, domain_name: str, environment : RDDLEnv, fluent_bounds: BoudedTrajectory, regular_mdp_bounds: BoudedTrajectory):
-    discount_factor = environment.model.discount
-    horizon = environment.model.horizon
-
-    accumulated_reward_lower_bound, accumulated_reward_upper_bound = compute_accumulated_reward(discount_factor, horizon, fluent_bounds)
-    accumulated_reward_lower_bound_regular_mdp, accumulated_reward_upper_bound_regular_mdp = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
+def record_reward_values(file_path: str, domain_name: str, fluent_name : str, fluent_acc_reward: BoundedAccumulatedReward, regular_mdp_acc_reward: BoundedAccumulatedReward):
+    accumulated_reward_lower_bound, accumulated_reward_upper_bound = fluent_acc_reward
+    accumulated_reward_lower_bound_regular_mdp, accumulated_reward_upper_bound_regular_mdp = regular_mdp_acc_reward
 
     range_bounds = accumulated_reward_upper_bound - accumulated_reward_lower_bound
     range_bounds_regular_mdp = accumulated_reward_upper_bound_regular_mdp - accumulated_reward_lower_bound_regular_mdp
@@ -55,7 +55,7 @@ def record_reward_bounds(file_path: str, domain_name: str, environment : RDDLEnv
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([
-            domain_name, fluent_bounds.fluent, 
+            domain_name, fluent_name, 
             accumulated_reward_lower_bound, accumulated_reward_upper_bound, score,
         ])
 
@@ -147,6 +147,9 @@ for domain in domains:
 
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
+    discount_factor = environment.model.discount
+    horizon = environment.model.horizon
+
     # Random policy
     start_time_for_analysis = time.time()
 
@@ -154,12 +157,13 @@ for domain in domains:
     action_bounds = compute_action_bounds(domain, environment)
     state_bounds = compute_state_bounds(environment)
 
-    # run first without freezing any fluent
+    # run first without fixing any fluent
     bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True)
     regular_mdp_bounds = BoudedTrajectory('regular', bounds['reward'][0], bounds['reward'][1])
+    regular_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
 
     ground_fluents = build_ground_fluent_list(environment)
-    ground_fluent_mdp_bounds = []
+    ground_fluent_mdp_accumulated_reward = {}
 
     for ground_fluent in ground_fluents:
         # test of fluent bounds 
@@ -167,18 +171,20 @@ for domain in domains:
         
         # evaluate lower and upper bounds on accumulated reward of random policy
         bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
-        ground_fluent_mdp_bounds.append(BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1]))
+        fixed_fluent_mdp_bounds = BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1])
+        fixed_fluent_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, fixed_fluent_mdp_bounds)
 
-    # record time to perform analysis (TODO: think how to consider score computation here)
+        ground_fluent_mdp_accumulated_reward[ground_fluent] = fixed_fluent_mdp_accumulated_reward
+
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
     record_time(output_file_analysis_time, elapsed_time_for_analysis)    
 
     # generate score file
     record_reward_bounds_header(output_file_random_policy)
-    record_reward_bounds(output_file_random_policy, domain.name, environment, regular_mdp_bounds, regular_mdp_bounds) # record regular MDP bounds
+    record_reward_values(output_file_random_policy, domain.name, 'regular', regular_mdp_accumulated_reward, regular_mdp_accumulated_reward) # record regular MDP bounds
 
-    for fluent_bounds in ground_fluent_mdp_bounds:
-        record_reward_bounds(output_file_random_policy, domain.name, environment, fluent_bounds, regular_mdp_bounds) # record fluent bounds
+    for fluent_name in ground_fluent_mdp_accumulated_reward.keys():
+        record_reward_values(output_file_random_policy, domain.name, fluent_name, ground_fluent_mdp_accumulated_reward[fluent_name], regular_mdp_accumulated_reward) # record fluent bounds
 
 end_time = time.time()
 elapsed_time = end_time - start_time
