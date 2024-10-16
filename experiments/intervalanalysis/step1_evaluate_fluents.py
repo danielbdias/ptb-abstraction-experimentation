@@ -11,6 +11,9 @@ from pyRDDLGym import RDDLEnv
 
 import numpy as np
 
+from collections import namedtuple
+BoudedTrajectory = namedtuple('BoundedTrajectory', ['fluent', 'reward_lower', 'reward_upper'])
+
 root_folder = os.path.dirname(__file__)
 
 def record_time(file_path: str, time: float):
@@ -24,37 +27,36 @@ def record_reward_bounds_header(file_path: str):
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([
             'Domain', 'Fluent', 
-            # 'Reward Lower (h=0)', 'Reward Upper (h=0)', 'Reward Diff (h=0)', 'Reward Score (h=0)'
-            # 'Reward Lower (h=halfway)', 'Reward Upper (h=halfway)', 'Reward Diff (h=halfway)', 'Reward Score (h=halfway)'
-            'Reward Lower (h=end)', 'Reward Upper (h=end)', 'Reward Diff (h=end)', 'Reward Score (h=end)'
+            'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 'Score'
         ])
 
-def compute_reward_values(index : int, frozen_reward_lower: float, frozen_reward_upper: float, unfrozen_reward_lower: float, unfrozen_reward_upper: float):
-    frozen_reward_lower_for_index, frozen_reward_upper_for_index = frozen_reward_lower[index], frozen_reward_upper[index]
-    frozen_reward_diff_for_index = frozen_reward_upper_for_index - frozen_reward_lower_for_index
+def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bounds: BoudedTrajectory):
+    accumulated_reward_lower_bound = 0.0
+    accumulated_reward_upper_bound = 0.0
 
-    unfrozen_reward_lower_for_index, unfrozen_reward_upper_for_index = unfrozen_reward_lower[index], unfrozen_reward_upper[index]
-    unfrozen_reward_diff_for_index = unfrozen_reward_upper_for_index - unfrozen_reward_lower_for_index
+    for i in range(horizon):
+        accumulated_reward_lower_bound += (discount_factor**i * fluent_bounds.reward_lower[i])
+        accumulated_reward_upper_bound += (discount_factor**i * fluent_bounds.reward_upper[i])
 
-    score_for_index = frozen_reward_diff_for_index / unfrozen_reward_diff_for_index
+    return accumulated_reward_lower_bound, accumulated_reward_upper_bound
 
-    return frozen_reward_lower_for_index, frozen_reward_upper_for_index, frozen_reward_diff_for_index, score_for_index
+def record_reward_bounds(file_path: str, domain_name: str, environment : RDDLEnv, fluent_bounds: BoudedTrajectory, regular_mdp_bounds: BoudedTrajectory):
+    discount_factor = environment.model.discount
+    horizon = environment.model.horizon
 
-def record_reward_bounds(file_path: str, domain_name: str, fluent_name: str, frozen_reward_lower: float, frozen_reward_upper: float, unfrozen_reward_lower: float, unfrozen_reward_upper: float):
-    # frozen_reward_lower_begin, frozen_reward_upper_begin, reward_diff_begin, score_begin = compute_reward_values(0, frozen_reward_lower, frozen_reward_upper, unfrozen_reward_lower, unfrozen_reward_upper)
+    accumulated_reward_lower_bound, accumulated_reward_upper_bound = compute_accumulated_reward(discount_factor, horizon, fluent_bounds)
+    accumulated_reward_lower_bound_regular_mdp, accumulated_reward_upper_bound_regular_mdp = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
 
-    # halfway_index = len(frozen_reward_lower) // 2
-    # frozen_reward_lower_halfway, frozen_reward_upper_halfway, reward_diff_halfway, score_halfway = compute_reward_values(halfway_index, frozen_reward_lower, frozen_reward_upper, unfrozen_reward_lower, unfrozen_reward_upper)
+    range_bounds = accumulated_reward_upper_bound - accumulated_reward_lower_bound
+    range_bounds_regular_mdp = accumulated_reward_upper_bound_regular_mdp - accumulated_reward_lower_bound_regular_mdp
 
-    frozen_reward_lower_end, frozen_reward_upper_end, reward_diff_end, score_end = compute_reward_values(-1, frozen_reward_lower, frozen_reward_upper, unfrozen_reward_lower, unfrozen_reward_upper)
+    score = np.abs(range_bounds_regular_mdp - range_bounds)
 
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([
-            domain_name, fluent_name, 
-            # frozen_reward_lower_begin, frozen_reward_upper_begin, reward_diff_begin, score_begin,
-            # frozen_reward_lower_halfway, frozen_reward_upper_halfway, reward_diff_halfway, score_halfway,
-            frozen_reward_lower_end, frozen_reward_upper_end, reward_diff_end, score_end,
+            domain_name, fluent_bounds.fluent, 
+            accumulated_reward_lower_bound, accumulated_reward_upper_bound, score,
         ])
 
 def build_ground_fluent_list(environment : RDDLEnv):
@@ -72,7 +74,7 @@ def build_ground_fluent_list(environment : RDDLEnv):
 
     return ground_fluents
 
-def build_fluent_values_to_freeze(ground_fluent : str, analysis : RDDLIntervalAnalysis):
+def build_fluent_values_to_analyse(ground_fluent : str, state_bounds : dict, analysis : RDDLIntervalAnalysis):
     lifted_fluent = ground_fluent
     object_name = ''
 
@@ -81,22 +83,18 @@ def build_fluent_values_to_freeze(ground_fluent : str, analysis : RDDLIntervalAn
     if len(splitted_values) > 1:
         lifted_fluent, object_name = splitted_values[0], splitted_values[1]
 
-    initial_values = analysis._bound_initial_values()
-
-    # both bounds are equal, just grab the first one
-    ground_fluent_initial_values = initial_values[lifted_fluent][0]
-
     if object_name == '': # that means that there is no object to this fluent, just return the initial value
-        return {lifted_fluent: ground_fluent_initial_values}
-    
-    params = analysis.rddl.variable_params[lifted_fluent]
-    shape = analysis.rddl.object_counts(params)
+        return {lifted_fluent: state_bounds[lifted_fluent] }
+
+    lower_values = analysis.rddl.state_fluents[lifted_fluent].copy()
+    upper_values = analysis.rddl.state_fluents[lifted_fluent].copy()
+
     object_index = analysis.rddl.object_to_index[object_name]
 
-    fluent_values = {lifted_fluent: np.full(shape=shape, fill_value=np.nan)}
-    fluent_values[lifted_fluent][object_index] = ground_fluent_initial_values[object_index]
+    lower_values[object_index] = state_bounds[lifted_fluent][0][object_index]
+    upper_values[object_index] = state_bounds[lifted_fluent][1][object_index]
 
-    return fluent_values
+    return {lifted_fluent: (np.asarray(lower_values), np.asarray(upper_values)) }
 
 def compute_action_bounds(domain, environment):
     if domain.action_bounds_for_interval_analysis is not None:
@@ -112,6 +110,18 @@ def compute_action_bounds(domain, environment):
         action_bounds[action] = (lower, upper)
 
     return action_bounds
+
+def compute_state_bounds(environment : RDDLEnv):
+    state_bounds = {}
+
+    for state_lifted_fluent, prange in environment.model.state_ranges.items():
+        lower, upper = environment._bounds[state_lifted_fluent]
+        if prange == 'bool':
+            lower = np.full(np.shape(lower), fill_value=0, dtype=int)
+            upper = np.full(np.shape(upper), fill_value=1, dtype=int)
+        state_bounds[state_lifted_fluent] = (lower, upper)
+
+    return state_bounds
 
 print('--------------------------------------------------------------------------------')
 print('Experiment Part 1 - Analysis of Fluent Dynamics')
@@ -137,34 +147,38 @@ for domain in domains:
 
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
-    record_reward_bounds_header(output_file_random_policy)
-
     # Random policy
     start_time_for_analysis = time.time()
 
     analysis = RDDLIntervalAnalysis(environment.model)
     action_bounds = compute_action_bounds(domain, environment)
+    state_bounds = compute_state_bounds(environment)
 
     # run first without freezing any fluent
     bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True)
-    unfrozen_reward_lower, unfrozen_reward_upper = bounds['reward'] # reward per horizon
-    record_reward_bounds(output_file_random_policy, domain.name, 'unfrozen', unfrozen_reward_lower, unfrozen_reward_upper, unfrozen_reward_lower, unfrozen_reward_upper)
+    regular_mdp_bounds = BoudedTrajectory('regular', bounds['reward'][0], bounds['reward'][1])
 
     ground_fluents = build_ground_fluent_list(environment)
+    ground_fluent_mdp_bounds = []
 
     for ground_fluent in ground_fluents:
         # test of fluent bounds 
-        fluent_values = build_fluent_values_to_freeze(ground_fluent, analysis)
+        fluent_values = build_fluent_values_to_analyse(ground_fluent, state_bounds, analysis) # update initial state initialization
         
         # evaluate lower and upper bounds on accumulated reward of random policy
-        bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True, 
-                                fluent_values=fluent_values)
-        frozen_reward_lower, frozen_reward_upper = bounds['reward'] # reward per horizon
-        record_reward_bounds(output_file_random_policy, domain.name, ground_fluent, frozen_reward_lower, frozen_reward_upper, unfrozen_reward_lower, unfrozen_reward_upper)
+        bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
+        ground_fluent_mdp_bounds.append(BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1]))
 
+    # record time to perform analysis (TODO: think how to consider score computation here)
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
+    record_time(output_file_analysis_time, elapsed_time_for_analysis)    
 
-    record_time(output_file_analysis_time, elapsed_time_for_analysis)
+    # generate score file
+    record_reward_bounds_header(output_file_random_policy)
+    record_reward_bounds(output_file_random_policy, domain.name, environment, regular_mdp_bounds, regular_mdp_bounds) # record regular MDP bounds
+
+    for fluent_bounds in ground_fluent_mdp_bounds:
+        record_reward_bounds(output_file_random_policy, domain.name, environment, fluent_bounds, regular_mdp_bounds) # record fluent bounds
 
 end_time = time.time()
 elapsed_time = end_time - start_time

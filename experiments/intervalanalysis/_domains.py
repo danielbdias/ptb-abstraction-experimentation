@@ -41,14 +41,14 @@ domains = [
     #         'epsilon_iteration_stop': 50,
     #     }
     # ),
-    DomainExperiment(
-        name='Reservoir',
-        instance='instance3',
+    DomainExperiment( # test case to validate interval analysis
+        name='SimplifiedReservoir',
+        instance='instance1',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t10', 'rlevel___t7']), # tau > 0.92
+        ground_fluents_to_freeze=set([]),
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
@@ -58,24 +58,41 @@ domains = [
             'epsilon_iteration_stop': 100,
         }
     ),
-    DomainExperiment(
-        name='PowerGen',
-        instance='instance3',
-        action_bounds={},
-        action_bounds_for_interval_analysis=None,
-        state_fluents=['prevProd', 'prevOn', 'temperature'],
-        policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['prevProd___p1', 'prevProd___p2', 'prevProd___p3', 'prevProd___p4', 'prevProd___p5',
-                                      'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5']), # tau > 0.9
-        experiment_params = {
-            'batch_size_train': 256,
-            'optimizer': optax.rmsprop,
-            'learning_rate': 0.05,
-            'epochs': 3000,
-            'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 100,
-        }
-    ),
+    # DomainExperiment(
+    #     name='Reservoir',
+    #     instance='instance3',
+    #     action_bounds={},
+    #     action_bounds_for_interval_analysis=None,
+    #     state_fluents=['rlevel'],
+    #     policy_hyperparams=None,
+    #     ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t10', 'rlevel___t7']), # tau > 0.92
+    #     experiment_params = {
+    #         'batch_size_train': 256,
+    #         'optimizer': optax.rmsprop,
+    #         'learning_rate': 0.2,
+    #         'epochs': 1000,
+    #         'epsilon_error': 0.001,
+    #         'epsilon_iteration_stop': 100,
+    #     }
+    # ),
+    # DomainExperiment(
+    #     name='PowerGen',
+    #     instance='instance3',
+    #     action_bounds={},
+    #     action_bounds_for_interval_analysis=None,
+    #     state_fluents=['prevProd', 'prevOn', 'temperature'],
+    #     policy_hyperparams=None,
+    #     ground_fluents_to_freeze=set(['prevProd___p1', 'prevProd___p2', 'prevProd___p3', 'prevProd___p4', 'prevProd___p5',
+    #                                   'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5']), # tau > 0.9
+    #     experiment_params = {
+    #         'batch_size_train': 256,
+    #         'optimizer': optax.rmsprop,
+    #         'learning_rate': 0.05,
+    #         'epochs': 3000,
+    #         'epsilon_error': 0.001,
+    #         'epsilon_iteration_stop': 100,
+    #     }
+    # ),
 ]
 
 silent = True
