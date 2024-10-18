@@ -21,7 +21,11 @@ jax_seeds = [
 ]
 
 domains = [
-    # DomainExperiment( # test case to validate interval analysis
+    ###########################################################
+    # test case to validate interval analysis
+    ###########################################################
+
+    # DomainExperiment( 
     #     name='SimplifiedReservoir',
     #     instance='instance1',
     #     action_bounds={},
@@ -38,26 +42,70 @@ domains = [
     #         'epsilon_iteration_stop': 100,
     #     }
     # ),
+
+    ###########################################################
+    # IPPC 23 domains
+    ###########################################################
+
+    # DomainExperiment(
+    #     name='HVAC',
+    #     instance='instance3',
+    #     action_bounds={},
+    #     action_bounds_for_interval_analysis=None,
+    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+    #     policy_hyperparams=None,
+    #     ground_fluents_to_freeze=set([]),
+    #     experiment_params = {
+    #         'batch_size_train': 256,
+    #         'optimizer': optax.rmsprop,
+    #         'learning_rate': 0.1,
+    #         'epochs': 2000,
+    #         'epsilon_error': 0.001,
+    #         'epsilon_iteration_stop': 50,
+    #     }
+    # ),
+    # DomainExperiment(
+    #     name='Reservoir',
+    #     instance='instance3',
+    #     action_bounds={},
+    #     action_bounds_for_interval_analysis=None,
+    #     state_fluents=['rlevel'],
+    #     policy_hyperparams=None,
+    #     ground_fluents_to_freeze=set([]),
+    #     experiment_params = {
+    #         'batch_size_train': 256,
+    #         'optimizer': optax.rmsprop,
+    #         'learning_rate': 0.2,
+    #         'epochs': 1000,
+    #         'epsilon_error': 0.001,
+    #         'epsilon_iteration_stop': 100,
+    #     }
+    # ),
+    # DomainExperiment(
+    #     name='PowerGen',
+    #     instance='instance3',
+    #     action_bounds={},
+    #     action_bounds_for_interval_analysis=None,
+    #     state_fluents=['prevProd', 'prevOn', 'temperature'],
+    #     policy_hyperparams=None,
+    #     ground_fluents_to_freeze=set([]),
+    #     experiment_params = {
+    #         'batch_size_train': 256,
+    #         'optimizer': optax.rmsprop,
+    #         'learning_rate': 0.05,
+    #         'epochs': 3000,
+    #         'epsilon_error': 0.001,
+    #         'epsilon_iteration_stop': 100,
+    #     }
+    # ),
+
+    ###########################################################
+    # Modified domains
+    ###########################################################
+
     DomainExperiment(
-        name='HVAC',
-        instance='instance3',
-        action_bounds={},
-        action_bounds_for_interval_analysis=None,
-        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-        policy_hyperparams=None,
-        ground_fluents_to_freeze=set([]),
-        experiment_params = {
-            'batch_size_train': 256,
-            'optimizer': optax.rmsprop,
-            'learning_rate': 0.1,
-            'epochs': 2000,
-            'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 50,
-        }
-    ),
-    DomainExperiment(
-        name='Reservoir',
-        instance='instance3',
+        name='ModifiedReservoir',
+        instance='instance',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
@@ -68,23 +116,6 @@ domains = [
             'optimizer': optax.rmsprop,
             'learning_rate': 0.2,
             'epochs': 1000,
-            'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 100,
-        }
-    ),
-    DomainExperiment(
-        name='PowerGen',
-        instance='instance3',
-        action_bounds={},
-        action_bounds_for_interval_analysis=None,
-        state_fluents=['prevProd', 'prevOn', 'temperature'],
-        policy_hyperparams=None,
-        ground_fluents_to_freeze=set([]),
-        experiment_params = {
-            'batch_size_train': 256,
-            'optimizer': optax.rmsprop,
-            'learning_rate': 0.05,
-            'epochs': 3000,
             'epsilon_error': 0.001,
             'epsilon_iteration_stop': 100,
         }
