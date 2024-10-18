@@ -30,7 +30,8 @@ def record_reward_bounds_header(file_path: str):
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([
             'Domain', 'Fluent', 
-            'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 'Score'
+            'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 
+            'Score (Diff)', 'Score (Explained Interval)'
         ])
 
 def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bounds: BoudedTrajectory) -> BoundedAccumulatedReward:
@@ -50,13 +51,15 @@ def record_reward_values(file_path: str, domain_name: str, fluent_name : str, fl
     range_bounds = accumulated_reward_upper_bound - accumulated_reward_lower_bound
     range_bounds_regular_mdp = accumulated_reward_upper_bound_regular_mdp - accumulated_reward_lower_bound_regular_mdp
 
-    score = np.abs(range_bounds_regular_mdp - range_bounds)
+    score_diff = np.abs(range_bounds_regular_mdp - range_bounds)
+    score_explained_interval = range_bounds / range_bounds_regular_mdp
 
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([
             domain_name, fluent_name, 
-            accumulated_reward_lower_bound, accumulated_reward_upper_bound, score,
+            accumulated_reward_lower_bound, accumulated_reward_upper_bound, 
+            score_diff, score_explained_interval
         ])
 
 def build_ground_fluent_list(environment : RDDLEnv):
