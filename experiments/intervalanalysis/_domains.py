@@ -21,26 +21,6 @@ jax_seeds = [
 ]
 
 domains = [
-    # DomainExperiment(
-    #     name='HVAC',
-    #     instance='instance3',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis={
-    #         'fan-in': (-5.0, 5.0),
-    #         'heat-input': (-5.0, 5.0),
-    #     },
-    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['occupied___z1', 'occupied___z4', 'occupied___z5', 'temp-zone___z2']), # to be defined, using the same as value dynamics
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.1,
-    #         'epochs': 2000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 50,
-    #     }
-    # ),
     # DomainExperiment( # test case to validate interval analysis
     #     name='SimplifiedReservoir',
     #     instance='instance1',
@@ -59,13 +39,30 @@ domains = [
     #     }
     # ),
     DomainExperiment(
+        name='HVAC',
+        instance='instance3',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['occupied', 'temp-heater', 'temp-zone'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set([]),
+        experiment_params = {
+            'batch_size_train': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.1,
+            'epochs': 2000,
+            'epsilon_error': 0.001,
+            'epsilon_iteration_stop': 50,
+        }
+    ),
+    DomainExperiment(
         name='Reservoir',
         instance='instance3',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t10', 'rlevel___t7']), # tau > 0.92
+        ground_fluents_to_freeze=set([]),
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,
@@ -82,8 +79,7 @@ domains = [
         action_bounds_for_interval_analysis=None,
         state_fluents=['prevProd', 'prevOn', 'temperature'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['prevProd___p1', 'prevProd___p2', 'prevProd___p3', 'prevProd___p4', 'prevProd___p5',
-                                      'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5']), # tau > 0.9
+        ground_fluents_to_freeze=set([]),
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,

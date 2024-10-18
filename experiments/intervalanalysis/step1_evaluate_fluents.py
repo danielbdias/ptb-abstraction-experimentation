@@ -127,7 +127,7 @@ def compute_state_bounds(environment : RDDLEnv):
     return state_bounds
 
 print('--------------------------------------------------------------------------------')
-print('Experiment Part 1 - Analysis of Fluent Dynamics')
+print('Experiment Part 1 - Interval Analysis')
 print('--------------------------------------------------------------------------------')
 print()
 
