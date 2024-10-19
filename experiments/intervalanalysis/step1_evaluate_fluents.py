@@ -143,8 +143,8 @@ for domain in domains:
     domain_file_path = f'{domain_path}/regular/domain.rddl'
     instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
     
-    output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}.csv"
-    output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}.csv"
+    output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}_{domain.instance}.csv"
+    output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv"
 
     batch_size = domain.experiment_params['batch_size_train']
 

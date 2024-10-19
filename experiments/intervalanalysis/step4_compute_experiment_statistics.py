@@ -167,8 +167,8 @@ for domain in domains:
     # Convergence value
     ############################################################
 
-    random_policy_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}.pickle')
-    warm_start_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')   
+    random_policy_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}_{domain.instance}.pickle')
+    warm_start_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}_{domain.instance}.pickle')   
 
     plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats, warm_start_stats)
 
@@ -176,11 +176,11 @@ for domain in domains:
     # Convergence time
     ############################################################
 
-    warm_start_creation_experiment_stats = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain_name}.pickle')
-    warm_start_execution_experiment_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}.pickle')
-    baseline_execution_experiment_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}.pickle')
+    warm_start_creation_experiment_stats = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain_name}_{domain.instance}.pickle')
+    warm_start_execution_experiment_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}_{domain.instance}.pickle')
+    baseline_execution_experiment_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}_{domain.instance}.pickle')
 
-    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain_name}.csv')
+    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain_name}_{domain.instance}.csv')
     warm_start_computation = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats)))
     warm_start_execution = np.mean(list(map(lambda item : item.elapsed_time, warm_start_execution_experiment_stats)))
     baseline_execution = np.mean(list(map(lambda item : item.elapsed_time, baseline_execution_experiment_stats)))
@@ -191,11 +191,11 @@ for domain in domains:
     # Time to elect fluent
     ############################################################
 
-    warm_start_creation_experiment_stats_low_fluent = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain_name}.pickle')
+    warm_start_creation_experiment_stats_low_fluent = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain_name}_{domain.instance}.pickle')
 
     # metrics for low fluent
     warm_start_computation_low_fluent = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats_low_fluent)))
-    evaluation_time_low_fluent = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain_name}.csv')
+    evaluation_time_low_fluent = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain_name}_{domain.instance}.csv')
 
     # metrics for interval analysis
     evaluation_time_interval_analysis = 0

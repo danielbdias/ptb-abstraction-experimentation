@@ -105,12 +105,29 @@ domains = [
 
     DomainExperiment(
         name='ModifiedReservoir',
-        instance='instance',
+        instance='instance_small',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set([]),
+        ground_fluents_to_freeze=set(['rlevel___t3']),
+        experiment_params = {
+            'batch_size_train': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.2,
+            'epochs': 1000,
+            'epsilon_error': 0.001,
+            'epsilon_iteration_stop': 100,
+        }
+    ),
+    DomainExperiment(
+        name='ModifiedReservoir',
+        instance='instance_medium',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['rlevel'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t6']),
         experiment_params = {
             'batch_size_train': 256,
             'optimizer': optax.rmsprop,

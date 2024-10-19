@@ -55,7 +55,7 @@ for domain in domains:
         experiment_summary = run_experiment(regular_experiment_name, rddl_model=grounded_model, planner_parameters=env_params, silent=silent)
         regular_env_experiment_stats.append(experiment_summary)
 
-    save_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_run_data_{domain.name}.pickle')
+    save_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_run_data_{domain.name}_{domain.instance}.pickle')
 
 end_time = time.time()
 elapsed_time = end_time - start_time
