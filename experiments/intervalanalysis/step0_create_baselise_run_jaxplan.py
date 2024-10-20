@@ -36,7 +36,7 @@ for domain in domains:
 
     regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
     grounder = RDDLGrounder(regular_environment.model.ast)
-    grounded_model = grounder.ground()
+    grounded_model = grounder.ground() # we need to run the base model on the same way as the other models
 
     regular_env_experiment_stats = []
 
