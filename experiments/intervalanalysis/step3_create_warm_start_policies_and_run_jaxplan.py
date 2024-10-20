@@ -34,14 +34,14 @@ for domain in domains:
 
     domain_path = f"{root_folder}/domains/{domain.name}"
     
-    regular_domain_file_path = f'{domain_path}/regular/domain.rddl'
-    regular_instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
+    regular_domain_file_path = f'{domain_path}/domain.rddl'
+    regular_instance_file_path = f'{domain_path}/{domain.instance}.rddl'
 
     regular_environment = pyRDDLGym.make(domain=regular_domain_file_path, instance=regular_instance_file_path)
     grounder = RDDLGrounder(regular_environment.model.ast)
     regular_grounded_model = grounder.ground()
     
-    ablated_model_file_path = f'{domain_path}/ablated/domain_{domain.instance}.model'
+    ablated_model_file_path = f'{root_folder}/_intermediate/domain_{domain.instance}.model'
     ablated_grounded_model = load_data(ablated_model_file_path)
 
     warm_start_creation_experiment_stats = []

@@ -140,8 +140,8 @@ start_time = time.time()
 
 for domain in domains:
     domain_path = f"{root_folder}/domains/{domain.name}"
-    domain_file_path = f'{domain_path}/regular/domain.rddl'
-    instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
+    domain_file_path = f'{domain_path}/domain.rddl'
+    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
     
     output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}_{domain.instance}.csv"
     output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv"

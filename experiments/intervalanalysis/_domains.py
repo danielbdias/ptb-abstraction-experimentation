@@ -119,7 +119,7 @@ domains = [
             'learning_rate': 0.0041021388862297345,
             'epochs': 1000,
             'epsilon_error': 0.001,
-            'epsilon_iteration_stop': 100,
+            'epsilon_iteration_stop': 1000,
             'train_seconds': 120,
         }
     ),

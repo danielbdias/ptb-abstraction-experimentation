@@ -43,6 +43,8 @@ class FluentValueStatististic:
 @dataclass(frozen=True)
 class PlannerParameters:
     batch_size_train:           int
+    batch_size_test:            int
+    train_seconds:              int
     plan:                       JaxPlan
     optimizer:                  optax.GradientTransformation
     learning_rate:              float
@@ -196,6 +198,7 @@ def run_jaxplanner_with_record(name, environment, planner_parameters, silent=Tru
     planner = JaxBackpropPlanner(
         environment.model,
         batch_size_train=planner_parameters.batch_size_train,
+        batch_size_test=planner_parameters.batch_size_test,
         plan=planner_parameters.plan,
         optimizer=planner_parameters.optimizer,
         optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
@@ -207,6 +210,7 @@ def run_jaxplanner_with_record(name, environment, planner_parameters, silent=Tru
         epochs=planner_parameters.epochs, 
         epsilon_error=planner_parameters.epsilon_error,
         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
+        train_seconds=planner_parameters.train_seconds,
         policy_hyperparams=planner_parameters.policy_hyperparams,
         return_callback=True,
         record_training_batches=True,
@@ -277,6 +281,7 @@ def run_jaxplanner(name, environment, planner_parameters, silent=True):
     planner = JaxBackpropPlanner(
         environment.model,
         batch_size_train=planner_parameters.batch_size_train,
+        batch_size_test=planner_parameters.batch_size_test,
         plan=planner_parameters.plan,
         optimizer=planner_parameters.optimizer,
         optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
@@ -291,6 +296,7 @@ def run_jaxplanner(name, environment, planner_parameters, silent=True):
         epsilon_error=planner_parameters.epsilon_error,
         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
         policy_hyperparams=planner_parameters.policy_hyperparams,
+        train_seconds=planner_parameters.train_seconds,
         return_callback=True,
     )
 
@@ -393,6 +399,7 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
     planner = JaxBackpropPlanner(
         rddl_model,
         batch_size_train=planner_parameters.batch_size_train,
+        batch_size_test=planner_parameters.batch_size_test,
         plan=planner_parameters.plan,
         optimizer=planner_parameters.optimizer,
         optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
@@ -405,6 +412,7 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
         epsilon_error=planner_parameters.epsilon_error,
         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
         policy_hyperparams=planner_parameters.policy_hyperparams,
+        train_seconds=planner_parameters.train_seconds,
         return_callback=True,
     )
 
