@@ -31,8 +31,8 @@ for domain in domains:
     #########################################################################################################
 
     domain_path = f"{root_folder}/domains/{domain.name}"
-    domain_file_path = f'{domain_path}/regular/domain.rddl'
-    instance_file_path = f'{domain_path}/regular/{domain.instance}.rddl'
+    domain_file_path = f'{domain_path}/domain.rddl'
+    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
 
     regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
     grounder = RDDLGrounder(regular_environment.model.ast)
