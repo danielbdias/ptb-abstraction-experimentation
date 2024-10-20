@@ -1,6 +1,8 @@
 import os
 import sys
 
+import jax
+
 import pyRDDLGym
 
 from pyRDDLGym_jax.core.tuning import JaxParameterTuningSLP
@@ -42,7 +44,7 @@ if __name__ == "__main__":
         instance_file_path = f'{domain_path}/{domain.instance}.rddl'
         
         train_args = {
-            'key': jax_seeds[0],
+            'key': jax.random.PRNGKey(jax_seeds[0]),
             'epochs': domain.experiment_params['epochs'],
             'train_seconds': domain.experiment_params['train_seconds']
         }

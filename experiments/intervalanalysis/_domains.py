@@ -111,11 +111,12 @@ domains = [
         state_fluents=['rlevel'],
         policy_hyperparams=None,
         ground_fluents_to_freeze=set(['rlevel___t3']),
+        #best parameters found: {'std': 1.7730401264602842e-05, 'lr': 0.0041021388862297345, 'w': 2499.926664413202}
         experiment_params = {
             'batch_size_train': 256,
             'batch_size_test': 256,
             'optimizer': optax.rmsprop,
-            'learning_rate': 0.2,
+            'learning_rate': 0.0041021388862297345,
             'epochs': 1000,
             'epsilon_error': 0.001,
             'epsilon_iteration_stop': 100,
