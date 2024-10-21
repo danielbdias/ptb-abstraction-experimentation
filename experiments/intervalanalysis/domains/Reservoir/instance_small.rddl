@@ -10,10 +10,12 @@ non-fluents nf_reservoir_control_cont {
 		RES_CONNECT(t2, t1);
 		CONNECTED_TO_SEA(t1);
 
-		RAIN_VAR(t1) = 10.0;
-		RAIN_VAR(t2) = 10.0;
-		RAIN_VAR(t3) = 1.0;
-		OVERFLOW_COST(t3) = -1.0;
+		MAX_RAIN(t1) = 10.0;
+		MAX_RAIN(t2) = 10.0;
+		MAX_RAIN(t3) = 1.0;
+		OVERFLOW_PENALTY(t3) = 50.0;
+		OVERFLOW_PENALTY(t3) = 50.0;
+		OVERFLOW_PENALTY(t3) = 1.0;
 	};
 }
 
@@ -23,7 +25,7 @@ instance nf_reservoir_control_cont {
 	init-state {
 		rlevel(t1) = 100.0;
 		rlevel(t2) = 100.0;
-		rlevel(t3) = 50.0;
+		rlevel(t3) = 10.0;
 	};
 	max-nondef-actions = pos-inf;
 	horizon = 100;

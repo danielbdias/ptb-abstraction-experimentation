@@ -22,17 +22,17 @@ non-fluents nf_reservoir_control_cont {
 		RES_CONNECT(t2, t1);
 		CONNECTED_TO_SEA(t1);
 
-		RAIN_VAR(t1) = 10.0;
-		RAIN_VAR(t2) = 10.0;
-		RAIN_VAR(t3) = 1.0;
-		RAIN_VAR(t4) = 10.0;
-		RAIN_VAR(t5) = 1.0;
-		RAIN_VAR(t6) = 1.0;
-		RAIN_VAR(t7) = 1.0;
-		RAIN_VAR(t8) = 1.0;
-		RAIN_VAR(t9) = 1.0;
-		RAIN_VAR(t10) = 1.0;
-		RAIN_VAR(t11) = 1.0;
+		MAX_RAIN(t1) = 10.0;
+		MAX_RAIN(t2) = 10.0;
+		MAX_RAIN(t3) = 1.0;
+		MAX_RAIN(t4) = 10.0;
+		MAX_RAIN(t5) = 1.0;
+		MAX_RAIN(t6) = 1.0;
+		MAX_RAIN(t7) = 1.0;
+		MAX_RAIN(t8) = 1.0;
+		MAX_RAIN(t9) = 1.0;
+		MAX_RAIN(t10) = 1.0;
+		MAX_RAIN(t11) = 1.0;
 
 		OVERFLOW_COST(t3) = -1.0;
 		OVERFLOW_COST(t5) = -1.0;

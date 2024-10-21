@@ -14,21 +14,20 @@ domain reservoir_control_cont {
     pvariables {
 
 		// Constants
-        TOP_RES(reservoir): { non-fluent, real, default = 100.0 }; // Overflowing amount
-		RAIN_VAR(reservoir):  { non-fluent, real, default = 5.0 };  // Half normal variance parameter for rainfall
+        TOP_RES(reservoir): { non-fluent, real, default = 100.0 };                // Overflowing amount
+		MAX_RAIN(reservoir):  { non-fluent, real, default = 5.0 };                // Max rainfall per epoch
         RES_CONNECT(reservoir, reservoir): { non-fluent, bool, default = false }; // Indicates 2nd reservoir is forward connected to 1st reservoir
-        EVAPORATION_FACTOR: { non-fluent, real, default = 0.05 }; // Maximum fraction of evaporation
-        CONNECTED_TO_SEA(reservoir): {non-fluent, bool, default = false}; // reservoirs connected to the sea
-
-        OVERFLOW_COST(reservoir): { non-fluent, real, default = -15.0 }; // Penalty per unit of level > TOP_RES
+        EVAPORATION_FACTOR: { non-fluent, real, default = 0.05 };                 // Maximum fraction of evaporation
+        CONNECTED_TO_SEA(reservoir): {non-fluent, bool, default = false};         // reservoirs connected to the sea
+        OVERFLOW_PENALTY(reservoir): { non-fluent, real, default = 15.0 };        // Penalty per unit of level > TOP_RES
 
         // Intermediate fluents
-        rain(reservoir):   {interm-fluent, real}; // Amount of rain fell
-        evaporated(reservoir): {interm-fluent, real}; // Evaporated water from reservoir
-        overflow(reservoir):   {interm-fluent, real}; // Excess overflow (over the rim)
-        inflow(reservoir):     {interm-fluent, real}; // Amount received from backward reservoirs
+        rain(reservoir):   {interm-fluent, real};             // Amount of rain fell
+        evaporated(reservoir): {interm-fluent, real};         // Evaporated water from reservoir
+        overflow(reservoir):   {interm-fluent, real};         // Excess overflow (over the rim)
+        inflow(reservoir):     {interm-fluent, real};         // Amount received from backward reservoirs
         individual_outflow(reservoir): {interm-fluent, real}; // Net amount of water released from reservoir to individually connected reservoirs
-        released_water(reservoir): {interm-fluent, real}; // Actual amount of water released (with action clipping
+        released_water(reservoir): {interm-fluent, real};     // Actual amount of water released (with action clipping)
 
         // State fluents
         rlevel(reservoir): {state-fluent, real, default = 50.0 }; // Reservoir level
@@ -39,7 +38,7 @@ domain reservoir_control_cont {
 
     cpfs {
         // amount of ran fall for this timestep
-        rain(?r) =  abs[Uniform(0, RAIN_VAR(?r))];
+        rain(?r) =  Uniform(0, MAX_RAIN(?r));
 
         // amount of evaporated water, proportional to the amount of water in the tank
         evaporated(?r) = EVAPORATION_FACTOR * rlevel(?r) / TOP_RES(?r);
@@ -51,7 +50,7 @@ domain reservoir_control_cont {
         overflow(?r) = max[0, rlevel(?r) - released_water(?r) - TOP_RES(?r)];
 
         // the fraction of outflow to each of the forward connected tanks
-        individual_outflow(?r) = released_water(?r)* 1 / ((sum_{?out: reservoir} [RES_CONNECT(?r,?out)]) + CONNECTED_TO_SEA(?r));
+        individual_outflow(?r) = released_water(?r) * ( 1 / ( (sum_{?out: reservoir} [RES_CONNECT(?r,?out)]) + CONNECTED_TO_SEA(?r) ) );
 
         // total incoming flow from all previous connected tanks
         inflow(?r) = (sum_{?in : reservoir} [RES_CONNECT(?in,?r) * individual_outflow(?in)]);
@@ -59,8 +58,8 @@ domain reservoir_control_cont {
         rlevel'(?r) = min[TOP_RES(?r), max[0, rlevel(?r) + inflow(?r) + rain(?r) - evaporated(?r) - overflow(?r) - released_water(?r)]];
     };
 
-    reward = (sum_{?r: reservoir} [if ( (rlevel(?r) + inflow(?r)) >= TOP_RES(?r))
-                                   then OVERFLOW_COST(?r) * (TOP_RES(?r) - rlevel(?r) + inflow(?r))
+    reward = (sum_{?r: reservoir} [if ( (rlevel(?r) + inflow(?r) + rain(?r)) > TOP_RES(?r))
+                                   then OVERFLOW_PENALTY(?r) * ((rlevel(?r) + inflow(?r) + rain(?r)) - TOP_RES(?r))
                                    else 0
                                    ]);
 
@@ -74,7 +73,7 @@ domain reservoir_control_cont {
 
 		forall_{?r : reservoir} rlevel(?r) >= 0;
 		forall_{?r : reservoir} rlevel(?r) <= TOP_RES(?r);
-        forall_{?r : reservoir} RAIN_VAR(?r) <= 30;
+        forall_{?r : reservoir} MAX_RAIN(?r) <= 30;
         (sum_{?r : reservoir} [CONNECTED_TO_SEA(?r)]) == 1;
 	};
 
