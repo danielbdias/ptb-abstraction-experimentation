@@ -1,5 +1,5 @@
 #Specifying the format for the output of the 'time' command
-TIMEFORMAT='Elapsed time is %R seconds to run hyperparam optimization.'
+TIMEFORMAT='Elapsed time is %R seconds to clean files.'
 
 time {
     # clean intermediate files

@@ -27,13 +27,13 @@ domains = [
 
     #best parameters found - Reservoir: {'std': 1.7730401264602842e-05, 'lr': 0.0041021388862297345, 'w': 2499.926664413202}
     DomainExperiment(
-        name='Reservoir',
+        name='ModifiedReservoir',
         instance='instance_small',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t2']),
+        ground_fluents_to_freeze=set(['rlevel___t3']),
         
         experiment_params = {
             'batch_size_train': 256,
@@ -47,7 +47,7 @@ domains = [
         }
     ),
     DomainExperiment(
-        name='Reservoir',
+        name='ModifiedReservoir',
         instance='instance_medium',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
@@ -66,7 +66,7 @@ domains = [
         }
     ),
     DomainExperiment(
-        name='Reservoir',
+        name='ModifiedReservoir',
         instance='instance_large',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
