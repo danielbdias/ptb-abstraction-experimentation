@@ -34,14 +34,14 @@ non-fluents nf_reservoir_control_cont {
 		MAX_RAIN(t10) = 1.0;
 		MAX_RAIN(t11) = 1.0;
 
-		OVERFLOW_COST(t3) = -1.0;
-		OVERFLOW_COST(t5) = -1.0;
-		OVERFLOW_COST(t6) = -1.0;
-		OVERFLOW_COST(t7) = -1.0;
-		OVERFLOW_COST(t8) = -1.0;
-		OVERFLOW_COST(t9) = -1.0;
-		OVERFLOW_COST(t10) = -1.0;
-		OVERFLOW_COST(t11) = -1.0;
+		OVERFLOW_PENALTY(t3) = 1.0;
+		OVERFLOW_PENALTY(t5) = 1.0;
+		OVERFLOW_PENALTY(t6) = 1.0;
+		OVERFLOW_PENALTY(t7) = 1.0;
+		OVERFLOW_PENALTY(t8) = 1.0;
+		OVERFLOW_PENALTY(t9) = 1.0;
+		OVERFLOW_PENALTY(t10) = 1.0;
+		OVERFLOW_PENALTY(t11) = 1.0;
 	};
 }
 
@@ -62,6 +62,6 @@ instance nf_reservoir_control_cont {
 		rlevel(t11) = 50.0;
 	};
 	max-nondef-actions = pos-inf;
-	horizon = 100;
+	horizon = 10;
 	discount = 1.0;
 }

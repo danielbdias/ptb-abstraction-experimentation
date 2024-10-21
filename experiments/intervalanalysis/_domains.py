@@ -33,7 +33,7 @@ domains = [
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t3']),
+        ground_fluents_to_freeze=set(['rlevel___t2']),
         
         experiment_params = {
             'batch_size_train': 256,
@@ -46,44 +46,44 @@ domains = [
             'train_seconds': 120,
         }
     ),
-    # DomainExperiment(
-    #     name='Reservoir',
-    #     instance='instance_medium',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t6']),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'batch_size_test': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.004,
-    #         'epochs': 1000,
-    #         'epsilon_error': 0.01,
-    #         'epsilon_iteration_stop': 200,
-    #         'train_seconds': 120,
-    #     }
-    # ),
-    # DomainExperiment(
-    #     name='Reservoir',
-    #     instance='instance_large',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t5', 'rlevel___t6', 'rlevel___t7', 'rlevel___t8', 'rlevel___t9', 'rlevel___t10', 'rlevel___t11']),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'batch_size_test': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.004,
-    #         'epochs': 1000,
-    #         'epsilon_error': 0.01,
-    #         'epsilon_iteration_stop': 200,
-    #         'train_seconds': 120,
-    #     }
-    # ),
+    DomainExperiment(
+        name='Reservoir',
+        instance='instance_medium',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['rlevel'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t6']),
+        experiment_params = {
+            'batch_size_train': 256,
+            'batch_size_test': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.004,
+            'epochs': 1000,
+            'epsilon_error': 0.01,
+            'epsilon_iteration_stop': 200,
+            'train_seconds': 120,
+        }
+    ),
+    DomainExperiment(
+        name='Reservoir',
+        instance='instance_large',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['rlevel'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t4', 'rlevel___t6', 'rlevel___t7']),
+        experiment_params = {
+            'batch_size_train': 256,
+            'batch_size_test': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.004,
+            'epochs': 1000,
+            'epsilon_error': 0.01,
+            'epsilon_iteration_stop': 200,
+            'train_seconds': 120,
+        }
+    ),
 ]
 
 silent = True

@@ -153,6 +153,8 @@ for domain in domains:
     discount_factor = environment.model.discount
     horizon = environment.model.horizon
 
+    print(f'Domain: {domain.name} - Instance: {domain.instance}')
+
     # Random policy
     start_time_for_analysis = time.time()
 
@@ -167,10 +169,12 @@ for domain in domains:
 
     ground_fluents = build_ground_fluent_list(environment)
     ground_fluent_mdp_accumulated_reward = {}
+    ground_fluent_initialization = {}
 
     for ground_fluent in ground_fluents:
         # test of fluent bounds 
         fluent_values = build_fluent_values_to_analyse(ground_fluent, state_bounds, analysis) # update initial state initialization
+        ground_fluent_initialization[ground_fluent] = fluent_values
         
         # evaluate lower and upper bounds on accumulated reward of random policy
         bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
@@ -182,6 +186,12 @@ for domain in domains:
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
     record_time(output_file_analysis_time, elapsed_time_for_analysis)    
 
+    print('Action bounds: ', action_bounds)
+    print('Fluent bounds: ')
+    for fluent_name, values in ground_fluent_initialization.items():
+        print(f'  {fluent_name}: ', values)
+    print()
+
     # generate score file
     record_reward_bounds_header(output_file_random_policy)
     record_reward_values(output_file_random_policy, domain.name, 'regular', regular_mdp_accumulated_reward, regular_mdp_accumulated_reward) # record regular MDP bounds
@@ -192,8 +202,6 @@ for domain in domains:
 end_time = time.time()
 elapsed_time = end_time - start_time
 
-print('--------------------------------------------------------------------------------')
-print()
 print('--------------------------------------------------------------------------------')
 print('Elapsed Time: ', elapsed_time)
 print('--------------------------------------------------------------------------------')

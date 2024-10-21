@@ -12,7 +12,6 @@ domain reservoir_control_cont {
 	};
 
     pvariables {
-
 		// Constants
         TOP_RES(reservoir): { non-fluent, real, default = 100.0 };                // Overflowing amount
 		MAX_RAIN(reservoir):  { non-fluent, real, default = 5.0 };                // Max rainfall per epoch
@@ -20,14 +19,14 @@ domain reservoir_control_cont {
         EVAPORATION_FACTOR: { non-fluent, real, default = 0.05 };                 // Maximum fraction of evaporation
         CONNECTED_TO_SEA(reservoir): {non-fluent, bool, default = false};         // reservoirs connected to the sea
         OVERFLOW_PENALTY(reservoir): { non-fluent, real, default = 15.0 };        // Penalty per unit of level > TOP_RES
+        MAX_RELEASE: { non-fluent, real, default = 30.0 };                        // Maximum release
 
         // Intermediate fluents
         rain(reservoir):   {interm-fluent, real};             // Amount of rain fell
         evaporated(reservoir): {interm-fluent, real};         // Evaporated water from reservoir
-        overflow(reservoir):   {interm-fluent, real};         // Excess overflow (over the rim)
         inflow(reservoir):     {interm-fluent, real};         // Amount received from backward reservoirs
-        individual_outflow(reservoir): {interm-fluent, real}; // Net amount of water released from reservoir to individually connected reservoirs
         released_water(reservoir): {interm-fluent, real};     // Actual amount of water released (with action clipping)
+        overflow(reservoir): {interm-fluent, real};           // Amount of water overflowed to connected reservoirs
 
         // State fluents
         rlevel(reservoir): {state-fluent, real, default = 50.0 }; // Reservoir level
@@ -41,39 +40,41 @@ domain reservoir_control_cont {
         rain(?r) =  Uniform(0, MAX_RAIN(?r));
 
         // amount of evaporated water, proportional to the amount of water in the tank
-        evaporated(?r) = EVAPORATION_FACTOR * rlevel(?r) / TOP_RES(?r);
+        evaporated(?r) = ( EVAPORATION_FACTOR * rlevel(?r) ) / TOP_RES(?r);
 
         // feasible bound enforcement on action
         released_water(?r) = max[0, min[rlevel(?r), release(?r)]];
 
-        // amount of water spilled over the rim
-        overflow(?r) = max[0, rlevel(?r) - released_water(?r) - TOP_RES(?r)];
-
-        // the fraction of outflow to each of the forward connected tanks
-        individual_outflow(?r) = released_water(?r) * ( 1 / ( (sum_{?out: reservoir} [RES_CONNECT(?r,?out)]) + CONNECTED_TO_SEA(?r) ) );
+        // amount of water overflow the top of the reservoir
+        overflow(?r) = max[0, TOP_RES(?r) - (rlevel(?r) + rain(?r) - evaporated(?r) - released_water(?r))];
 
         // total incoming flow from all previous connected tanks
-        inflow(?r) = (sum_{?in : reservoir} [RES_CONNECT(?in,?r) * individual_outflow(?in)]);
+        inflow(?r) = (sum_{?in : reservoir} [RES_CONNECT(?in,?r) * ( released_water(?in) + overflow(?in))]);
 
-        rlevel'(?r) = min[TOP_RES(?r), max[0, rlevel(?r) + inflow(?r) + rain(?r) - evaporated(?r) - overflow(?r) - released_water(?r)]];
+        rlevel'(?r) = min[TOP_RES(?r), max[0, rlevel(?r) + inflow(?r) + rain(?r) - evaporated(?r) - released_water(?r) - overflow(?r)]];
     };
 
-    reward = (sum_{?r: reservoir} [if ( (rlevel(?r) + inflow(?r) + rain(?r)) > TOP_RES(?r))
-                                   then OVERFLOW_PENALTY(?r) * ((rlevel(?r) + inflow(?r) + rain(?r)) - TOP_RES(?r))
+    reward = (sum_{?r: reservoir} [if ( overflow(?r) > 0 )
+                                   then -1 * OVERFLOW_PENALTY(?r) * overflow(?r)
                                    else 0
                                    ]);
 
 
     action-preconditions {
-		forall_{?r : reservoir} release(?r) <= 30;
+        // action bounds
+		forall_{?r : reservoir} release(?r) <= MAX_RELEASE;
 		forall_{?r : reservoir} release(?r) >= 0;
 	};
 
 	state-invariants {
-
+        // state bounds
 		forall_{?r : reservoir} rlevel(?r) >= 0;
 		forall_{?r : reservoir} rlevel(?r) <= TOP_RES(?r);
-        forall_{?r : reservoir} MAX_RAIN(?r) <= 30;
+
+        // each reservoir should outflow to just one reservoir
+        forall_{?r1 : reservoir} (sum_{?r2 : reservoir} [RES_CONNECT(?r1,?r2)]) == 1;
+        
+        // just one reservoir is connected to the sea
         (sum_{?r : reservoir} [CONNECTED_TO_SEA(?r)]) == 1;
 	};
 
