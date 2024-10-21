@@ -6,28 +6,36 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_convergence_time(plot_folder, domain_name, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution):
+def plot_convergence_time(plot_folder, domain, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution):
     methods = (
         "Random Policy",
         "Warm Start Policy"
     )
     metrics = {
-        "Fluent Eval Time": np.array([0, evaluation_time]),
+        "Interal Analysis": np.array([0, evaluation_time]),
         "Warm Start Computation": np.array([0, warm_start_computation]),
         "JaxPlan Execution": np.array([baseline_execution, warm_start_execution]),
     }
     width = 0.5
 
-    y_axis_height = np.max([baseline_execution, evaluation_time + warm_start_computation + warm_start_execution]) * 1.4
+    y_axis_height = np.max([baseline_execution, evaluation_time + warm_start_computation + warm_start_execution]) * 1.6
 
     fig, ax = plt.subplots()
     bottom = np.zeros(2)
 
-    for boolean, weight_count in metrics.items():
-        p = ax.bar(methods, weight_count, width, label=boolean, bottom=bottom)
-        bottom += weight_count
+    for metric_name, metric_value in metrics.items():
+        bars = ax.bar(methods, metric_value, width, label=metric_name, bottom=bottom)
+        bottom += metric_value
+        
+        for bar in bars:
+            x_value = bar.get_x() + bar.get_width() / 2
+            y_value = bar.get_height() + bar.get_y()
+            
+            bar_height_as_string = f"{bar.get_height():.2f}"
+            if bar_height_as_string != "0.00":
+                plt.text(x_value, y_value, bar_height_as_string, ha='center', va='bottom')
 
-    ax.set_title(f"Convergence time ({domain_name})")
+    ax.set_title(f"Convergence time\n({domain.name} - {domain.instance})")
     ax.legend(loc="upper right", fontsize=14)
 
     plt.rcParams.update({'font.size':15})
@@ -36,7 +44,7 @@ def plot_convergence_time(plot_folder, domain_name, evaluation_time, warm_start_
     plt.ylabel("Time (seconds)")
     plt.ylim(0, y_axis_height)
 
-    plt.savefig(f'{plot_folder}/convergence_time_{domain_name}.pdf', format='pdf')
+    plt.savefig(f'{plot_folder}/convergence_time_{domain.name}_{domain.instance}.pdf', format='pdf')
 
 
 def read_fluent_evaluation_time_csv(file_path: str):
@@ -126,7 +134,7 @@ def stat_curves(experiment_summaries, attribute_getter):
 
     return larger_iteration_curve, curves_mean, curves_stddev
     
-def plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats, warm_start_stats):
+def plot_cost_curve_per_iteration(plot_folder, domain, random_policy_stats, warm_start_stats):
     plt.subplots(1, figsize=(8,5))
 
     statistics = {
@@ -142,7 +150,7 @@ def plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats,
         plt.plot(iterations, best_return_curves_mean, '-', label=key)
         plt.fill_between(iterations, (best_return_curves_mean - best_return_curves_stddev), (best_return_curves_mean + best_return_curves_stddev), alpha=0.2)
 
-    plt.title(f'Best Reward per Iteration ({domain_name})', fontsize=14, fontweight='bold')
+    plt.title(f'Best Reward per Iteration\n({domain.name} - {domain.instance})', fontsize=14, fontweight='bold')
     plt.xlabel("Iterations", fontsize=14)
     plt.ylabel("Reward", fontsize=14)
     plt.legend(loc="best", fontsize=14)
@@ -150,7 +158,7 @@ def plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats,
 
     plt.rc('font', family='serif')
 
-    plt.savefig(f'{plot_folder}/convergence_value_{domain_name}.pdf', format='pdf')
+    plt.savefig(f'{plot_folder}/convergence_value_{domain.name}_{domain.instance}.pdf', format='pdf')
 
 print('--------------------------------------------------------------------------------')
 print('Experiment Part 4 - Generating graphs for PtB with warm start')
@@ -161,46 +169,38 @@ root_folder = os.path.dirname(__file__)
 plot_folder = f'{root_folder}/_plots'
 
 for domain in domains:
-    domain_name = domain.name
-
     ############################################################
     # Convergence value
     ############################################################
 
-    random_policy_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}_{domain.instance}.pickle')
-    warm_start_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}_{domain.instance}.pickle')   
+    random_policy_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain.name}_{domain.instance}.pickle')
+    warm_start_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain.name}_{domain.instance}.pickle')   
 
-    plot_cost_curve_per_iteration(plot_folder, domain_name, random_policy_stats, warm_start_stats)
+    plot_cost_curve_per_iteration(plot_folder, domain, random_policy_stats, warm_start_stats)
 
     ############################################################
     # Convergence time
     ############################################################
 
-    warm_start_creation_experiment_stats = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain_name}_{domain.instance}.pickle')
-    warm_start_execution_experiment_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain_name}_{domain.instance}.pickle')
-    baseline_execution_experiment_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain_name}_{domain.instance}.pickle')
+    warm_start_creation_experiment_stats = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain.name}_{domain.instance}.pickle')
+    warm_start_execution_experiment_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain.name}_{domain.instance}.pickle')
+    baseline_execution_experiment_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain.name}_{domain.instance}.pickle')
 
-    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain_name}_{domain.instance}.csv')
+    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv')
     warm_start_computation = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats)))
     warm_start_execution = np.mean(list(map(lambda item : item.elapsed_time, warm_start_execution_experiment_stats)))
     baseline_execution = np.mean(list(map(lambda item : item.elapsed_time, baseline_execution_experiment_stats)))
 
-    plot_convergence_time(plot_folder, domain_name, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
+    plot_convergence_time(plot_folder, domain, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
 
-    ############################################################
-    # Time to elect fluent
-    ############################################################
+    # ############################################################
+    # # Time to elect fluent
+    # ############################################################
 
-    warm_start_creation_experiment_stats_low_fluent = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain_name}_{domain.instance}.pickle')
+    # warm_start_creation_experiment_stats_low_fluent = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain.name}_{domain.instance}.pickle')
 
-    # metrics for low fluent
-    warm_start_computation_low_fluent = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats_low_fluent)))
-    evaluation_time_low_fluent = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain_name}_{domain.instance}.csv')
-
-    # metrics for interval analysis
-    evaluation_time_interval_analysis = 0
-    warm_start_computation_interval_analysis = 0
-
-    plot_time_to_elect(plot_folder, domain_name, evaluation_time_low_fluent, warm_start_computation_low_fluent, evaluation_time_interval_analysis, warm_start_computation_interval_analysis)
+    # # metrics for low fluent
+    # warm_start_computation_low_fluent = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats_low_fluent)))
+    # evaluation_time_low_fluent = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv')
 
 print('done!')
