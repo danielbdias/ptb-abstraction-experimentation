@@ -1,0 +1,42 @@
+// instance3.rddl
+
+non-fluents nf_reservoir_control_cont {
+	domain = reservoir_control_cont;
+	objects {
+		reservoir : {t1, t2, t3, t4, t5, t6};
+	};
+	non-fluents {
+		RES_CONNECT(t6, t3);
+		RES_CONNECT(t3, t1);
+		RES_CONNECT(t4, t2);
+		RES_CONNECT(t5, t2);
+		RES_CONNECT(t2, t1);
+		CONNECTED_TO_SEA(t1);
+
+		RAIN_VAR(t1) = 10.0;
+		RAIN_VAR(t2) = 10.0;
+		RAIN_VAR(t3) = 1.0;
+		RAIN_VAR(t4) = 10.0;
+		RAIN_VAR(t5) = 10.0;
+		RAIN_VAR(t6) = 1.0;
+
+		OVERFLOW_COST(t3) = -1.0;
+		OVERFLOW_COST(t6) = -1.0;
+	};
+}
+
+instance nf_reservoir_control_cont {
+	domain = reservoir_control_cont;
+	non-fluents = nf_reservoir_control_cont;
+	init-state {
+		rlevel(t1) = 100.0;
+		rlevel(t2) = 100.0;
+		rlevel(t3) = 50.0;
+		rlevel(t4) = 100.0;
+		rlevel(t5) = 100.0;
+		rlevel(t6) = 50.0;
+	};
+	max-nondef-actions = pos-inf;
+	horizon = 100;
+	discount = 1.0;
+}

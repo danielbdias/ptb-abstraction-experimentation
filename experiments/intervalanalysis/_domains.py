@@ -22,101 +22,23 @@ jax_seeds = [
 
 domains = [
     ###########################################################
-    # test case to validate interval analysis
-    ###########################################################
-
-    # DomainExperiment( 
-    #     name='SimplifiedReservoir',
-    #     instance='instance1',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set([]),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.2,
-    #         'epochs': 1000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 100,
-    #     }
-    # ),
-
-    ###########################################################
-    # IPPC 23 domains
-    ###########################################################
-
-    # DomainExperiment(
-    #     name='HVAC',
-    #     instance='instance3',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['occupied', 'temp-heater', 'temp-zone'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set([]),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.1,
-    #         'epochs': 2000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 50,
-    #     }
-    # ),
-    # DomainExperiment(
-    #     name='Reservoir',
-    #     instance='instance3',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set([]),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.2,
-    #         'epochs': 1000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 100,
-    #     }
-    # ),
-    # DomainExperiment(
-    #     name='PowerGen',
-    #     instance='instance3',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['prevProd', 'prevOn', 'temperature'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set([]),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.05,
-    #         'epochs': 3000,
-    #         'epsilon_error': 0.001,
-    #         'epsilon_iteration_stop': 100,
-    #     }
-    # ),
-
-    ###########################################################
     # Modified domains
     ###########################################################
 
+    #best parameters found - Reservoir: {'std': 1.7730401264602842e-05, 'lr': 0.0041021388862297345, 'w': 2499.926664413202}
     DomainExperiment(
-        name='ModifiedReservoir',
+        name='Reservoir',
         instance='instance_small',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
         ground_fluents_to_freeze=set(['rlevel___t3']),
-        #best parameters found: {'std': 1.7730401264602842e-05, 'lr': 0.0041021388862297345, 'w': 2499.926664413202}
+        
         experiment_params = {
             'batch_size_train': 256,
             'batch_size_test': 256,
             'optimizer': optax.rmsprop,
-            # 'learning_rate': 0.0041021388862297345,
             'learning_rate': 0.004,
             'epochs': 1000,
             'epsilon_error': 0.01,
@@ -125,13 +47,32 @@ domains = [
         }
     ),
     DomainExperiment(
-        name='ModifiedReservoir',
+        name='Reservoir',
         instance='instance_medium',
         action_bounds={},
         action_bounds_for_interval_analysis=None,
         state_fluents=['rlevel'],
         policy_hyperparams=None,
         ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t6']),
+        experiment_params = {
+            'batch_size_train': 256,
+            'batch_size_test': 256,
+            'optimizer': optax.rmsprop,
+            'learning_rate': 0.004,
+            'epochs': 1000,
+            'epsilon_error': 0.01,
+            'epsilon_iteration_stop': 200,
+            'train_seconds': 120,
+        }
+    ),
+    DomainExperiment(
+        name='Reservoir',
+        instance='instance_large',
+        action_bounds={},
+        action_bounds_for_interval_analysis=None,
+        state_fluents=['rlevel'],
+        policy_hyperparams=None,
+        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t5', 'rlevel___t6', 'rlevel___t7', 'rlevel___t8', 'rlevel___t9', 'rlevel___t10', 'rlevel___t11']),
         experiment_params = {
             'batch_size_train': 256,
             'batch_size_test': 256,
