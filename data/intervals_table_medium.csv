@@ -1,0 +1,8 @@
+Domain            ;Fluent      ;Accumulated Reward (LB) ;Accumulated Reward (UB) ;Score (Diff)        ;Score (Explained Interval)
+ModifiedReservoir ;regular     ;-66848.05               ;                    0.0 ;   0.0              ;        1.0
+ModifiedReservoir ;rlevel___t1 ;-70143.55               ;                    0.0 ;3295.5              ;        1.0492983714558615
+ModifiedReservoir ;rlevel___t2 ;-70143.55               ;                    0.0 ;3295.5              ;        1.0492983714558615
+ModifiedReservoir ;rlevel___t3 ;-66998.025              ;                    0.0 ; 149.97499999999127 ;        1.0022435209404013
+ModifiedReservoir ;rlevel___t4 ;-70143.55               ;                    0.0 ;3295.5              ;        1.0492983714558615
+ModifiedReservoir ;rlevel___t5 ;-70143.55               ;                    0.0 ;3295.5              ;        1.0492983714558615
+ModifiedReservoir ;rlevel___t6 ;-66968.025              ;                    0.0 ; 119.97499999999127 ;        1.0017947419558235
