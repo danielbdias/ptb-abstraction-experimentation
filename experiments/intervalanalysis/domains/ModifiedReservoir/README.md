@@ -2,12 +2,12 @@
 
 Based on Reservoir domain, with the following modifications:
 - Each reservoir level can vary just between 0 and 100;
-- The amount of rain on each epoch is given by a random uniform distribution `Uniform(0, MAX_RAIN(?r))`
+- Each release action is restricted between 0 and 30;
 - Reservoirs just receive penalties due to overflows
 
 ## Small instance
 
-This domain thas the following topology, with hexagon nodes representing reservoirs with low amount of rain:
+This domain has the following topology, with hexagon nodes representing reservoirs with low amount of rain:
 
 ```mermaid
 flowchart TD
