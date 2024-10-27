@@ -1,0 +1,84 @@
+// instance4.rddl
+
+non-fluents nf_reservoir_control_cont {
+	domain = reservoir_control_cont;
+	objects {
+		reservoir : {t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13};
+	};
+	non-fluents {
+		RES_CONNECT(t13, t12);
+		RES_CONNECT(t12, t11);
+		RES_CONNECT(t11, t10);
+		RES_CONNECT(t10, t1);
+		
+		RES_CONNECT(t9, t7);
+		RES_CONNECT(t8, t7);
+		RES_CONNECT(t7, t5);
+		RES_CONNECT(t6, t5);
+		RES_CONNECT(t5, t1);
+
+		RES_CONNECT(t3, t2);
+		RES_CONNECT(t3, t2);
+		RES_CONNECT(t2, t1);
+
+		CONNECTED_TO_SEA(t1);
+
+		RAIN_VAR(t1) = 5.0;
+
+		RAIN_VAR(t2) = 10.0;
+		RAIN_VAR(t3) = 15.0;
+		RAIN_VAR(t4) = 8.0;
+
+		RAIN_VAR(t5) = 1.0;
+		RAIN_VAR(t6) = 1.0;
+		RAIN_VAR(t7) = 1.0;
+		RAIN_VAR(t8) = 1.0;
+		RAIN_VAR(t9) = 1.0;
+
+		RAIN_VAR(t10) = 1.0;
+		RAIN_VAR(t11) = 5.0;
+		RAIN_VAR(t12) = 10.0;
+		RAIN_VAR(t13) = 20.0;
+
+		OVERFLOW_COST(t1) = -20.0;
+
+		OVERFLOW_COST(t2) = -10.0;
+		OVERFLOW_COST(t3) = -10.0;
+		OVERFLOW_COST(t4) = -10.0;
+
+		OVERFLOW_COST(t5) = -1.0;
+		OVERFLOW_COST(t6) = -1.0;
+		OVERFLOW_COST(t7) = -1.0;
+		OVERFLOW_COST(t8) = -1.0;
+		OVERFLOW_COST(t9) = -1.0;
+
+		OVERFLOW_COST(t10) = -15.0;
+		OVERFLOW_COST(t11) = -15.0;
+		OVERFLOW_COST(t12) = -15.0;
+		OVERFLOW_COST(t13) = -15.0;
+		
+	};
+}
+
+instance nf_reservoir_control_cont {
+	domain = reservoir_control_cont;
+	non-fluents = nf_reservoir_control_cont;
+	init-state {
+		rlevel(t1) = 90.0;
+		rlevel(t2) = 80.0;
+		rlevel(t3) = 80.0;
+		rlevel(t4) = 80.0;
+		rlevel(t5) = 50.0;
+		rlevel(t6) = 50.0;
+		rlevel(t7) = 50.0;
+		rlevel(t8) = 50.0;
+		rlevel(t9) = 50.0;
+		rlevel(t10) = 95.0;
+		rlevel(t11) = 95.0;
+		rlevel(t12) = 95.0;
+		rlevel(t13) = 95.0;
+	};
+	max-nondef-actions = pos-inf;
+	horizon = 10;
+	discount = 1.0;
+}
