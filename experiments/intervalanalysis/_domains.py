@@ -2,16 +2,17 @@ import optax
 from dataclasses import dataclass
 from typing import Dict, List, Set
 
+from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
+
+from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic
+
 @dataclass(frozen=True)
 class DomainExperiment:
     name:                                str
     instance:                            str
-    action_bounds:                       Dict
-    action_bounds_for_interval_analysis: Dict
     state_fluents:                       List[str]
-    policy_hyperparams:                  Dict
     ground_fluents_to_freeze:            Set[str]
-    experiment_params:                   Dict
+    experiment_params:                   PlannerParameters
 
 jax_seeds = [
     42
@@ -21,87 +22,107 @@ jax_seeds = [
 ]
 
 domains = [
-    ###########################################################
-    # Modified domains
-    ###########################################################
-
-    #best parameters found - Reservoir: {'std': 1.7730401264602842e-05, 'lr': 0.0041021388862297345, 'w': 2499.926664413202}
-    # DomainExperiment(
-    #     name='ModifiedReservoir',
-    #     instance='instance_small',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['rlevel___t3']),
-        
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'batch_size_test': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.004,
-    #         'epochs': 1000,
-    #         'epsilon_error': 0.01,
-    #         'epsilon_iteration_stop': 200,
-    #         'train_seconds': 120,
-    #     }
-    # ),
-    # DomainExperiment(
-    #     name='ModifiedReservoir',
-    #     instance='instance_medium',
-    #     action_bounds={},
-    #     action_bounds_for_interval_analysis=None,
-    #     state_fluents=['rlevel'],
-    #     policy_hyperparams=None,
-    #     ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t6']),
-    #     experiment_params = {
-    #         'batch_size_train': 256,
-    #         'batch_size_test': 256,
-    #         'optimizer': optax.rmsprop,
-    #         'learning_rate': 0.004,
-    #         'epochs': 1000,
-    #         'epsilon_error': 0.01,
-    #         'epsilon_iteration_stop': 200,
-    #         'train_seconds': 120,
-    #     }
-    # ),
+    ########################################################################################################################
+    # Mars Rover
+    ########################################################################################################################
     DomainExperiment(
-        name='ModifiedReservoir',
-        instance='instance_large',
-        action_bounds={},
-        action_bounds_for_interval_analysis=None,
-        state_fluents=['rlevel'],
-        policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t3', 'rlevel___t6', 'rlevel___t7', 'rlevel___t8', 'rlevel___t9', 'rlevel___t10', 'rlevel___t11']),
-        experiment_params = {
-            'batch_size_train': 256,
-            'batch_size_test': 256,
-            'optimizer': optax.rmsprop,
-            'learning_rate': 0.004,
-            'epochs': 1000,
-            'epsilon_error': 0.01,
-            'epsilon_iteration_stop': 200,
-            'train_seconds': 120,
-        }
+        name                     = 'MarsRover',
+        instance                 = 'instance3',
+        state_fluents            = [ 'mineral-harvested', 'vel-x', 'pos-x', 'vel-y', 'pos-y' ],
+        ground_fluents_to_freeze = set([]),
+        experiment_params=PlannerParameters(
+            epsilon_error          = 0.01,
+            epsilon_iteration_stop = 200,
+            model_params=PlanningModelParameters(
+                logic=FuzzyLogic(
+                    tnorm  = ProductTNorm(),
+                    weight = 100
+                )
+            ),
+            optimizer_params=OptimizerParameters(
+                optimizer        = optax.rmsprop,
+                learning_rate    = 1.0,
+                batch_size_train = 32,
+                batch_size_test  = 32,
+                action_bounds    = {
+                    'power-x': (-0.09999, 0.09999), 
+                    'power-y': (-0.09999, 0.09999)
+                },
+            ),
+            training_params=TrainingParameters(
+                epochs             = 500,
+                train_seconds      = 30,
+                policy_hyperparams = { 'harvest': 5.0 }
+            )
+        )
     ),
+    ########################################################################################################################
+    # Power Generator
+    ########################################################################################################################
     DomainExperiment(
-        name='ModifiedReservoir',
-        instance='instance_huge',
-        action_bounds={},
-        action_bounds_for_interval_analysis=None,
-        state_fluents=['rlevel'],
-        policy_hyperparams=None,
-        ground_fluents_to_freeze=set(['rlevel___t5', 'rlevel___t6', 'rlevel___t7', 'rlevel___t8', 'rlevel___t9']),
-        experiment_params = {
-            'batch_size_train': 256,
-            'batch_size_test': 256,
-            'optimizer': optax.rmsprop,
-            'learning_rate': 0.004,
-            'epochs': 1000,
-            'epsilon_error': 0.01,
-            'epsilon_iteration_stop': 200,
-            'train_seconds': 120,
-        }
+        name                     = 'PowerGen',
+        instance                 = 'instance3',
+        state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
+        ground_fluents_to_freeze = set([]),
+        experiment_params=PlannerParameters(
+            epsilon_error          = 0.01,
+            epsilon_iteration_stop = 200,
+            model_params=PlanningModelParameters(
+                logic=FuzzyLogic(
+                    tnorm  = ProductTNorm(),
+                    weight = 10
+                )
+            ),
+            optimizer_params=OptimizerParameters(
+                optimizer        = optax.rmsprop,
+                learning_rate    = 0.05,
+                batch_size_train = 32,
+                batch_size_test  = 32,
+                action_bounds    = {
+                    'power-x': (-0.09999, 0.09999), 
+                    'power-y': (-0.09999, 0.09999)
+                },
+            ),
+            training_params=TrainingParameters(
+                epochs             = 10000,
+                train_seconds      = 30,
+                policy_hyperparams = None
+            )
+        )
+    ),
+    ########################################################################################################################
+    # Recommender Systems
+    ########################################################################################################################
+    DomainExperiment(
+        name                     = 'RecSim',
+        instance                 = 'instance1',
+        state_fluents            = [ 'provider-satisfaction', 'consumer-satisfaction', 'item-feature', 'item-by' ],
+        ground_fluents_to_freeze = set([]),
+        experiment_params=PlannerParameters(
+            epsilon_error          = 0.01,
+            epsilon_iteration_stop = 200,
+            model_params=PlanningModelParameters(
+                logic=FuzzyLogic(
+                    tnorm  = ProductTNorm(),
+                    weight = 10
+                )
+            ),
+            optimizer_params=OptimizerParameters(
+                optimizer        = optax.rmsprop,
+                learning_rate    = 0.05,
+                batch_size_train = 32,
+                batch_size_test  = 32,
+                action_bounds    = {
+                    'power-x': (-0.09999, 0.09999), 
+                    'power-y': (-0.09999, 0.09999)
+                },
+            ),
+            training_params=TrainingParameters(
+                epochs             = 10000,
+                train_seconds      = 30,
+                policy_hyperparams = None
+            )
+        )
     ),
 ]
 

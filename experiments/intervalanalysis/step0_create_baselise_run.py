@@ -43,14 +43,11 @@ for domain in domains:
     regular_experiment_name = f"{domain.name} (regular) - Straight line"
 
     for jax_seed in jax_seeds:
-        experiment_params = domain.experiment_params.copy()
-        experiment_params['plan'] = JaxStraightLinePlan()
-        experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
-        experiment_params['action_bounds'] = domain.action_bounds
-        experiment_params['policy_hyperparams'] = domain.policy_hyperparams
-        experiment_params['ground_fluents_to_freeze'] = set()
+        experiment_params = domain.experiment_params
+        experiment_params.optimizer_params.plan = JaxStraightLinePlan()
+        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
 
-        env_params = PlannerParameters(**experiment_params)
+        env_params = experiment_params
 
         experiment_summary = run_experiment(regular_experiment_name, rddl_model=grounded_model, planner_parameters=env_params, silent=silent)
         regular_env_experiment_stats.append(experiment_summary)

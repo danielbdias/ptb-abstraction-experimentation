@@ -13,6 +13,7 @@ import pyRDDLGym
 from pyRDDLGym import RDDLEnv
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym.core.policy import RandomAgent
+from pyRDDLGym_jax.core.logic import FuzzyLogic
 from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxOfflineController
 
 import numpy as np
@@ -41,20 +42,33 @@ class FluentValueStatististic:
     entropy:            float
 
 @dataclass(frozen=True)
+class PlanningModelParameters:
+    logic:          FuzzyLogic
+
+@dataclass(frozen=False)
+class OptimizerParameters:
+    plan:             JaxPlan
+    optimizer:        optax.GradientTransformation
+    learning_rate:    float
+    batch_size_train: int
+    batch_size_test:  int
+    action_bounds:    dict
+
+@dataclass(frozen=False)
+class TrainingParameters:
+    epochs:             int
+    seed:               jax.random.PRNGKey
+    train_seconds:      int
+    policy_hyperparams: dict
+
+@dataclass(frozen=False)
 class PlannerParameters:
-    batch_size_train:           int
-    batch_size_test:            int
-    train_seconds:              int
-    plan:                       JaxPlan
-    optimizer:                  optax.GradientTransformation
-    learning_rate:              float
-    epochs:                     int
-    seed:                       jax.random.PRNGKey
-    action_bounds:              dict
     epsilon_error:              float
     epsilon_iteration_stop:     int
-    policy_hyperparams:         dict
     ground_fluents_to_freeze:   Set[str]
+    model_params:               PlanningModelParameters
+    optimizer_params:           OptimizerParameters   
+    training_params:            TrainingParameters
 
 def find_lifted_fluent(ground_fluent_name: str, lifted_fluents: List[str]) -> str:
     for lifted_fluent in lifted_fluents:
@@ -184,56 +198,56 @@ def record_csv(file_path: str, domain_name: str, data: List[FluentValueStatistis
         for item in data:
             writer.writerow([domain_name, item.fluent_name, item.mean, item.standard_deviation, item.variance, item.entropy])
     
-def run_jaxplanner_with_record(name, environment, planner_parameters, silent=True):
-    if not silent:
-        print('--------------------------------------------------------------------------------')
-        print('Domain: ', name)
-        print('Seed: ', planner_parameters.seed)
-        print('--------------------------------------------------------------------------------')
-        print()
+# def run_jaxplanner_with_record(name, environment, planner_parameters, silent=True):
+#     if not silent:
+#         print('--------------------------------------------------------------------------------')
+#         print('Domain: ', name)
+#         print('Seed: ', planner_parameters.seed)
+#         print('--------------------------------------------------------------------------------')
+#         print()
     
-    start_time = time.time()
+#     start_time = time.time()
 
-    # initialize the planner
-    planner = JaxBackpropPlanner(
-        environment.model,
-        batch_size_train=planner_parameters.batch_size_train,
-        batch_size_test=planner_parameters.batch_size_test,
-        plan=planner_parameters.plan,
-        optimizer=planner_parameters.optimizer,
-        optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
-        action_bounds=planner_parameters.action_bounds)
+#     # initialize the planner
+#     planner = JaxBackpropPlanner(
+#         environment.model,
+#         batch_size_train=planner_parameters.batch_size_train,
+#         batch_size_test=planner_parameters.batch_size_test,
+#         plan=planner_parameters.plan,
+#         optimizer=planner_parameters.optimizer,
+#         optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
+#         action_bounds=planner_parameters.action_bounds)
 
-    # run the planner as an optimization process
-    planner_callbacks = planner.optimize(
-        planner_parameters.seed, 
-        epochs=planner_parameters.epochs, 
-        epsilon_error=planner_parameters.epsilon_error,
-        epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
-        train_seconds=planner_parameters.train_seconds,
-        policy_hyperparams=planner_parameters.policy_hyperparams,
-        return_callback=True,
-        record_training_batches=True,
-    )
+#     # run the planner as an optimization process
+#     planner_callbacks = planner.optimize(
+#         planner_parameters.seed, 
+#         epochs=planner_parameters.epochs, 
+#         epsilon_error=planner_parameters.epsilon_error,
+#         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
+#         train_seconds=planner_parameters.train_seconds,
+#         policy_hyperparams=planner_parameters.policy_hyperparams,
+#         return_callback=True,
+#         record_training_batches=True,
+#     )
 
-    values_per_state_variable = {}
+#     values_per_state_variable = {}
 
-    for callback in planner_callbacks:
-        training_batches = callback['training_batches']
+#     for callback in planner_callbacks:
+#         training_batches = callback['training_batches']
 
-        for key in training_batches.keys():
-            if key not in values_per_state_variable.keys():
-                values_per_state_variable[key] = []
+#         for key in training_batches.keys():
+#             if key not in values_per_state_variable.keys():
+#                 values_per_state_variable[key] = []
 
-            values_per_state_variable[key] += training_batches[key]
+#             values_per_state_variable[key] += training_batches[key]
 
-        if not silent:
-            print(callback)
+#         if not silent:
+#             print(callback)
 
-    end_time = time.time()
-    elapsed_time = end_time - start_time
+#     end_time = time.time()
+#     elapsed_time = end_time - start_time
 
-    return values_per_state_variable, elapsed_time
+#     return values_per_state_variable, elapsed_time
 
 def aggregate_and_fix_jax_simulations(jax_simulations, lifted_fluents):
     ground_fluent_data = {}
@@ -267,51 +281,51 @@ def compute_jax_simulation_statistics(jax_simulations, lifted_fluents, entropy_b
 
     return result
 
-def run_jaxplanner(name, environment, planner_parameters, silent=True):
-    if not silent:
-        print('--------------------------------------------------------------------------------')
-        print('Domain: ', name)
-        print('Seed: ', planner_parameters.seed)
-        print('--------------------------------------------------------------------------------')
-        print()
+# def run_jaxplanner(name, environment, planner_parameters, silent=True):
+#     if not silent:
+#         print('--------------------------------------------------------------------------------')
+#         print('Domain: ', name)
+#         print('Seed: ', planner_parameters.seed)
+#         print('--------------------------------------------------------------------------------')
+#         print()
     
-    start_time = time.time()
+#     start_time = time.time()
 
-    # initialize the planner
-    planner = JaxBackpropPlanner(
-        environment.model,
-        batch_size_train=planner_parameters.batch_size_train,
-        batch_size_test=planner_parameters.batch_size_test,
-        plan=planner_parameters.plan,
-        optimizer=planner_parameters.optimizer,
-        optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
-        action_bounds=planner_parameters.action_bounds,
-        ground_fluents_to_freeze=planner_parameters.ground_fluents_to_freeze
-    )
+#     # initialize the planner
+#     planner = JaxBackpropPlanner(
+#         environment.model,
+#         batch_size_train=planner_parameters.batch_size_train,
+#         batch_size_test=planner_parameters.batch_size_test,
+#         plan=planner_parameters.plan,
+#         optimizer=planner_parameters.optimizer,
+#         optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
+#         action_bounds=planner_parameters.action_bounds,
+#         ground_fluents_to_freeze=planner_parameters.ground_fluents_to_freeze
+#     )
 
-    # run the planner as an optimization process
-    planner_callbacks = planner.optimize(
-        planner_parameters.seed, 
-        epochs=planner_parameters.epochs, 
-        epsilon_error=planner_parameters.epsilon_error,
-        epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
-        policy_hyperparams=planner_parameters.policy_hyperparams,
-        train_seconds=planner_parameters.train_seconds,
-        return_callback=True,
-    )
+#     # run the planner as an optimization process
+#     planner_callbacks = planner.optimize(
+#         planner_parameters.seed, 
+#         epochs=planner_parameters.epochs, 
+#         epsilon_error=planner_parameters.epsilon_error,
+#         epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
+#         policy_hyperparams=planner_parameters.policy_hyperparams,
+#         train_seconds=planner_parameters.train_seconds,
+#         return_callback=True,
+#     )
 
-    # final_policy_weights = {}
+#     # final_policy_weights = {}
 
-    for callback in planner_callbacks:
-        # final_policy_weights = callback['best_params']
+#     for callback in planner_callbacks:
+#         # final_policy_weights = callback['best_params']
 
-        if not silent:
-            print(callback)
+#         if not silent:
+#             print(callback)
 
-    end_time = time.time()
-    elapsed_time = end_time - start_time
+#     end_time = time.time()
+#     elapsed_time = end_time - start_time
 
-    return planner, elapsed_time
+#     return planner, elapsed_time
 
 def run_single_simulation_with_policy(environment : RDDLEnv, lifted_fluents: List[str], policy: JaxBackpropPlanner, jax_seed, simulation_number: int) -> SimulationData:
     agent = JaxOfflineController(policy, key=jax.random.PRNGKey(jax_seed))
@@ -398,22 +412,22 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
     # initialize the planner
     planner = JaxBackpropPlanner(
         rddl_model,
-        batch_size_train=planner_parameters.batch_size_train,
-        batch_size_test=planner_parameters.batch_size_test,
-        plan=planner_parameters.plan,
-        optimizer=planner_parameters.optimizer,
-        optimizer_kwargs={'learning_rate': planner_parameters.learning_rate},
-        action_bounds=planner_parameters.action_bounds)
+        batch_size_train = planner_parameters.optimizer_params.batch_size_train,
+        batch_size_test  = planner_parameters.optimizer_params.batch_size_test,
+        plan             = planner_parameters.optimizer_params.plan,
+        optimizer        = planner_parameters.optimizer_params.optimizer,
+        optimizer_kwargs = {'learning_rate': planner_parameters.optimizer_params.learning_rate},
+        action_bounds    = planner_parameters.optimizer_params.action_bounds)
 
     # run the planner as an optimization process
     planner_callbacks = planner.optimize(
         planner_parameters.seed, 
-        epochs=planner_parameters.epochs, 
-        epsilon_error=planner_parameters.epsilon_error,
-        epsilon_iteration_stop=planner_parameters.epsilon_iteration_stop,
-        policy_hyperparams=planner_parameters.policy_hyperparams,
-        train_seconds=planner_parameters.train_seconds,
-        return_callback=True,
+        epochs                 = planner_parameters.training_params.epochs, 
+        epsilon_error          = planner_parameters.epsilon_error,
+        epsilon_iteration_stop = planner_parameters.epsilon_iteration_stop,
+        policy_hyperparams     = planner_parameters.training_params.policy_hyperparams,
+        train_seconds          = planner_parameters.training_params.train_seconds,
+        return_callback        = True,
     )
 
     final_policy_weights = None
