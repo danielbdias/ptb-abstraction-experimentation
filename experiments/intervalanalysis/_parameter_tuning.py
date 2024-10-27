@@ -45,14 +45,14 @@ if __name__ == "__main__":
         
         train_args = {
             'key': jax.random.PRNGKey(jax_seeds[0]),
-            'epochs': domain.experiment_params['epochs'],
-            'train_seconds': domain.experiment_params['train_seconds']
+            'epochs': domain.experiment_params.training_params.epochs,
+            'train_seconds': domain.experiment_params.training_params.train_seconds
         }
         
         planner_args = { # Optimizer
-            'batch_size_train': domain.experiment_params['batch_size_train'],
-            'batch_size_test': domain.experiment_params['batch_size_test'],
-            'optimizer': domain.experiment_params['optimizer'],
+            'batch_size_train': domain.experiment_params.optimizer_params.batch_size_train,
+            'batch_size_test': domain.experiment_params.optimizer_params.batch_size_test,
+            'optimizer': domain.experiment_params.optimizer_params.optimizer,
         }
         
         plan_args = {} # Model

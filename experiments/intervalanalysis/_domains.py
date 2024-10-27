@@ -92,6 +92,7 @@ domains = [
     ),
     ########################################################################################################################
     # Recommender Systems
+    # {'std': 0.0008535555659132102, 'lr': 11.021651612071706, 'w': 1.0, 'wa': 144.82535968177223}
     ########################################################################################################################
     DomainExperiment(
         name                     = 'RecSim',
@@ -104,12 +105,13 @@ domains = [
             model_params=PlanningModelParameters(
                 logic=FuzzyLogic(
                     tnorm  = ProductTNorm(),
-                    weight = 10
+                    weight = 1.0
                 )
             ),
             optimizer_params=OptimizerParameters(
+                plan             = None, # To be defined on each experiment
                 optimizer        = optax.rmsprop,
-                learning_rate    = 0.05,
+                learning_rate    = 11,
                 batch_size_train = 32,
                 batch_size_test  = 32,
                 action_bounds    = {
@@ -118,8 +120,9 @@ domains = [
                 },
             ),
             training_params=TrainingParameters(
-                epochs             = 10000,
-                train_seconds      = 30,
+                seed               = 42,
+                epochs             = 1000,
+                train_seconds      = 120,
                 policy_hyperparams = None
             )
         )

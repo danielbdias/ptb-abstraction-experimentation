@@ -146,7 +146,7 @@ for domain in domains:
     output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}_{domain.instance}.csv"
     output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv"
 
-    batch_size = domain.experiment_params['batch_size_train']
+    batch_size = domain.experiment_params.optimizer_params.batch_size_train
 
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
