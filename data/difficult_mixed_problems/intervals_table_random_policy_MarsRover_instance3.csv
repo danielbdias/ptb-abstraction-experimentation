@@ -1,33 +1,33 @@
-Domain;Fluent;Accumulated Reward (LB);Accumulated Reward (UB);Score (Diff);Score (Explained Interval)
-MarsRover;regular;-inf;7089.546178056331;nan;nan
-MarsRover;vel-x___d1;-inf;7089.546178056331;nan;nan
-MarsRover;vel-x___d2;-inf;7089.546178056331;nan;nan
-MarsRover;vel-x___d3;-inf;7098.248085527962;nan;nan
-MarsRover;vel-x___d4;-inf;7130.693330924262;nan;nan
-MarsRover;vel-x___d5;-inf;7098.248085527962;nan;nan
-MarsRover;vel-x___d6;-inf;7102.449896957883;nan;nan
-MarsRover;pos-x___d1;-inf;7089.546178056331;nan;nan
-MarsRover;pos-x___d2;-inf;7089.546178056331;nan;nan
-MarsRover;pos-x___d3;-inf;7106.949992999592;nan;nan
-MarsRover;pos-x___d4;-inf;7171.8404837921935;nan;nan
-MarsRover;pos-x___d5;-inf;7106.949992999592;nan;nan
-MarsRover;pos-x___d6;-inf;7115.353615859434;nan;nan
-MarsRover;vel-y___d1;-inf;7112.091707851893;nan;nan
-MarsRover;vel-y___d2;-inf;7089.546178056331;nan;nan
-MarsRover;vel-y___d3;-inf;7094.097501892741;nan;nan
-MarsRover;vel-y___d4;-inf;7094.097501892741;nan;nan
-MarsRover;vel-y___d5;-inf;7129.753427501882;nan;nan
-MarsRover;vel-y___d6;-inf;7107.488101819709;nan;nan
-MarsRover;pos-y___d1;-inf;7134.637237647456;nan;nan
-MarsRover;pos-y___d2;-inf;7089.546178056331;nan;nan
-MarsRover;pos-y___d3;-inf;7098.648825729151;nan;nan
-MarsRover;pos-y___d4;-inf;7098.648825729151;nan;nan
-MarsRover;pos-y___d5;-inf;7169.960676947433;nan;nan
-MarsRover;pos-y___d6;-inf;7125.4300255830885;nan;nan
-MarsRover;mineral-harvested___m1;-inf;7089.546178056331;nan;nan
-MarsRover;mineral-harvested___m2;-inf;7089.546178056331;nan;nan
-MarsRover;mineral-harvested___m3;-inf;7089.546178056331;nan;nan
-MarsRover;mineral-harvested___m4;-inf;7089.546178056331;nan;nan
-MarsRover;mineral-harvested___m5;-inf;7089.546178056331;nan;nan
-MarsRover;mineral-harvested___m6;-inf;7089.546178056331;nan;nan
-MarsRover;mineral-harvested___m7;-inf;7089.546178056331;nan;nan
+Domain    ;Fluent                 ;Accumulated Reward (LB) ;Accumulated Reward (UB) ;Score (Diff) ;Score (Explained Interval)
+MarsRover ;regular                ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;vel-x___d1             ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;vel-x___d2             ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;vel-x___d3             ;-inf                    ;     7098.248085527962  ;nan          ;nan
+MarsRover ;vel-x___d4             ;-inf                    ;     7130.693330924262  ;nan          ;nan
+MarsRover ;vel-x___d5             ;-inf                    ;     7098.248085527962  ;nan          ;nan
+MarsRover ;vel-x___d6             ;-inf                    ;     7102.449896957883  ;nan          ;nan
+MarsRover ;pos-x___d1             ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;pos-x___d2             ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;pos-x___d3             ;-inf                    ;     7106.949992999592  ;nan          ;nan
+MarsRover ;pos-x___d4             ;-inf                    ;     7171.8404837921935 ;nan          ;nan
+MarsRover ;pos-x___d5             ;-inf                    ;     7106.949992999592  ;nan          ;nan
+MarsRover ;pos-x___d6             ;-inf                    ;     7115.353615859434  ;nan          ;nan
+MarsRover ;vel-y___d1             ;-inf                    ;     7112.091707851893  ;nan          ;nan
+MarsRover ;vel-y___d2             ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;vel-y___d3             ;-inf                    ;     7094.097501892741  ;nan          ;nan
+MarsRover ;vel-y___d4             ;-inf                    ;     7094.097501892741  ;nan          ;nan
+MarsRover ;vel-y___d5             ;-inf                    ;     7129.753427501882  ;nan          ;nan
+MarsRover ;vel-y___d6             ;-inf                    ;     7107.488101819709  ;nan          ;nan
+MarsRover ;pos-y___d1             ;-inf                    ;     7134.637237647456  ;nan          ;nan
+MarsRover ;pos-y___d2             ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;pos-y___d3             ;-inf                    ;     7098.648825729151  ;nan          ;nan
+MarsRover ;pos-y___d4             ;-inf                    ;     7098.648825729151  ;nan          ;nan
+MarsRover ;pos-y___d5             ;-inf                    ;     7169.960676947433  ;nan          ;nan
+MarsRover ;pos-y___d6             ;-inf                    ;     7125.4300255830885 ;nan          ;nan
+MarsRover ;mineral-harvested___m1 ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;mineral-harvested___m2 ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;mineral-harvested___m3 ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;mineral-harvested___m4 ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;mineral-harvested___m5 ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;mineral-harvested___m6 ;-inf                    ;     7089.546178056331  ;nan          ;nan
+MarsRover ;mineral-harvested___m7 ;-inf                    ;     7089.546178056331  ;nan          ;nan
