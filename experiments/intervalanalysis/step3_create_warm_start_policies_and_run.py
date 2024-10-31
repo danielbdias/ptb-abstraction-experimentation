@@ -48,30 +48,24 @@ for domain in domains:
     warm_start_run_experiment_stats = []
 
     for jax_seed in jax_seeds:
-        experiment_params = domain.experiment_params.copy()
-        experiment_params['plan'] = JaxStraightLinePlan()
-        experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
-        experiment_params['action_bounds'] = domain.action_bounds
-        experiment_params['policy_hyperparams'] = domain.policy_hyperparams
-        experiment_params['ground_fluents_to_freeze'] = domain.ground_fluents_to_freeze
+        experiment_params = domain.experiment_params
+        experiment_params.optimizer_params.plan = JaxStraightLinePlan()
+        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
 
-        abstraction_env_params = PlannerParameters(**experiment_params)
+        env_params = experiment_params
 
-        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=ablated_grounded_model, planner_parameters=abstraction_env_params, silent=silent)
+        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
         warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
         
         initializers_per_action = {}
         for key in abstraction_env_experiment_summary.final_policy_weights.keys():
             initializers_per_action[key] = initializers.constant(abstraction_env_experiment_summary.final_policy_weights[key])
 
-        experiment_params = domain.experiment_params.copy()
-        experiment_params['plan'] = JaxStraightLinePlan(initializer_per_action=initializers_per_action)
-        experiment_params['seed'] = jax.random.PRNGKey(jax_seed)
-        experiment_params['action_bounds'] = domain.action_bounds
-        experiment_params['policy_hyperparams'] = domain.policy_hyperparams
-        experiment_params['ground_fluents_to_freeze'] = set()
+        experiment_params = domain.experiment_params
+        experiment_params.optimizer_params.plan = JaxStraightLinePlan(initializer_per_action=initializers_per_action)
+        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
 
-        warm_start_env_params = PlannerParameters(**experiment_params)
+        warm_start_env_params = experiment_params
 
         warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm start) - Straight line", rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
         warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)

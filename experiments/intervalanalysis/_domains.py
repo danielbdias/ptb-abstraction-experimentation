@@ -69,7 +69,7 @@ domains = [
         ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5', 'temperature' ]),
         experiment_params=PlannerParameters(
             epsilon_error          = 0.01,
-            epsilon_iteration_stop = 200,
+            epsilon_iteration_stop = 1000,
             model_params=PlanningModelParameters(
                 logic=FuzzyLogic(
                     tnorm  = ProductTNorm(),
@@ -86,7 +86,7 @@ domains = [
             ),
             training_params=TrainingParameters(
                 seed               = 42,
-                epochs             = 5000,
+                epochs             = 10000,
                 train_seconds      = 120,
                 policy_hyperparams = None
             )
@@ -99,10 +99,10 @@ domains = [
         name                     = 'HVAC',
         instance                 = 'instance3',
         state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
-        ground_fluents_to_freeze = set([ ]),
+        ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
         experiment_params=PlannerParameters(
             epsilon_error          = 0.01,
-            epsilon_iteration_stop = 200,
+            epsilon_iteration_stop = 1000,
             model_params=PlanningModelParameters(
                 logic=FuzzyLogic(
                     tnorm  = ProductTNorm(),
@@ -119,7 +119,7 @@ domains = [
             ),
             training_params=TrainingParameters(
                 seed               = 42,
-                epochs             = 5000,
+                epochs             = 10000,
                 train_seconds      = 120,
                 policy_hyperparams = None
             )
