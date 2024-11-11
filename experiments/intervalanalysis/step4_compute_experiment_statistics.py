@@ -12,7 +12,7 @@ def plot_convergence_time(plot_folder, domain, evaluation_time, warm_start_compu
         "Warm Start Policy"
     )
     metrics = {
-        "Interal Analysis": np.array([0, evaluation_time]),
+        "Interval Analysis": np.array([0, evaluation_time]),
         "Warm Start Computation": np.array([0, warm_start_computation]),
         "JaxPlan Execution": np.array([baseline_execution, warm_start_execution]),
     }
