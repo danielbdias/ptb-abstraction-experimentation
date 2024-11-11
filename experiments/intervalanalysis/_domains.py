@@ -52,8 +52,8 @@ domains = [
     #             },
     #         ),
     #         training_params=TrainingParameters(
-    #             seed               = 42,
-    #             epochs             = 1000,
+    #             seed               = 42,\\\
+        
     #             train_seconds      = 120,
     #             policy_hyperparams = { 'harvest': 5.0 }
     #         )
@@ -97,70 +97,33 @@ domains = [
     ########################################################################################################################
     # HVAC
     ########################################################################################################################
-    DomainExperiment(
-        name                     = 'HVAC',
-        instance                 = 'instance3',
-        state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
-        ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
-        experiment_params=PlannerParameters(
-            # epsilon_error          = 0.01,
-            # epsilon_iteration_stop = 3000,
-            epsilon_error          = None,
-            epsilon_iteration_stop = None,
-            model_params=PlanningModelParameters(
-                logic=FuzzyLogic(
-                    tnorm  = ProductTNorm(),
-                    weight = 10
-                )
-            ),
-            optimizer_params=OptimizerParameters(
-                plan             = None,
-                optimizer        = optax.rmsprop,
-                learning_rate    = 0.01,
-                batch_size_train = 32,
-                batch_size_test  = 32,
-                action_bounds    = None,
-            ),
-            training_params=TrainingParameters(
-                seed               = 42,
-                epochs             = 10000,
-                train_seconds      = 120,
-                policy_hyperparams = None
-            )
-        )
-    ),
-    ########################################################################################################################
-    # Recommender Systems
-    # {'std': 0.0008535555659132102, 'lr': 11.021651612071706, 'w': 1.0, 'wa': 144.82535968177223}
-    ########################################################################################################################
     # DomainExperiment(
-    #     name                     = 'RecSim',
-    #     instance                 = 'instance1',
-    #     state_fluents            = [ 'provider-satisfaction', 'consumer-satisfaction', 'item-feature', 'item-by' ],
-    #     ground_fluents_to_freeze = set([]),
+    #     name                     = 'HVAC',
+    #     instance                 = 'instance3',
+    #     state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
+    #     ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
     #     experiment_params=PlannerParameters(
-    #         epsilon_error          = 0.01,
-    #         epsilon_iteration_stop = 200,
+    #         # epsilon_error          = 0.01,
+    #         # epsilon_iteration_stop = 3000,
+    #         epsilon_error          = None,
+    #         epsilon_iteration_stop = None,
     #         model_params=PlanningModelParameters(
     #             logic=FuzzyLogic(
     #                 tnorm  = ProductTNorm(),
-    #                 weight = 1.0
+    #                 weight = 10
     #             )
     #         ),
     #         optimizer_params=OptimizerParameters(
-    #             plan             = None, # To be defined on each experiment
+    #             plan             = None,
     #             optimizer        = optax.rmsprop,
-    #             learning_rate    = 11,
+    #             learning_rate    = 0.01,
     #             batch_size_train = 32,
     #             batch_size_test  = 32,
-    #             action_bounds    = {
-    #                 'power-x': (-0.09999, 0.09999), 
-    #                 'power-y': (-0.09999, 0.09999)
-    #             },
+    #             action_bounds    = None,
     #         ),
     #         training_params=TrainingParameters(
     #             seed               = 42,
-    #             epochs             = 1000,
+    #             epochs             = 10000,
     #             train_seconds      = 120,
     #             policy_hyperparams = None
     #         )
