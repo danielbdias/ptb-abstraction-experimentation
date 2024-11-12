@@ -62,13 +62,13 @@ domains = [
     #     )
     # ),
     ########################################################################################################################
-    # Power Generator
+    # HVAC
     ########################################################################################################################
     DomainExperiment(
-        name                     = 'PowerGen',
-        instance                 = 'instance3',
-        state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
-        ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
+        name                     = 'HVAC',
+        instance                 = 'instance',
+        state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
+        ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
         bound_strategies         = {
             'support': (IntervalAnalysisStrategy.SUPPORT, {}),
             'mean': (IntervalAnalysisStrategy.MEAN, {}),
@@ -88,59 +88,19 @@ domains = [
             optimizer_params=OptimizerParameters(
                 plan             = None,
                 optimizer        = optax.rmsprop,
-                learning_rate    = 0.05,
+                learning_rate    = 0.01,
                 batch_size_train = 32,
                 batch_size_test  = 32,
                 action_bounds    = None,
             ),
             training_params=TrainingParameters(
                 seed               = 42,
-                epochs             = 15000,
+                epochs             = 30000,
                 train_seconds      = 120,
                 policy_hyperparams = None
             )
         )
     ),
-    ########################################################################################################################
-    # HVAC
-    ########################################################################################################################
-    # DomainExperiment(
-    #     name                     = 'HVAC',
-    #     instance                 = 'instance3',
-    #     state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
-    #     ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
-    #     bound_strategies         = {
-    #         'support': (IntervalAnalysisStrategy.SUPPORT, {}),
-    #         'mean': (IntervalAnalysisStrategy.MEAN, {}),
-    #         'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
-    #     },
-    #     experiment_params=PlannerParameters(
-    #         # epsilon_error          = 0.01,
-    #         # epsilon_iteration_stop = 3000,
-    #         epsilon_error          = None,
-    #         epsilon_iteration_stop = None,
-    #         model_params=PlanningModelParameters(
-    #             logic=FuzzyLogic(
-    #                 tnorm  = ProductTNorm(),
-    #                 weight = 10
-    #             )
-    #         ),
-    #         optimizer_params=OptimizerParameters(
-    #             plan             = None,
-    #             optimizer        = optax.rmsprop,
-    #             learning_rate    = 0.01,
-    #             batch_size_train = 32,
-    #             batch_size_test  = 32,
-    #             action_bounds    = None,
-    #         ),
-    #         training_params=TrainingParameters(
-    #             seed               = 42,
-    #             epochs             = 10000,
-    #             train_seconds      = 120,
-    #             policy_hyperparams = None
-    #         )
-    #     )
-    # ),
 ]
 
 silent = True

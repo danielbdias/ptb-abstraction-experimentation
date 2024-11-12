@@ -7,8 +7,10 @@ non-fluents nf_hvac_3c {
 	non-fluents {
 		TEMP-ZONE-MIN = 22.0;
 		TEMP-ZONE-MAX = 25.0;
+
 		P-SWITCH(z3) = 0.02;
 		P-SWITCH(z2) = 0.02;
+		
 		ADJ-HEATER(h1, z3);
 		ADJ-HEATER(h2, z4);
 		ADJ-HEATER(h3, z3);
@@ -16,6 +18,7 @@ non-fluents nf_hvac_3c {
 		ADJ-HEATER(h4, z2);
 		ADJ-HEATER(h5, z1);
 		ADJ-HEATER(h5, z2);
+		
 		ADJ-ZONES(z3, z4);
 		ADJ-ZONES(z1, z5);
 	};
@@ -29,6 +32,7 @@ instance inst_hvac_3c {
 		temp-zone(z3) = 5.906233453116096;
 		temp-zone(z4) = 14.025804720939986;
 		temp-zone(z5) = 4.211124940625873;
+		
 		temp-heater(h1) = 5.832926581886406;
 		temp-heater(h2) = 5.226151445302746;
 		temp-heater(h3) = 8.366647802475859;

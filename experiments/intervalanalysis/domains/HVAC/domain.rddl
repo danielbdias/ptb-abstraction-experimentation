@@ -30,6 +30,9 @@ domain hvac{
 		SIGMA(zone)				: { non-fluent, real, default = 0.1 };			// heat conductivity of room's walls
 		P-SWITCH(zone)          : { non-fluent, real, default = 0.0 };          // occupancy switch probability per period per zone
 
+		CLIPPING-MIN            : { non-fluent, real, default = -1000000.0 };   // values used to clip during interval analysis
+		CLIPPING-MAX            : { non-fluent, real, default = 1000000.0 };    // values used to clip during interval analysis
+
 		// interm fluents
 		temp-1(heater) : { interm-fluent, real };					// the temperature before the heater, from outside and circulated air
 
@@ -41,7 +44,6 @@ domain hvac{
 		// actions
 		fan-in(zone) : {action-fluent, real, default = 1 };
 		heat-input(heater)	: {action-fluent, real, default = 0 };
-
 	};
 
 	cpfs {
@@ -89,6 +91,18 @@ domain hvac{
 
 	action-preconditions {
 		forall_{?z : zone} [ fan-in(?z) >= OUT-AIR-FLOW ];
+
+		// interval analysis clipping
+		forall_{?z : zone} [ fan-in(?z) <= CLIPPING-MAX ];
+		forall_{?h : heater} [ heat-input(?h) <= CLIPPING-MAX ];
+		forall_{?h : heater} [ heat-input(?h) >= CLIPPING-MIN ];
+
 	};
 
+	state-invariants {
+		forall_{?z : zone} [ temp-zone(?z) <= CLIPPING-MAX ];
+		forall_{?z : zone} [ temp-zone(?z) >= CLIPPING-MAX ];
+		forall_{?h : heater} [ temp-heater(?h) <= CLIPPING-MAX ];
+		forall_{?h : heater} [ temp-heater(?h) >= CLIPPING-MIN ];
+	};
 }
