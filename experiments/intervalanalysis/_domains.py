@@ -1,10 +1,11 @@
 import optax
 from dataclasses import dataclass
-from typing import Dict, List, Set
+from typing import List, Set
 
 from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
 
 from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic
+from pyRDDLGym.core.intervals import IntervalAnalysisStrategy
 
 @dataclass(frozen=True)
 class DomainExperiment:
@@ -12,6 +13,7 @@ class DomainExperiment:
     instance:                            str
     state_fluents:                       List[str]
     ground_fluents_to_freeze:            Set[str]
+    bound_strategies:                    dict
     experiment_params:                   PlannerParameters
 
 jax_seeds = [
@@ -67,6 +69,11 @@ domains = [
         instance                 = 'instance3',
         state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
         ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
+        bound_strategies         = {
+            'support': (IntervalAnalysisStrategy.SUPPORT, {}),
+            'mean': (IntervalAnalysisStrategy.MEAN, {}),
+            'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
+        },
         experiment_params=PlannerParameters(
             # epsilon_error          = 0.01,
             # epsilon_iteration_stop = 3000,

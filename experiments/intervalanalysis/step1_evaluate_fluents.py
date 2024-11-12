@@ -5,7 +5,7 @@ import time
 from _domains import domains
 
 import pyRDDLGym
-from pyRDDLGym.core.intervals import RDDLIntervalAnalysis
+from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, IntervalAnalysisStrategy
 
 from pyRDDLGym import RDDLEnv
 
@@ -139,9 +139,6 @@ for domain in domains:
     domain_path = f"{root_folder}/domains/{domain.name}"
     domain_file_path = f'{domain_path}/domain.rddl'
     instance_file_path = f'{domain_path}/{domain.instance}.rddl'
-    
-    output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}_{domain.instance}.csv"
-    output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv"
 
     batch_size = domain.experiment_params.optimizer_params.batch_size_train
 
@@ -152,49 +149,57 @@ for domain in domains:
 
     print(f'Domain: {domain.name} - Instance: {domain.instance}')
 
-    # Random policy
-    start_time_for_analysis = time.time()
-
-    analysis = RDDLIntervalAnalysis(environment.model)
-    action_bounds = compute_action_bounds(environment)
-    state_bounds = compute_state_bounds(environment)
-
-    # run first without fixing any fluent
-    bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True)
-    regular_mdp_bounds = BoudedTrajectory('regular', bounds['reward'][0], bounds['reward'][1])
-    regular_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
-
-    ground_fluents = build_ground_fluent_list(environment)
-    ground_fluent_mdp_accumulated_reward = {}
-    ground_fluent_initialization = {}
-
-    for ground_fluent in ground_fluents:
-        # test of fluent bounds 
-        fluent_values = build_fluent_values_to_analyse(ground_fluent, state_bounds, analysis) # update initial state initialization
-        ground_fluent_initialization[ground_fluent] = fluent_values
+    for strategy_name, strategy in domain.bound_strategies.items():
+        print(f'  Strategy: {strategy_name}')
         
-        # evaluate lower and upper bounds on accumulated reward of random policy
-        bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
-        fixed_fluent_mdp_bounds = BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1])
-        fixed_fluent_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, fixed_fluent_mdp_bounds)
+        output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}_{domain.instance}_{strategy_name}.csv"
+        output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}_{strategy_name}.csv"
+        
+        strategy_type, strategy_params = strategy
+        
+        # Random policy
+        start_time_for_analysis = time.time()
 
-        ground_fluent_mdp_accumulated_reward[ground_fluent] = fixed_fluent_mdp_accumulated_reward
+        analysis = RDDLIntervalAnalysis(environment.model, strategy=strategy_type, **strategy_params)
+        action_bounds = compute_action_bounds(environment)
+        state_bounds = compute_state_bounds(environment)
 
-    elapsed_time_for_analysis = time.time() - start_time_for_analysis
-    record_time(output_file_analysis_time, elapsed_time_for_analysis)    
+        # run first without fixing any fluent
+        bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True)
+        regular_mdp_bounds = BoudedTrajectory('regular', bounds['reward'][0], bounds['reward'][1])
+        regular_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
 
-    print('Action bounds: ', action_bounds)
-    print('Fluent bounds: ')
-    for fluent_name, values in ground_fluent_initialization.items():
-        print(f'  {fluent_name}: ', values)
-    print()
+        ground_fluents = build_ground_fluent_list(environment)
+        ground_fluent_mdp_accumulated_reward = {}
+        ground_fluent_initialization = {}
 
-    # generate score file
-    record_reward_bounds_header(output_file_random_policy)
-    record_reward_values(output_file_random_policy, domain.name, 'regular', regular_mdp_accumulated_reward, regular_mdp_accumulated_reward) # record regular MDP bounds
+        for ground_fluent in ground_fluents:
+            # test of fluent bounds 
+            fluent_values = build_fluent_values_to_analyse(ground_fluent, state_bounds, analysis) # update initial state initialization
+            ground_fluent_initialization[ground_fluent] = fluent_values
+            
+            # evaluate lower and upper bounds on accumulated reward of random policy
+            bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
+            fixed_fluent_mdp_bounds = BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1])
+            fixed_fluent_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, fixed_fluent_mdp_bounds)
 
-    for fluent_name in ground_fluent_mdp_accumulated_reward.keys():
-        record_reward_values(output_file_random_policy, domain.name, fluent_name, ground_fluent_mdp_accumulated_reward[fluent_name], regular_mdp_accumulated_reward) # record fluent bounds
+            ground_fluent_mdp_accumulated_reward[ground_fluent] = fixed_fluent_mdp_accumulated_reward
+
+        elapsed_time_for_analysis = time.time() - start_time_for_analysis
+        record_time(output_file_analysis_time, elapsed_time_for_analysis)    
+
+        print('Action bounds: ', action_bounds)
+        print('Fluent bounds: ')
+        for fluent_name, values in ground_fluent_initialization.items():
+            print(f'  {fluent_name}: ', values)
+        print()
+
+        # generate score file
+        record_reward_bounds_header(output_file_random_policy)
+        record_reward_values(output_file_random_policy, domain.name, 'regular', regular_mdp_accumulated_reward, regular_mdp_accumulated_reward) # record regular MDP bounds
+
+        for fluent_name in ground_fluent_mdp_accumulated_reward.keys():
+            record_reward_values(output_file_random_policy, domain.name, fluent_name, ground_fluent_mdp_accumulated_reward[fluent_name], regular_mdp_accumulated_reward) # record fluent bounds
 
 end_time = time.time()
 elapsed_time = end_time - start_time
