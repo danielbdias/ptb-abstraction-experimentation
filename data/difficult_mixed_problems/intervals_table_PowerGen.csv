@@ -1,0 +1,13 @@
+Domain   ;Fluent        ;Accumulated Reward (LB) ;Accumulated Reward (UB) ;Score (Diff)       ;Score (Explained Interval)
+PowerGen ;regular       ;-123600.0               ;53862.18454247671       ;0.0                ;1.0
+PowerGen ;prevProd___p1 ;-123600.0               ;inf                     ;inf                ;inf
+PowerGen ;prevProd___p2 ;-123600.0               ;inf                     ;inf                ;inf
+PowerGen ;prevProd___p3 ;-123600.0               ;inf                     ;inf                ;inf
+PowerGen ;prevProd___p4 ;-123600.0               ;inf                     ;inf                ;inf
+PowerGen ;prevProd___p5 ;-123600.0               ;inf                     ;inf                ;inf
+PowerGen ;prevOn___p1   ;-123600.0               ;53862.18454247671       ;0.0                ;1.0
+PowerGen ;prevOn___p2   ;-123600.0               ;53862.18454247671       ;0.0                ;1.0
+PowerGen ;prevOn___p3   ;-123600.0               ;53862.18454247671       ;0.0                ;1.0
+PowerGen ;prevOn___p4   ;-123600.0               ;53862.18454247671       ;0.0                ;1.0
+PowerGen ;prevOn___p5   ;-123600.0               ;53862.18454247671       ;0.0                ;1.0
+PowerGen ;temperature   ;-123600.0               ;54200.0                 ;337.81545752327656 ;1.001903591226459
