@@ -53,6 +53,9 @@ domain power_gen {
 		PROD-SHAPE(plant)    : { non-fluent, real, default = 1.0 };
 		PROD-SCALE(plant)    : { non-fluent, real, default = 0.0000001 };
 		
+		CLIPPING-MIN            : { non-fluent, real, default = -1000000.0 };   // values used to clip during interval analysis
+		CLIPPING-MAX            : { non-fluent, real, default = 1000000.0 };    // values used to clip during interval analysis
+
     	// Action - int
 		curProd(plant) : { action-fluent, real, default = 0 };
 
@@ -100,5 +103,12 @@ domain power_gen {
 		// Production amounts within bounds
 		forall_{?p : plant} [ curProd(?p) >= 0.0 ];
 		forall_{?p : plant} [ curProd(?p) <= PROD-UNITS-MAX(?p) ];
+	};
+
+	state-invariants {
+		temperature <= CLIPPING-MAX;
+		temperature >= CLIPPING-MAX;
+		forall_{?p : plant} [ prevProd(?p) <= CLIPPING-MAX ];
+		forall_{?p : plant} [ prevProd(?p) >= CLIPPING-MIN ];
 	};
 }

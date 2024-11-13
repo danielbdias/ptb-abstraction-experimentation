@@ -31,7 +31,8 @@ def record_reward_bounds_header(file_path: str):
         writer.writerow([
             'Domain', 'Fluent', 
             'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 
-            'Score (Diff)', 'Score (Explained Interval)'
+            'Range (fluent)', 'Range (regular MDP)',
+            'Score (as Diff)', 'Score (as Explained Interval)'
         ])
 
 def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bounds: BoudedTrajectory) -> BoundedAccumulatedReward:
@@ -59,6 +60,7 @@ def record_reward_values(file_path: str, domain_name: str, fluent_name : str, fl
         writer.writerow([
             domain_name, fluent_name, 
             accumulated_reward_lower_bound, accumulated_reward_upper_bound, 
+            range_bounds, range_bounds_regular_mdp, 
             score_diff, score_explained_interval
         ])
 

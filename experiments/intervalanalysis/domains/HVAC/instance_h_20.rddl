@@ -21,6 +21,9 @@ non-fluents nf_hvac_3c {
 		
 		ADJ-ZONES(z3, z4);
 		ADJ-ZONES(z1, z5);
+
+		CLIPPING-MIN = -50.0;
+		CLIPPING-MAX = 50.0;
 	};
 }
 instance inst_hvac_3c {
@@ -40,6 +43,6 @@ instance inst_hvac_3c {
 		temp-heater(h5) = 8.382208934472319;
 	};
 	max-nondef-actions = pos-inf;
-	horizon = 100;
+	horizon = 20;
 	discount = 1.0;
 }
