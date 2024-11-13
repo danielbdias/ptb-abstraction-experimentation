@@ -23,47 +23,7 @@ jax_seeds = [
     # 139, 127, 367, 131, 13, 137, 971, 139, 31, 149
 ]
 
-domains = [
-    ########################################################################################################################
-    # Mars Rover
-    # {'std': 0.4281115676561741, 'lr': 100.0, 'w': 100000.0, 'wa': 1.0999397093732934}
-    ########################################################################################################################
-    # DomainExperiment(
-    #     name                     = 'MarsRover',
-    #     instance                 = 'instance3',
-    #     state_fluents            = [ 'mineral-harvested', 'vel-x', 'pos-x', 'vel-y', 'pos-y' ],
-    #     ground_fluents_to_freeze = set([]),
-    #     experiment_params=PlannerParameters(
-    #         epsilon_error          = 0.01,
-    #         epsilon_iteration_stop = 200,
-    #         model_params=PlanningModelParameters(
-    #             logic=FuzzyLogic(
-    #                 tnorm  = ProductTNorm(),
-    #                 weight = 1000.0
-    #             )
-    #         ),
-    #         optimizer_params=OptimizerParameters(
-    #             plan             = None,
-    #             optimizer        = optax.rmsprop,
-    #             learning_rate    = 1.0,
-    #             batch_size_train = 256,
-    #             batch_size_test  = 256,
-    #             action_bounds    = {
-    #                 'power-x': (-0.09999, 0.09999), 
-    #                 'power-y': (-0.09999, 0.09999)
-    #             },
-    #         ),
-    #         training_params=TrainingParameters(
-    #             seed               = 42,\\\
-        
-    #             train_seconds      = 120,
-    #             policy_hyperparams = { 'harvest': 5.0 }
-    #         )
-    #     )
-    # ),
-    ########################################################################################################################
-    # HVAC
-    ########################################################################################################################
+hvac_experiments = [
     DomainExperiment(
         name                     = 'HVAC',
         instance                 = 'instance_h_100',
@@ -134,9 +94,9 @@ domains = [
             )
         )
     ),
-    ########################################################################################################################
-    # PowerGen
-    ########################################################################################################################
+]
+
+powergen_experiments = [
     DomainExperiment(
         name                     = 'PowerGen',
         instance                 = 'instance_h_100',
@@ -208,5 +168,9 @@ domains = [
         )
     ),
 ]
+
+domains = []
+domains.extend(hvac_experiments)
+# domains.extend(powergen_experiments)
 
 silent = True
