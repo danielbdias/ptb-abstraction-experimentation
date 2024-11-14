@@ -30,210 +30,80 @@ bound_strategies = {
 }
 
 train_seconds = 600
+epochs = 30000
 
-hvac_experiments = [
+def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, policy_hyperparams: dict = None):
+    return PlannerParameters(
+        epsilon_error          = None,
+        epsilon_iteration_stop = None,
+        model_params = PlanningModelParameters(
+            logic=FuzzyLogic(
+                tnorm  = ProductTNorm(),
+                weight = model_weight
+            )
+        ),
+        optimizer_params = OptimizerParameters(
+            plan             = None,
+            optimizer        = optax.rmsprop,
+            learning_rate    = learning_rate,
+            batch_size_train = batch_size,
+            batch_size_test  = batch_size,
+            action_bounds    = None,
+        ),
+        training_params = TrainingParameters(
+            seed               = 42,
+            epochs             = epochs,
+            train_seconds      = train_seconds,
+            policy_hyperparams = policy_hyperparams
+        )
+    )
+
+domains = [
+    ##################################################################
+    # HVAC
+    ##################################################################
     DomainExperiment(
         name                     = 'HVAC',
         instance                 = 'instance_h_100',
         state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
         ground_fluents_to_freeze = set([ 'occupied___z2', 'occupied___z3', 'occupied___z4', 'temp-zone___z2' ]),
         bound_strategies         = bound_strategies,
-        experiment_params=PlannerParameters(
-            epsilon_error          = None,
-            epsilon_iteration_stop = None,
-            model_params=PlanningModelParameters(
-                logic=FuzzyLogic(
-                    tnorm  = ProductTNorm(),
-                    weight = 10
-                )
-            ),
-            optimizer_params=OptimizerParameters(
-                plan             = None,
-                optimizer        = optax.rmsprop,
-                learning_rate    = 0.01,
-                batch_size_train = 32,
-                batch_size_test  = 32,
-                action_bounds    = None,
-            ),
-            training_params=TrainingParameters(
-                seed               = 42,
-                epochs             = 30000,
-                train_seconds      = train_seconds,
-                policy_hyperparams = None
-            )
-        )
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32)
     ),
-    # DomainExperiment(
-    #     name                     = 'HVAC',
-    #     instance                 = 'instance_h_20',
-    #     state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
-    #     ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
-    #     bound_strategies         = bound_strategies,
-    #     experiment_params=PlannerParameters(
-    #         epsilon_error          = None,
-    #         epsilon_iteration_stop = None,
-    #         model_params=PlanningModelParameters(
-    #             logic=FuzzyLogic(
-    #                 tnorm  = ProductTNorm(),
-    #                 weight = 10
-    #             )
-    #         ),
-    #         optimizer_params=OptimizerParameters(
-    #             plan             = None,
-    #             optimizer        = optax.rmsprop,
-    #             learning_rate    = 0.01,
-    #             batch_size_train = 32,
-    #             batch_size_test  = 32,
-    #             action_bounds    = None,
-    #         ),
-    #         training_params=TrainingParameters(
-    #             seed               = 42,
-    #             epochs             = 30000,
-    #             train_seconds      = train_seconds,
-    #             policy_hyperparams = None
-    #         )
-    #     )
-    # ),
-]
-
-powergen_experiments = [
+    ##################################################################
+    # PowerGen
+    ##################################################################
     DomainExperiment(
         name                     = 'PowerGen',
         instance                 = 'instance_h_100',
         state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
         ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
         bound_strategies         = bound_strategies,
-        experiment_params=PlannerParameters(
-            epsilon_error          = None,
-            epsilon_iteration_stop = None,
-            model_params=PlanningModelParameters(
-                logic=FuzzyLogic(
-                    tnorm  = ProductTNorm(),
-                    weight = 10
-                )
-            ),
-            optimizer_params=OptimizerParameters(
-                plan             = None,
-                optimizer        = optax.rmsprop,
-                learning_rate    = 0.05,
-                batch_size_train = 32,
-                batch_size_test  = 32,
-                action_bounds    = None,
-            ),
-            training_params=TrainingParameters(
-                seed               = 42,
-                epochs             = 10000,
-                train_seconds      = train_seconds,
-                policy_hyperparams = None
-            )
-        )
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32)
     ),
-    DomainExperiment(
-        name                     = 'PowerGen',
-        instance                 = 'instance_h_20',
-        state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
-        ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5', 'temperature' ]),
-        bound_strategies         = bound_strategies,
-        experiment_params=PlannerParameters(
-            epsilon_error          = None,
-            epsilon_iteration_stop = None,
-            model_params=PlanningModelParameters(
-                logic=FuzzyLogic(
-                    tnorm  = ProductTNorm(),
-                    weight = 10
-                )
-            ),
-            optimizer_params=OptimizerParameters(
-                plan             = None,
-                optimizer        = optax.rmsprop,
-                learning_rate    = 0.05,
-                batch_size_train = 32,
-                batch_size_test  = 32,
-                action_bounds    = None,
-            ),
-            training_params=TrainingParameters(
-                seed               = 42,
-                epochs             = 10000,
-                train_seconds      = train_seconds,
-                policy_hyperparams = None
-            )
-        )
-    ),
-]
-
-reservoir_experiments = [
+    ##################################################################
+    # MarsRover
+    ##################################################################
+    # DomainExperiment(
+    #     name                     = 'MarsRover',
+    #     instance                 = 'instance_h_10',
+    #     state_fluents            = [ 'xPos', 'yPos', 'time', 'picture-taken' ],
+    #     ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32)
+    # ),
+    
+    ##################################################################
+    # Reservoir
+    ##################################################################
     DomainExperiment(
         name                     = 'Reservoir',
         instance                 = 'instance_h_100',
         state_fluents            = [ 'rlevel' ],
         ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
         bound_strategies         = bound_strategies,
-        experiment_params=PlannerParameters(
-            epsilon_error          = None,
-            epsilon_iteration_stop = None,
-            model_params=PlanningModelParameters(
-                logic=FuzzyLogic(
-                    tnorm  = ProductTNorm(),
-                    weight = 10
-                )
-            ),
-            optimizer_params=OptimizerParameters(
-                plan             = None,
-                optimizer        = optax.rmsprop,
-                learning_rate    = 0.2,
-                batch_size_train = 32,
-                batch_size_test  = 32,
-                action_bounds    = None,
-            ),
-            training_params=TrainingParameters(
-                seed               = 42,
-                epochs             = 30000,
-                train_seconds      = train_seconds,
-                policy_hyperparams = None
-            )
-        )
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32)
     ),
 ]
-
-marsrover_experiments = [
-    # best parameters found: {'std': 3.815676179970159, 'lr': 0.00010098378365247086, 'w': 2.20007320185207, 'wa': 55.264038307268365}
-    DomainExperiment(
-        name                     = 'MarsRover',
-        instance                 = 'instance_h_10',
-        state_fluents            = [ 'xPos', 'yPos', 'time', 'picture-taken' ],
-        ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
-        bound_strategies         = bound_strategies,
-        experiment_params=PlannerParameters(
-            epsilon_error          = None,
-            epsilon_iteration_stop = None,
-            model_params=PlanningModelParameters(
-                logic=FuzzyLogic(
-                    tnorm  = ProductTNorm(),
-                    weight = 10
-                )
-            ),
-            optimizer_params=OptimizerParameters(
-                plan             = None,
-                optimizer        = optax.rmsprop,
-                learning_rate    = 0.01,
-                batch_size_train = 32,
-                batch_size_test  = 32,
-                action_bounds    = None,
-            ),
-            training_params=TrainingParameters(
-                seed               = 42,
-                epochs             = 30000,
-                train_seconds      = train_seconds,
-                policy_hyperparams = None
-            )
-        )
-    ),
-]
-
-domains = []
-domains.extend(hvac_experiments)
-domains.extend(powergen_experiments)
-# domains.extend(marsrover_experiments)
-domains.extend(reservoir_experiments)
 
 silent = True
