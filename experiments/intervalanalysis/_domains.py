@@ -31,6 +31,7 @@ bound_strategies = {
     'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
 }
 
+bound_strategy_to_choose_fluents = 'mean'
 threshold_to_choose_fluents = 0.3 # 30% of the fluents
 
 def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None):
