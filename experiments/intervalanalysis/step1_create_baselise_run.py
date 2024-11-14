@@ -14,7 +14,7 @@ from _utils import run_experiment, save_data, PlannerParameters
 root_folder = os.path.dirname(__file__)
 
 print('--------------------------------------------------------------------------------')
-print('Experiment Part 0 - Create baseline Run with random policy')
+print('Abstraction Experiment - Create baseline Run with random policy')
 print('--------------------------------------------------------------------------------')
 print()
 

@@ -29,6 +29,8 @@ bound_strategies = {
     'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
 }
 
+train_seconds = 300
+
 hvac_experiments = [
     DomainExperiment(
         name                     = 'HVAC',
@@ -56,7 +58,7 @@ hvac_experiments = [
             training_params=TrainingParameters(
                 seed               = 42,
                 epochs             = 30000,
-                train_seconds      = 120,
+                train_seconds      = train_seconds,
                 policy_hyperparams = None
             )
         )
@@ -87,7 +89,7 @@ hvac_experiments = [
             training_params=TrainingParameters(
                 seed               = 42,
                 epochs             = 30000,
-                train_seconds      = 120,
+                train_seconds      = train_seconds,
                 policy_hyperparams = None
             )
         )
@@ -121,7 +123,7 @@ powergen_experiments = [
             training_params=TrainingParameters(
                 seed               = 42,
                 epochs             = 10000,
-                train_seconds      = 120,
+                train_seconds      = train_seconds,
                 policy_hyperparams = None
             )
         )
@@ -152,7 +154,7 @@ powergen_experiments = [
             training_params=TrainingParameters(
                 seed               = 42,
                 epochs             = 10000,
-                train_seconds      = 120,
+                train_seconds      = train_seconds,
                 policy_hyperparams = None
             )
         )
@@ -164,7 +166,7 @@ reservoir_experiments = [
         name                     = 'Reservoir',
         instance                 = 'instance_h_100',
         state_fluents            = [ 'rlevel' ],
-        ground_fluents_to_freeze = set([  ]),
+        ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
         bound_strategies         = bound_strategies,
         experiment_params=PlannerParameters(
             epsilon_error          = None,
@@ -186,7 +188,7 @@ reservoir_experiments = [
             training_params=TrainingParameters(
                 seed               = 42,
                 epochs             = 30000,
-                train_seconds      = 120,
+                train_seconds      = train_seconds,
                 policy_hyperparams = None
             )
         )
@@ -199,7 +201,7 @@ marsrover_experiments = [
         name                     = 'MarsRover',
         instance                 = 'instance_h_10',
         state_fluents            = [ 'xPos', 'yPos', 'time', 'picture-taken' ],
-        ground_fluents_to_freeze = set([ 'picture-taken___p2' ]),
+        ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
         bound_strategies         = bound_strategies,
         experiment_params=PlannerParameters(
             epsilon_error          = None,
@@ -221,7 +223,7 @@ marsrover_experiments = [
             training_params=TrainingParameters(
                 seed               = 42,
                 epochs             = 30000,
-                train_seconds      = 120,
+                train_seconds      = train_seconds,
                 policy_hyperparams = None
             )
         )
@@ -230,8 +232,8 @@ marsrover_experiments = [
 
 domains = []
 domains.extend(hvac_experiments)
-# domains.extend(powergen_experiments)
-domains.extend(marsrover_experiments)
+domains.extend(powergen_experiments)
+# domains.extend(marsrover_experiments)
 domains.extend(reservoir_experiments)
 
 silent = True

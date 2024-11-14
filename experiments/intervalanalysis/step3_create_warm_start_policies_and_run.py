@@ -16,7 +16,7 @@ from _utils import run_experiment, save_data, load_data, PlannerParameters
 root_folder = os.path.dirname(__file__)
 
 print('--------------------------------------------------------------------------------')
-print('Experiment Part 3 - Create Warm Start policies and Run with Warm Start')
+print('Abstraction Experiment - Create Warm Start policies and Run with Warm Start')
 print('--------------------------------------------------------------------------------')
 print()
 

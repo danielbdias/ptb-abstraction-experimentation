@@ -39,7 +39,7 @@ def write_grounded_model_to_file(grounded_model, domain_file_file_path, grounded
 root_folder = os.path.dirname(__file__)
 
 print('--------------------------------------------------------------------------------')
-print('Experiment Part 2 - Create Ground RDDL model with ablated fluents')
+print('Abstraction Experiment - Create Ground RDDL model with ablated fluents')
 print('--------------------------------------------------------------------------------')
 print()
 

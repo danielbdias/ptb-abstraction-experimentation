@@ -161,7 +161,7 @@ def plot_cost_curve_per_iteration(plot_folder, domain, random_policy_stats, warm
     plt.savefig(f'{plot_folder}/convergence_value_{domain.name}_{domain.instance}.pdf', format='pdf')
 
 print('--------------------------------------------------------------------------------')
-print('Experiment Part 4 - Generating graphs for PtB with warm start')
+print('Abstraction Experiment - Generating graphs for PtB with warm start')
 print('--------------------------------------------------------------------------------')
 print()
 
