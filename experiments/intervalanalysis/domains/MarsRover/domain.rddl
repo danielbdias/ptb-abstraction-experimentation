@@ -1,96 +1,114 @@
 ////////////////////////////////////////////////////////////////////
-// A simple continuous MDP for multiagent mars rover science mission.  
+// A simple continuous MDP for a single Mars Rover.  Note that this
+// models continuous time explicitly since there is only one rover.
 //
-// The goal here is to harvest as many high-value mineral (within their
+// The goal here is to take as many high-value pictures (within their
 // designated radii) as possible within the time constraints.
 //
-// The movement model is of a second order integrator in 2d
-// The states for each rover is the x,y positions and velocities.
-// The actions are acceleartion in the x,y axes.
-// A third action for each rover is minearl harvesting when possible.
+// Motivated by:
 //
+//   Bresina, J. L.; Dearden, R.; Meuleau, N.; Ramkrishnan, S.;
+//   Smith, D. E.; and Washington, R. 2002. Planning under continuous
+//   time and resource uncertainty: A challenge for AI. UAI 2002.
+//
+// Author: Scott Sanner (ssanner@gmail.com)
 ////////////////////////////////////////////////////////////////////
-domain mars_rover_science_mission {
+domain simple_mars_rover {
+  
+	requirements = { 
+		concurrent,           // x and y directions move independently and simultaneously
+		reward-deterministic, // this domain does not use a stochastic reward
+		intermediate-nodes,   // this domain uses intermediate pvariable nodes
+		constrained-state     // this domain uses state constraints
+	};
 
-    requirements = {
-        reward-deterministic
-    };
+	types {
+		picture-point : object;
+	};
 
-    types {
-		rover : object;
-		mineral : object;
-	}; 
+	pvariables { 
+    		  		
+    	// Problem constants
+    	MAX_TIME : { non-fluent, real, default = 12.0 };
+    		  		
+		// Rover constants
+		MOVE_VARIANCE_MULT : { non-fluent, real, default = 0.5 };
+		
+		// Each picture occurs in a different place and awards a different value
+		PICT_XPOS(picture-point)   : { non-fluent, real, default = 0.0 };
+		PICT_YPOS(picture-point)   : { non-fluent, real, default = 0.0 };
+		PICT_VALUE(picture-point)  : { non-fluent, real, default = 1.0 };
+		PICT_ERROR_ALLOW(picture-point) : { non-fluent, real, default = 0.5 };
+		
+        CLIPPING-MIN            : { non-fluent, real, default = -1000000.0 };   // values used to clip during interval analysis
+		CLIPPING-MAX            : { non-fluent, real, default = 1000000.0 };    // values used to clip during interval analysis
 
-    pvariables {
+		// State fluents
+		xPos                         : { state-fluent, real, default = 0.0 };
+		yPos                         : { state-fluent, real, default = 0.0 };
+		time                         : { state-fluent, real, default = 0.0 };
+        picture-taken(picture-point) : { state-fluent, bool, default = false };
 
-        // rover constants
-        MAX-POWER(rover): { non-fluent, real, default = 0.1 };         // control norm constraint
-        SCALE-FACTOR    : { non-fluent, real, default = 0.1 };          // time scale factor for dynamic equations
+		// Action fluents -- constraints enforce that a rover cannot snap a picture
+		//                   and move simultaneously
+		xMove       : { action-fluent, real, default = 0.0 };
+		yMove       : { action-fluent, real, default = 0.0 };
+		snapPicture : { action-fluent, bool, default = false };
+		
+	};
+	
+	cpfs {
 
-        // minerals constants
-        MINERAL-AREA(mineral) : { non-fluent, real, default = 1 };            // mineral harvesting area
-        MINERAL-VALUE(mineral): { non-fluent, real, default = 1 };            // mineral harvesting value
-        MINERAL-POS-X(mineral): { non-fluent, real, default = 0 };            // mineral x location
-        MINERAL-POS-Y(mineral): { non-fluent, real, default = 0 };            // mineral y location
+		// Update rover coordinates based on movement, we assume surface 
+		// of Mars has no coordinate constraints.  Can add if needed.
+		xPos' = xPos + xMove + Normal(0.0, MOVE_VARIANCE_MULT*xMove);
+		yPos' = yPos + yMove + Normal(0.0, MOVE_VARIANCE_MULT*yMove);
+		
+		// We assume taking a picture requires 1/4 hour and movement takes
+		// the Manhattan distance time (assuming units are meters and speed 
+		// is 1 m/hour).  Euclidean distance would be more plausible, but
+		// we need to add elementary functions like sqrt into RDDL for this.
+		// Even an absolute value would simplify things here as well.
+		time' = if (snapPicture)
+				then DiracDelta(time + 0.25)
+				else DiracDelta(time + 
+					[if (xMove > 0) then xMove else -xMove] + 
+					[if (yMove > 0) then yMove else -yMove]);
 
-        // interm & derived fluents
-        power(rover) : { interm-fluent, real };                          // derived fluent for control input norm calculation
-        u-x(rover) : { interm-fluent, real };                          // derived fluent for norm saturated x control
-        u-y(rover) : { interm-fluent, real };                          // derived fluent for norm saturated y control
+        // Picture taken if within error bounds and time limit
+        picture-taken'(?p) = if (snapPicture ^ (time <= MAX_TIME))
+                             then if ((xPos >= PICT_XPOS(?p) - PICT_ERROR_ALLOW(?p))
+                                      ^ (xPos <= PICT_XPOS(?p) + PICT_ERROR_ALLOW(?p))
+                                      ^ (yPos >= PICT_YPOS(?p) - PICT_ERROR_ALLOW(?p))
+                                      ^ (yPos <= PICT_YPOS(?p) + PICT_ERROR_ALLOW(?p)))
+                                    then true
+                                    else picture-taken(?p)
+                             else picture-taken(?p);
+	};
+  
+	// We get a reward for any picture taken within picture box error bounds 
+	// and the time limit.
+	reward = sum_{?p : picture-point} [ if (picture-taken(?p)) then PICT_VALUE(?p) else 0.0 ];
+	
+	action-preconditions {
+		// Cannot snap a picture and move at the same time
+		snapPicture => ((xMove == 0.0) ^ (yMove == 0.0));
 
-        // states
-        vel-x(rover)    : { state-fluent, real, default = 0 };          // rover x direction velocity
-        pos-x(rover)    : { state-fluent, real, default = 0 };          // rover x position
-        vel-y(rover)    : { state-fluent, real, default = 0 };          // rover y velocity
-        pos-y(rover)    : { state-fluent, real, default = 0 };          // rover y position
-        mineral-harvested(mineral) : { state-fluent, bool, default = false }; // if a mineral has been mineral mineral harvested or not
+		// Interval propagation constraints
+		xMove <= CLIPPING-MAX;
+		xMove >= CLIPPING-MAX;
+		yMove <= CLIPPING-MAX;
+		yMove >= CLIPPING-MAX;
+	};
 
-        // actions
-        power-x(rover)      : { action-fluent, real, default = 0 };     // force input in x direction
-        power-y(rover)      : { action-fluent, real, default = 0 };     // force input in y direction
-        harvest(rover)      : { action-fluent, bool, default = false }; // mineral harvesting action
-    };
-
-    cpfs {
-
-        power(?d) = sqrt[ pow[power-x(?d), 2] + pow[power-y(?d), 2]];
-
-        u-x(?d) = if(power(?d) >= MAX-POWER(?d))
-                    then MAX-POWER(?d) * power-x(?d) / power(?d)
-                    else power-x(?d);
-        u-y(?d) = if(power(?d) >= MAX-POWER(?d))
-                	then MAX-POWER(?d) * power-y(?d) / power(?d)
-                	else power-y(?d);
-
-        vel-x'(?d) = vel-x(?d) + SCALE-FACTOR * u-x(?d);
-        vel-y'(?d) = vel-y(?d) + SCALE-FACTOR * u-y(?d);
-        pos-x'(?d) = pos-x(?d) + SCALE-FACTOR * vel-x(?d);
-        pos-y'(?d) = pos-y(?d) + SCALE-FACTOR * vel-y(?d);
-
-        mineral-harvested'(?m) = mineral-harvested(?m) |
-                ~mineral-harvested(?m) ^ [exists_{?d : rover}
-                    [sqrt [ pow[pos-x(?d) - MINERAL-POS-X(?m),2] + pow[pos-y(?d) - MINERAL-POS-Y(?m),2]] < MINERAL-AREA(?m) ^ harvest(?d)]];
-
-    };
-
-    // R = -sum u-x^2 + u-y^2 + sum minerals harvested - sum harvest actions
-    reward = [-sum_{?d : rover} [ pow[u-x(?d), 2] + pow[u-y(?d), 2]]] +
-             [sum_{?m : mineral }[if (exists_{?d : rover}
-                        [(sqrt[pow[pos-x(?d) - MINERAL-POS-X(?m),2] + pow[pos-y(?d) - MINERAL-POS-Y(?m),2]] < MINERAL-AREA(?m)) 
-						 ^ harvest(?d) ^ ~mineral-harvested(?m)])
-                            then MINERAL-VALUE(?m)
-                            else 0.0]]
-             - [sum_{?d : rover} [harvest(?d)]];
-
-    state-invariants {
-        forall_{?m : mineral} [MINERAL-AREA(?m) > 0 ];
-    };
-
-    action-preconditions {
-        forall_{?d : rover} [ power-x(?d) >= -MAX-POWER(?d) ];
-        forall_{?d : rover} [ power-x(?d) <= MAX-POWER(?d) ];
-        forall_{?d : rover} [ power-y(?d) >= -MAX-POWER(?d) ];
-        forall_{?d : rover} [ power-y(?d) <= MAX-POWER(?d) ];
-    };
-
+	state-invariants {
+		// Interval propagation constraints
+		xPos <= CLIPPING-MAX;
+		xPos >= CLIPPING-MAX;
+		yPos <= CLIPPING-MAX;
+		yPos >= CLIPPING-MAX;
+		time <= CLIPPING-MAX;
+		time >= CLIPPING-MAX;
+	};
 }
+        

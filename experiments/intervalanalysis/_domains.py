@@ -23,17 +23,19 @@ jax_seeds = [
     # 139, 127, 367, 131, 13, 137, 971, 139, 31, 149
 ]
 
+bound_strategies = {
+    'support': (IntervalAnalysisStrategy.SUPPORT, {}),
+    'mean': (IntervalAnalysisStrategy.MEAN, {}),
+    'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
+}
+
 hvac_experiments = [
     DomainExperiment(
         name                     = 'HVAC',
         instance                 = 'instance_h_100',
         state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
         ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
-        bound_strategies         = {
-            'support': (IntervalAnalysisStrategy.SUPPORT, {}),
-            'mean': (IntervalAnalysisStrategy.MEAN, {}),
-            'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
-        },
+        bound_strategies         = bound_strategies,
         experiment_params=PlannerParameters(
             epsilon_error          = None,
             epsilon_iteration_stop = None,
@@ -64,11 +66,7 @@ hvac_experiments = [
         instance                 = 'instance_h_20',
         state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
         ground_fluents_to_freeze = set([ 'occupied___z1', 'occupied___z2', 'occupied___z3', 'occupied___z4', 'occupied___z5' ]),
-        bound_strategies         = {
-            'support': (IntervalAnalysisStrategy.SUPPORT, {}),
-            'mean': (IntervalAnalysisStrategy.MEAN, {}),
-            'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
-        },
+        bound_strategies         = bound_strategies,
         experiment_params=PlannerParameters(
             epsilon_error          = None,
             epsilon_iteration_stop = None,
@@ -102,11 +100,7 @@ powergen_experiments = [
         instance                 = 'instance_h_100',
         state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
         ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
-        bound_strategies         = {
-            'support': (IntervalAnalysisStrategy.SUPPORT, {}),
-            'mean': (IntervalAnalysisStrategy.MEAN, {}),
-            'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
-        },
+        bound_strategies         = bound_strategies,
         experiment_params=PlannerParameters(
             epsilon_error          = None,
             epsilon_iteration_stop = None,
@@ -137,11 +131,7 @@ powergen_experiments = [
         instance                 = 'instance_h_20',
         state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
         ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
-        bound_strategies         = {
-            'support': (IntervalAnalysisStrategy.SUPPORT, {}),
-            'mean': (IntervalAnalysisStrategy.MEAN, {}),
-            'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
-        },
+        bound_strategies         = bound_strategies,
         experiment_params=PlannerParameters(
             epsilon_error          = None,
             epsilon_iteration_stop = None,
@@ -169,8 +159,79 @@ powergen_experiments = [
     ),
 ]
 
+reservoir_experiments = [
+    DomainExperiment(
+        name                     = 'Reservoir',
+        instance                 = 'instance_h_100',
+        state_fluents            = [ 'rlevel' ],
+        ground_fluents_to_freeze = set([  ]),
+        bound_strategies         = bound_strategies,
+        experiment_params=PlannerParameters(
+            epsilon_error          = None,
+            epsilon_iteration_stop = None,
+            model_params=PlanningModelParameters(
+                logic=FuzzyLogic(
+                    tnorm  = ProductTNorm(),
+                    weight = 10
+                )
+            ),
+            optimizer_params=OptimizerParameters(
+                plan             = None,
+                optimizer        = optax.rmsprop,
+                learning_rate    = 0.2,
+                batch_size_train = 32,
+                batch_size_test  = 32,
+                action_bounds    = None,
+            ),
+            training_params=TrainingParameters(
+                seed               = 42,
+                epochs             = 30000,
+                train_seconds      = 120,
+                policy_hyperparams = None
+            )
+        )
+    ),
+]
+
+marsrover_experiments = [
+    # best parameters found: {'std': 3.815676179970159, 'lr': 0.00010098378365247086, 'w': 2.20007320185207, 'wa': 55.264038307268365}
+    DomainExperiment(
+        name                     = 'MarsRover',
+        instance                 = 'instance_h_10',
+        state_fluents            = [ 'xPos', 'yPos', 'time', 'picture-taken' ],
+        ground_fluents_to_freeze = set([ 'picture-taken___p2' ]),
+        bound_strategies         = bound_strategies,
+        experiment_params=PlannerParameters(
+            epsilon_error          = None,
+            epsilon_iteration_stop = None,
+            model_params=PlanningModelParameters(
+                logic=FuzzyLogic(
+                    tnorm  = ProductTNorm(),
+                    weight = 10
+                )
+            ),
+            optimizer_params=OptimizerParameters(
+                plan             = None,
+                optimizer        = optax.rmsprop,
+                learning_rate    = 0.01,
+                batch_size_train = 32,
+                batch_size_test  = 32,
+                action_bounds    = None,
+            ),
+            training_params=TrainingParameters(
+                seed               = 42,
+                epochs             = 30000,
+                train_seconds      = 120,
+                policy_hyperparams = None
+            )
+        )
+    ),
+]
+
 domains = []
 domains.extend(hvac_experiments)
 # domains.extend(powergen_experiments)
+domains.extend(marsrover_experiments)
+domains.extend(reservoir_experiments)
 
 silent = True

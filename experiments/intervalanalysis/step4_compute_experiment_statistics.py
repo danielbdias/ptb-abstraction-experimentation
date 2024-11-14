@@ -186,7 +186,7 @@ for domain in domains:
     warm_start_execution_experiment_stats = load_data(f'{root_folder}/_results/warmstart_execution_run_data_{domain.name}_{domain.instance}.pickle')
     baseline_execution_experiment_stats = load_data(f'{root_folder}/_results/baseline_run_data_{domain.name}_{domain.instance}.pickle')
 
-    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}_support.csv')
+    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/time_{domain.name}_{domain.instance}_support.csv')
     warm_start_computation = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats)))
     warm_start_execution = np.mean(list(map(lambda item : item.elapsed_time, warm_start_execution_experiment_stats)))
     baseline_execution = np.mean(list(map(lambda item : item.elapsed_time, baseline_execution_experiment_stats)))

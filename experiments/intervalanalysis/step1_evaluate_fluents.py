@@ -154,8 +154,8 @@ for domain in domains:
     for strategy_name, strategy in domain.bound_strategies.items():
         print(f'  Strategy: {strategy_name}')
         
-        output_file_random_policy=f"{root_folder}/_results/intervals_table_random_policy_{domain.name}_{domain.instance}_{strategy_name}.csv"
-        output_file_analysis_time=f"{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}_{strategy_name}.csv"
+        output_file_random_policy=f"{root_folder}/_results/intervals_{domain.name}_{domain.instance}_{strategy_name}.csv"
+        output_file_analysis_time=f"{root_folder}/_results/time_{domain.name}_{domain.instance}_{strategy_name}.csv"
         
         strategy_type, strategy_params = strategy
         
