@@ -2,20 +2,23 @@ import csv
 import os
 import time
 
-from _domains import domains
+from _domains import domains, threshold_to_choose_fluents
 
 import pyRDDLGym
-from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, IntervalAnalysisStrategy
+from pyRDDLGym.core.intervals import RDDLIntervalAnalysis
 
 from pyRDDLGym import RDDLEnv
 
 import numpy as np
 
 from collections import namedtuple
-from typing import Tuple
+from typing import Dict, List, Tuple
 
 BoudedTrajectory = namedtuple('BoundedTrajectory', ['fluent', 'reward_lower', 'reward_upper'])
 BoundedAccumulatedReward = Tuple[float, float]
+
+ScoreData = namedtuple('ScoreData', ['domain', 'fluent', 'accumulated_reward_lower_bound', 'accumulated_reward_upper_bound', 
+                                     'range_bounds', 'range_bounds_regular_mdp', 'score_diff', 'score_explained_interval'])
 
 root_folder = os.path.dirname(__file__)
 
@@ -24,16 +27,6 @@ def record_time(file_path: str, time: float):
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(['Time'])
         writer.writerow([time])
-
-def record_reward_bounds_header(file_path: str):
-    with open(file_path, 'a') as csvfile:
-        writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow([
-            'Domain', 'Fluent', 
-            'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 
-            'Range (fluent)', 'Range (regular MDP)',
-            'Score (as Diff)', 'Score (as Explained Interval)'
-        ])
 
 def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bounds: BoudedTrajectory) -> BoundedAccumulatedReward:
     accumulated_reward_lower_bound = 0.0
@@ -45,24 +38,59 @@ def compute_accumulated_reward(discount_factor : float, horizon: int, fluent_bou
 
     return (accumulated_reward_lower_bound, accumulated_reward_upper_bound)
 
-def record_reward_values(file_path: str, domain_name: str, fluent_name : str, fluent_acc_reward: BoundedAccumulatedReward, regular_mdp_acc_reward: BoundedAccumulatedReward):
-    accumulated_reward_lower_bound, accumulated_reward_upper_bound = fluent_acc_reward
-    accumulated_reward_lower_bound_regular_mdp, accumulated_reward_upper_bound_regular_mdp = regular_mdp_acc_reward
+def compute_scores(domain_name: str, ground_fluent_mdp_accumulated_reward: Dict[str, BoundedAccumulatedReward], regular_mdp_acc_reward: BoundedAccumulatedReward):
+    results = []
+    
+    for fluent_name in ground_fluent_mdp_accumulated_reward.keys():
+        accumulated_reward_lower_bound, accumulated_reward_upper_bound = ground_fluent_mdp_accumulated_reward[fluent_name]
+        accumulated_reward_lower_bound_regular_mdp, accumulated_reward_upper_bound_regular_mdp = regular_mdp_acc_reward
 
-    range_bounds = accumulated_reward_upper_bound - accumulated_reward_lower_bound
-    range_bounds_regular_mdp = accumulated_reward_upper_bound_regular_mdp - accumulated_reward_lower_bound_regular_mdp
+        range_bounds = accumulated_reward_upper_bound - accumulated_reward_lower_bound
+        range_bounds_regular_mdp = accumulated_reward_upper_bound_regular_mdp - accumulated_reward_lower_bound_regular_mdp
 
-    score_diff = np.abs(range_bounds_regular_mdp - range_bounds)
-    score_explained_interval = range_bounds / range_bounds_regular_mdp
-
-    with open(file_path, 'a') as csvfile:
-        writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow([
+        score_diff = np.abs(range_bounds_regular_mdp - range_bounds)
+        score_explained_interval = (range_bounds / range_bounds_regular_mdp) * 100
+        
+        results.append(ScoreData(
             domain_name, fluent_name, 
             accumulated_reward_lower_bound, accumulated_reward_upper_bound, 
             range_bounds, range_bounds_regular_mdp, 
             score_diff, score_explained_interval
+        ))
+
+    # sort by score_explained_interval
+    results = sorted(results, key=lambda x: x.score_explained_interval, reverse=True)
+
+    return results
+
+def record_scores(file_path: str, scores: List[ScoreData]):
+    with open(file_path, 'a') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        
+        writer.writerow([
+            'Domain', 'Fluent', 
+            'Accumulated Reward (LB)', 'Accumulated Reward (UB)', 
+            'Range (fluent)', 'Range (regular MDP)',
+            'Score (as Diff)', 'Score (as Explained Interval)'
         ])
+        
+        for score in scores:
+            writer.writerow([ score.domain, score.fluent, score.accumulated_reward_lower_bound, score.accumulated_reward_upper_bound,
+                              score.range_bounds, score.range_bounds_regular_mdp, score.score_diff, score.score_explained_interval ])
+            
+def record_fluents_to_ablate(file_path: str, scores: List[ScoreData]):
+    with open(file_path, 'a') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        
+        scores_count = len(scores)
+        scores_to_ablate_count = max(1, round(scores_count * threshold_to_choose_fluents))
+        
+        scores_to_ablate = sorted(scores, key=lambda x: x.score_explained_interval)
+        
+        fluents_to_ablate = [score.fluent for score in scores_to_ablate[0:scores_to_ablate_count]]
+        
+        writer.writerow(fluents_to_ablate)
+            
 
 def build_ground_fluent_list(environment : RDDLEnv):
     ground_fluents = []
@@ -149,13 +177,12 @@ for domain in domains:
     discount_factor = environment.model.discount
     horizon = environment.model.horizon
 
-    print(f'Domain: {domain.name} - Instance: {domain.instance}')
-
     for strategy_name, strategy in domain.bound_strategies.items():
-        print(f'  Strategy: {strategy_name}')
+        print(f'Domain: {domain.name} - Instance: {domain.instance} - Strategy: {strategy_name}')
         
-        output_file_random_policy=f"{root_folder}/_results/intervals_{domain.name}_{domain.instance}_{strategy_name}.csv"
+        output_file_interval=f"{root_folder}/_results/intervals_{domain.name}_{domain.instance}_{strategy_name}.csv"
         output_file_analysis_time=f"{root_folder}/_results/time_{domain.name}_{domain.instance}_{strategy_name}.csv"
+        output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{domain.name}_{domain.instance}_{strategy_name}.csv"
         
         strategy_type, strategy_params = strategy
         
@@ -187,21 +214,12 @@ for domain in domains:
 
             ground_fluent_mdp_accumulated_reward[ground_fluent] = fixed_fluent_mdp_accumulated_reward
 
+        scores = compute_scores(domain.name, ground_fluent_mdp_accumulated_reward, regular_mdp_accumulated_reward)
+
         elapsed_time_for_analysis = time.time() - start_time_for_analysis
-        record_time(output_file_analysis_time, elapsed_time_for_analysis)    
-
-        print('Action bounds: ', action_bounds)
-        print('Fluent bounds: ')
-        for fluent_name, values in ground_fluent_initialization.items():
-            print(f'  {fluent_name}: ', values)
-        print()
-
-        # generate score file
-        record_reward_bounds_header(output_file_random_policy)
-        record_reward_values(output_file_random_policy, domain.name, 'regular', regular_mdp_accumulated_reward, regular_mdp_accumulated_reward) # record regular MDP bounds
-
-        for fluent_name in ground_fluent_mdp_accumulated_reward.keys():
-            record_reward_values(output_file_random_policy, domain.name, fluent_name, ground_fluent_mdp_accumulated_reward[fluent_name], regular_mdp_accumulated_reward) # record fluent bounds
+        record_time(output_file_analysis_time, elapsed_time_for_analysis)
+        record_scores(output_file_interval, scores)
+        record_fluents_to_ablate(output_file_fluents_to_ablate, scores)
 
 end_time = time.time()
 elapsed_time = end_time - start_time

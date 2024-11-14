@@ -1,6 +1,6 @@
 import optax
 from dataclasses import dataclass
-from typing import List, Set
+from typing import Set
 
 from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
 
@@ -11,10 +11,12 @@ from pyRDDLGym.core.intervals import IntervalAnalysisStrategy
 class DomainExperiment:
     name:                                str
     instance:                            str
-    state_fluents:                       List[str]
     ground_fluents_to_freeze:            Set[str]
     bound_strategies:                    dict
     experiment_params:                   PlannerParameters
+    
+    def get_state_fluents(self, rddl_model):
+        return list(rddl_model.state_fluents.keys())
 
 jax_seeds = [
     42
@@ -29,10 +31,9 @@ bound_strategies = {
     'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
 }
 
-train_seconds = 600
-epochs = 30000
+threshold_to_choose_fluents = 0.3 # 30% of the fluents
 
-def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, policy_hyperparams: dict = None):
+def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None):
     return PlannerParameters(
         epsilon_error          = None,
         epsilon_iteration_stop = None,
@@ -62,24 +63,22 @@ domains = [
     ##################################################################
     # HVAC
     ##################################################################
-    DomainExperiment(
-        name                     = 'HVAC',
-        instance                 = 'instance_h_100',
-        state_fluents            = [ 'temp-zone', 'temp-heater', 'occupied' ],
-        ground_fluents_to_freeze = set([ 'occupied___z2', 'occupied___z3', 'occupied___z4', 'temp-zone___z2' ]),
-        bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32)
-    ),
+    # DomainExperiment(
+    #     name                     = 'HVAC',
+    #     instance                 = 'instance_h_100',
+    #     ground_fluents_to_freeze = set([ 'occupied___z2', 'occupied___z3', 'occupied___z4', 'temp-zone___z2' ]),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32, epochs=20_000, train_seconds=600)
+    # ),
     ##################################################################
     # PowerGen
     ##################################################################
     DomainExperiment(
         name                     = 'PowerGen',
         instance                 = 'instance_h_100',
-        state_fluents            = [ 'prevProd', 'prevOn', 'temperature' ],
         ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32)
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=40_000, train_seconds=1200)
     ),
     ##################################################################
     # MarsRover
@@ -87,7 +86,6 @@ domains = [
     # DomainExperiment(
     #     name                     = 'MarsRover',
     #     instance                 = 'instance_h_10',
-    #     state_fluents            = [ 'xPos', 'yPos', 'time', 'picture-taken' ],
     #     ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
     #     bound_strategies         = bound_strategies,
     #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32)
@@ -96,14 +94,14 @@ domains = [
     ##################################################################
     # Reservoir
     ##################################################################
-    DomainExperiment(
-        name                     = 'Reservoir',
-        instance                 = 'instance_h_100',
-        state_fluents            = [ 'rlevel' ],
-        ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
-        bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32)
-    ),
+    # TODO: define hyperparams
+    # DomainExperiment(
+    #     name                     = 'Reservoir',
+    #     instance                 = 'instance_h_100',
+    #     ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32)
+    # ),
 ]
 
 silent = True
