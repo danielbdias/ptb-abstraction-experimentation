@@ -59,8 +59,8 @@ for domain in domains:
 
     grounded_model = get_grounded_model_with_frozen_fluent(regular_environment, domain)
   
-    grounded_domain_file_path = f'{root_folder}/_intermediate/domain_{domain.instance}.rddl'
-    grounded_model_file_path = f'{root_folder}/_intermediate/domain_{domain.instance}.model'
+    grounded_domain_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.rddl'
+    grounded_model_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.model'
     write_grounded_model_to_file(grounded_model, grounded_domain_file_path, grounded_model_file_path)
 
 end_time = time.time()

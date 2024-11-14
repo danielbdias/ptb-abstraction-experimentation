@@ -41,7 +41,7 @@ for domain in domains:
     grounder = RDDLGrounder(regular_environment.model.ast)
     regular_grounded_model = grounder.ground()
     
-    ablated_model_file_path = f'{root_folder}/_intermediate/domain_{domain.instance}.model'
+    ablated_model_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.model'
     ablated_grounded_model = load_data(ablated_model_file_path)
 
     warm_start_creation_experiment_stats = []
