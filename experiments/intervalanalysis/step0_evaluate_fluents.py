@@ -2,6 +2,10 @@ import csv
 import os
 import time
 
+from collections import namedtuple
+from typing import Dict, List, Tuple
+from multiprocessing import get_context, freeze_support
+
 from _domains import domains, threshold_to_choose_fluents
 
 import pyRDDLGym
@@ -10,9 +14,6 @@ from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, RDDLIntervalAnalysisM
 from pyRDDLGym import RDDLEnv
 
 import numpy as np
-
-from collections import namedtuple
-from typing import Dict, List, Tuple
 
 BoudedTrajectory = namedtuple('BoundedTrajectory', ['fluent', 'reward_lower', 'reward_upper'])
 BoundedAccumulatedReward = Tuple[float, float]
@@ -161,24 +162,10 @@ def compute_state_bounds(environment : RDDLEnv):
 
     return state_bounds
 
-print('--------------------------------------------------------------------------------')
-print('Abstraction Experiment - Interval Analysis')
-print('--------------------------------------------------------------------------------')
-print()
-
-# possible analysis - per grounded fluent, per lifted fluent
-start_time = time.time()
-
-#########################################################################################################
-# This script will run interval propagation for each domain and instance, and record statistics
-#########################################################################################################
-
-for domain in domains:
+def perform_experiment(domain):
     domain_path = f"{root_folder}/domains/{domain.name}"
     domain_file_path = f'{domain_path}/domain.rddl'
     instance_file_path = f'{domain_path}/{domain.instance}.rddl'
-
-    batch_size = domain.experiment_params.optimizer_params.batch_size_train
 
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
@@ -186,7 +173,7 @@ for domain in domains:
     horizon = environment.model.horizon
 
     for strategy_name, strategy in domain.bound_strategies.items():
-        print(f'Domain: {domain.name} - Instance: {domain.instance} - Strategy: {strategy_name}')
+        print(f'[{os.getpid()}] Domain: {domain.name} - Instance: {domain.instance} - Strategy: {strategy_name}')
         
         output_file_interval=f"{root_folder}/_results/intervals_{domain.name}_{domain.instance}_{strategy_name}.csv"
         output_file_analysis_time=f"{root_folder}/_results/time_{domain.name}_{domain.instance}_{strategy_name}.csv"
@@ -227,10 +214,39 @@ for domain in domains:
         record_scores(output_file_interval, scores)
         record_fluents_to_ablate(output_file_fluents_to_ablate, scores)
 
-end_time = time.time()
-elapsed_time = end_time - start_time
+if __name__ == '__main__':
+    freeze_support()
 
-print('--------------------------------------------------------------------------------')
-print('Elapsed Time: ', elapsed_time)
-print('--------------------------------------------------------------------------------')
-print()
+    print('--------------------------------------------------------------------------------')
+    print('Abstraction Experiment - Interval Analysis')
+    print('--------------------------------------------------------------------------------')
+    print()
+
+    # possible analysis - per grounded fluent, per lifted fluent
+    start_time = time.time()
+
+    #########################################################################################################
+    # This script will run interval propagation for each domain and instance, and record statistics
+    #########################################################################################################
+
+    pool_context = 'spawn'
+    num_workers = 4
+    timeout = 3_600 # 1 hour
+
+    # create worker pool: note each iteration must wait for all workers
+    # to finish before moving to the next
+    with get_context(pool_context).Pool(processes=num_workers) as pool:
+        multiple_results = [pool.apply_async(perform_experiment, args=(domain,)) for domain in domains]
+        
+        # wait for all workers to finish
+        for res in multiple_results:
+            res.get(timeout=timeout)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print()
+    print('--------------------------------------------------------------------------------')
+    print('Elapsed Time: ', elapsed_time)
+    print('--------------------------------------------------------------------------------')
+    print()

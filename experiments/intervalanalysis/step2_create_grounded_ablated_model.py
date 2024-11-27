@@ -2,14 +2,15 @@ import csv
 import os
 import time
 
+from multiprocessing import get_context, freeze_support
+from typing import Set
+
 import pyRDDLGym
 from pyRDDLGym import RDDLEnv
 from pyRDDLGym.core.debug.decompiler import RDDLDecompiler
 from pyRDDLGym.core.grounder import RDDLGrounder
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym.core.parser.expr import Expression
-
-from typing import Set
 
 from _domains import domains, bound_strategy_to_choose_fluents, DomainExperiment
 from _utils import save_data
@@ -54,18 +55,8 @@ def write_grounded_model_to_file(grounded_model, domain_file_file_path, grounded
 
 root_folder = os.path.dirname(__file__)
 
-print('--------------------------------------------------------------------------------')
-print('Abstraction Experiment - Create Ground RDDL model with ablated fluents')
-print('--------------------------------------------------------------------------------')
-print()
-
-start_time = time.time()
-
-for domain in domains:
-    print('--------------------------------------------------------------------------------')
-    print('Domain: ', domain)
-    print('--------------------------------------------------------------------------------')
-    print()
+def perform_experiment(domain):
+    print(f'[{os.getpid()}] Domain: ', domain)
 
     domain_path = f"{root_folder}/domains/{domain.name}"
     domain_file_path = f'{domain_path}/domain.rddl'
@@ -76,15 +67,43 @@ for domain in domains:
 
     fluents_to_ablate = get_ground_fluents_to_ablate(domain, fluents_to_freeze_path)
     grounded_model = get_grounded_model_with_frozen_fluent(regular_environment, fluents_to_ablate)
-  
+
     grounded_domain_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.rddl'
     grounded_model_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.model'
     write_grounded_model_to_file(grounded_model, grounded_domain_file_path, grounded_model_file_path)
 
-end_time = time.time()
-elapsed_time = end_time - start_time
-
 print('--------------------------------------------------------------------------------')
-print('Elapsed Time: ', elapsed_time)
+print('Abstraction Experiment - Create Ground RDDL model with ablated fluents')
 print('--------------------------------------------------------------------------------')
 print()
+
+start_time = time.time()
+
+if __name__ == '__main__':
+    freeze_support()
+
+    #########################################################################################################
+    # Prepare to run in multiple processes
+    #########################################################################################################
+
+    pool_context = 'spawn'
+    num_workers = 4
+    timeout = 3_600 # 1 hour
+
+    # create worker pool: note each iteration must wait for all workers
+    # to finish before moving to the next
+    with get_context(pool_context).Pool(processes=num_workers) as pool:
+        multiple_results = [pool.apply_async(perform_experiment, args=(domain,)) for domain in domains]
+        
+        # wait for all workers to finish
+        for res in multiple_results:
+            res.get(timeout=timeout)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print()
+    print('--------------------------------------------------------------------------------')
+    print('Elapsed Time: ', elapsed_time)
+    print('--------------------------------------------------------------------------------')
+    print()

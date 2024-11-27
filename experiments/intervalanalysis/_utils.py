@@ -1,6 +1,7 @@
 import csv
 import jax
 import optax
+import os
 import time
 import pickle
 
@@ -100,15 +101,19 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
         policy_hyperparams     = planner_parameters.training_params.policy_hyperparams,
         train_seconds          = planner_parameters.training_params.train_seconds,
         guess                  = planner_parameters.optimizer_params.guess,
+        print_summary          = not silent,
+        print_progress         = not silent,
     )
 
     final_policy_weights = None
     last_iteration_improved = None
+    last_status = None
     statistics_history = []
 
     for callback in planner_callbacks:
         final_policy_weights = callback['best_params']
         last_iteration_improved = callback['last_iteration_improved']
+        last_status = callback['status']
 
         statistics = ExperimentStatistics.from_callback(callback)
         statistics_history.append(statistics)
@@ -118,6 +123,8 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
 
     end_time = time.time()
     elapsed_time = end_time - start_time
+
+    print(f'[{os.getpid()}] Run: {name} - Status: {last_status} - Elapsed time: {elapsed_time:.2f} seconds')
 
     return ExperimentStatisticsSummary(final_policy_weights, statistics_history, elapsed_time, last_iteration_improved)
 

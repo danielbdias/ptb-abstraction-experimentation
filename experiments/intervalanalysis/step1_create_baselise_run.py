@@ -1,7 +1,8 @@
 import os
-
 import time
 import jax
+
+from multiprocessing import get_context, freeze_support
 
 import pyRDDLGym
 from pyRDDLGym.core.grounder import RDDLGrounder
@@ -9,22 +10,12 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
 
 from _domains import domains, jax_seeds, silent
-from _utils import run_experiment, save_data, PlannerParameters
+from _utils import run_experiment, save_data
 
 root_folder = os.path.dirname(__file__)
 
-print('--------------------------------------------------------------------------------')
-print('Abstraction Experiment - Create baseline Run with random policy')
-print('--------------------------------------------------------------------------------')
-print()
-
-start_time = time.time()
-
-for domain in domains:
-    print('--------------------------------------------------------------------------------')
-    print('Domain: ', domain)
-    print('--------------------------------------------------------------------------------')
-    print()
+def perform_experiment(domain):
+    print(f'[{os.getpid()}] Domain: ', domain)
 
     #########################################################################################################
     # Runs with regular domain (just to use as comparison)
@@ -54,10 +45,38 @@ for domain in domains:
 
     save_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_run_data_{domain.name}_{domain.instance}.pickle')
 
-end_time = time.time()
-elapsed_time = end_time - start_time
+if __name__ == '__main__':
+    freeze_support()
 
-print('--------------------------------------------------------------------------------')
-print('Elapsed Time: ', elapsed_time)
-print('--------------------------------------------------------------------------------')
-print()
+    print('--------------------------------------------------------------------------------')
+    print('Abstraction Experiment - Create baseline Run with random policy')
+    print('--------------------------------------------------------------------------------')
+    print()
+
+    start_time = time.time()
+
+    #########################################################################################################
+    # Prepare to run in multiple processes
+    #########################################################################################################
+
+    pool_context = 'spawn'
+    num_workers = 4
+    timeout = 3_600 # 1 hour
+
+    # create worker pool: note each iteration must wait for all workers
+    # to finish before moving to the next
+    with get_context(pool_context).Pool(processes=num_workers) as pool:
+        multiple_results = [pool.apply_async(perform_experiment, args=(domain,)) for domain in domains]
+        
+        # wait for all workers to finish
+        for res in multiple_results:
+            res.get(timeout=timeout)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print()
+    print('--------------------------------------------------------------------------------')
+    print('Elapsed Time: ', elapsed_time)
+    print('--------------------------------------------------------------------------------')
+    print()
