@@ -1,3 +1,6 @@
+# fail if any errors
+set -ex
+
 #Specifying the format for the output of the 'time' command
 TIMEFORMAT='Elapsed time is %R seconds to run baseline and find fluents to ablate with SLP.'
 
