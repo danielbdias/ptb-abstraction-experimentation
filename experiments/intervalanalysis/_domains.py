@@ -68,7 +68,7 @@ domains = [
     ##################################################################
     DomainExperiment(
         name                     = 'HVAC',
-        instance                 = 'instance_h_100',
+        instance                 = 'instance_h_20',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
         experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=16_000, train_seconds=train_seconds)
@@ -83,18 +83,7 @@ domains = [
         # ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
         bound_strategies         = bound_strategies,
         experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=40_000, train_seconds=train_seconds)
-    ),
-    ##################################################################
-    # MountainCar
-    ##################################################################
-    DomainExperiment(
-        name                     = 'MountainCar',
-        instance                 = 'instance1',
-        ground_fluents_to_freeze = set(),
-        bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=1.0, batch_size=32, epochs=10_000, train_seconds=train_seconds)
-    ),
-    
+    ),    
     ##################################################################
     # Reservoir
     ##################################################################
