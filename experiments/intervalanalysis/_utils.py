@@ -24,6 +24,7 @@ class OptimizerParameters:
     batch_size_train: int
     batch_size_test:  int
     action_bounds:    dict
+    guess:            dict
 
 @dataclass(frozen=False)
 class TrainingParameters:
@@ -93,12 +94,12 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
         action_bounds    = planner_parameters.optimizer_params.action_bounds)
 
     # run the planner as an optimization process
-    planner_callbacks = planner.optimize(
+    planner_callbacks = planner.optimize_generator(
         planner_parameters.training_params.seed, 
         epochs                 = planner_parameters.training_params.epochs, 
         policy_hyperparams     = planner_parameters.training_params.policy_hyperparams,
         train_seconds          = planner_parameters.training_params.train_seconds,
-        return_callback        = True,
+        guess                  = planner_parameters.optimizer_params.guess,
     )
 
     final_policy_weights = None

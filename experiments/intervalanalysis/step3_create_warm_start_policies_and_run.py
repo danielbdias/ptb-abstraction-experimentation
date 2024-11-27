@@ -56,13 +56,10 @@ for domain in domains:
 
         abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
         warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
-        
-        initializers_per_action = {}
-        for key in abstraction_env_experiment_summary.final_policy_weights.keys():
-            initializers_per_action[key] = initializers.constant(abstraction_env_experiment_summary.final_policy_weights[key])
 
         experiment_params = domain.experiment_params
-        experiment_params.optimizer_params.plan = JaxStraightLinePlan(initializer_per_action=initializers_per_action)
+        experiment_params.optimizer_params.plan = JaxStraightLinePlan()
+        experiment_params.optimizer_params.guess = abstraction_env_experiment_summary.final_policy_weights
         experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
 
         warm_start_env_params = experiment_params

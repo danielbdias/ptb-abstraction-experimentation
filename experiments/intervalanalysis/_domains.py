@@ -4,7 +4,7 @@ from typing import Set
 
 from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
 
-from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic
+from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic, SigmoidComparison, SoftRounding, SoftControlFlow
 
 @dataclass(frozen=True)
 class DomainExperiment:
@@ -33,12 +33,16 @@ bound_strategies = {
 bound_strategy_to_choose_fluents = 'mean'
 threshold_to_choose_fluents = 0.3 # 30% of the fluents
 
+train_seconds = 3600 # 1 hour, JaxPlan stops training after this time or if the number of epochs is reached
+
 def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None):
     return PlannerParameters(
         model_params = PlanningModelParameters(
             logic=FuzzyLogic(
-                tnorm  = ProductTNorm(),
-                weight = model_weight
+                tnorm      = ProductTNorm(),
+                comparison = SigmoidComparison(weight=model_weight),
+                rounding   = SoftRounding(weight=model_weight),
+                control    = SoftControlFlow(weight=model_weight),
             )
         ),
         optimizer_params = OptimizerParameters(
@@ -48,6 +52,7 @@ def get_planner_parameters(model_weight : int, learning_rate : float, batch_size
             batch_size_train = batch_size,
             batch_size_test  = batch_size,
             action_bounds    = None,
+            guess            = None
         ),
         training_params = TrainingParameters(
             seed               = 42,
@@ -65,9 +70,8 @@ domains = [
         name                     = 'HVAC',
         instance                 = 'instance_h_100',
         ground_fluents_to_freeze = set(),
-        # ground_fluents_to_freeze = set([ 'occupied___z2', 'occupied___z3', 'occupied___z4', 'temp-zone___z2' ]),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32, epochs=20_000, train_seconds=600)
+        experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=20_000, train_seconds=train_seconds)
     ),
     ##################################################################
     # PowerGen
@@ -78,19 +82,18 @@ domains = [
         ground_fluents_to_freeze = set(),
         # ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=60_000, train_seconds=1500)
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=60_000, train_seconds=train_seconds)
     ),
     ##################################################################
-    # MarsRover
+    # MountainCar
     ##################################################################
-    # DomainExperiment(
-    #     name                     = 'MarsRover',
-    #     instance                 = 'instance_h_10',
-    #     ground_fluents_to_freeze = set(),
-    #     # ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
-    #     bound_strategies         = bound_strategies,
-    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32, epochs=10_000, train_seconds=1500)
-    # ),
+    DomainExperiment(
+        name                     = 'MountainCar',
+        instance                 = 'instance1',
+        ground_fluents_to_freeze = set(),
+        bound_strategies         = bound_strategies,
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=1.0, batch_size=32, epochs=5_000, train_seconds=train_seconds)
+    ),
     
     ##################################################################
     # Reservoir
@@ -101,7 +104,7 @@ domains = [
         ground_fluents_to_freeze = set(),
         # ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=15_000, train_seconds=1500)
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=15_000, train_seconds=train_seconds)
     ),
 ]
 
