@@ -5,6 +5,10 @@ import os
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+
+from multiprocessing import get_context, freeze_support
+
 
 def plot_convergence_time(plot_folder, domain, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution):
     methods = (
@@ -160,15 +164,10 @@ def plot_cost_curve_per_iteration(plot_folder, domain, random_policy_stats, warm
 
     plt.savefig(f'{plot_folder}/convergence_value_{domain.name}_{domain.instance}.pdf', format='pdf')
 
-print('--------------------------------------------------------------------------------')
-print('Abstraction Experiment - Generating graphs for PtB with warm start')
-print('--------------------------------------------------------------------------------')
-print()
-
 root_folder = os.path.dirname(__file__)
 plot_folder = f'{root_folder}/_plots'
 
-for domain in domains:
+def plot_experiments(domain):
     ############################################################
     # Convergence value
     ############################################################
@@ -193,14 +192,34 @@ for domain in domains:
 
     plot_convergence_time(plot_folder, domain, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
 
-    # ############################################################
-    # # Time to elect fluent
-    # ############################################################
+start_time = time.time()
 
-    # warm_start_creation_experiment_stats_low_fluent = load_data(f'{root_folder}/_results/warmstart_creation_run_data_{domain.name}_{domain.instance}.pickle')
+if __name__ == '__main__':
+    freeze_support()
+    
+    print('--------------------------------------------------------------------------------')
+    print('Abstraction Experiment - Generating graphs for PtB with warm start')
+    print('--------------------------------------------------------------------------------')
+    print()
 
-    # # metrics for low fluent
-    # warm_start_computation_low_fluent = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats_low_fluent)))
-    # evaluation_time_low_fluent = read_fluent_evaluation_time_csv(f'{root_folder}/_results/execution_time_random_policy_{domain.name}_{domain.instance}.csv')
+    pool_context = 'spawn'
+    num_workers = 4
+    timeout = 3_600 # 1 hour
 
-print('done!')
+    # create worker pool: note each iteration must wait for all workers
+    # to finish before moving to the next
+    with get_context(pool_context).Pool(processes=num_workers) as pool:
+        multiple_results = [pool.apply_async(plot_experiments, args=(domain,)) for domain in domains]
+        
+        # wait for all workers to finish
+        for res in multiple_results:
+            res.get(timeout=timeout)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print()
+    print('--------------------------------------------------------------------------------')
+    print('Elapsed Time: ', elapsed_time)
+    print('--------------------------------------------------------------------------------')
+    print()

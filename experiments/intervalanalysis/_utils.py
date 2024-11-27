@@ -75,12 +75,10 @@ class ExperimentStatisticsSummary:
     last_iteration_improved:     int
 
 def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameters : PlannerParameters, silent : bool = True):
+    print(f'[{os.getpid()}] Run: {name} - Status: starting')
+    
     if not silent:
-        print('--------------------------------------------------------------------------------')
-        print('Experiment: ', name)
-        print('Seed: ', planner_parameters.seed)
-        print('--------------------------------------------------------------------------------')
-        print()
+        print(f'[{os.getpid()}] Run: {name} - Seed: {planner_parameters.training_params.seed}')
     
     start_time = time.time()
 
@@ -124,7 +122,7 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    print(f'[{os.getpid()}] Run: {name} - Status: {last_status} - Elapsed time: {elapsed_time:.2f} seconds')
+    print(f'[{os.getpid()}] Ran: {name} - Status: {last_status} - Elapsed time: {elapsed_time:.2f} seconds')
 
     return ExperimentStatisticsSummary(final_policy_weights, statistics_history, elapsed_time, last_iteration_improved)
 

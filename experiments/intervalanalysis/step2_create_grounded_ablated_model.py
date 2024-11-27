@@ -72,15 +72,15 @@ def perform_experiment(domain):
     grounded_model_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.model'
     write_grounded_model_to_file(grounded_model, grounded_domain_file_path, grounded_model_file_path)
 
-print('--------------------------------------------------------------------------------')
-print('Abstraction Experiment - Create Ground RDDL model with ablated fluents')
-print('--------------------------------------------------------------------------------')
-print()
-
 start_time = time.time()
 
 if __name__ == '__main__':
     freeze_support()
+
+    print('--------------------------------------------------------------------------------')
+    print('Abstraction Experiment - Create Ground RDDL model with ablated fluents')
+    print('--------------------------------------------------------------------------------')
+    print()
 
     #########################################################################################################
     # Prepare to run in multiple processes

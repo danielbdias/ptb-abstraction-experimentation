@@ -43,7 +43,7 @@ def perform_experiment(domain):
 
         env_params = experiment_params
 
-        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (abstraction) - Straight line", rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
+        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (warm-start creation) - Straight line", rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
         warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
 
         experiment_params = domain.experiment_params
@@ -53,21 +53,21 @@ def perform_experiment(domain):
 
         warm_start_env_params = experiment_params
 
-        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm start) - Straight line", rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
+        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm-start initialization) - Straight line", rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
         warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)
 
     save_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_run_data_{domain.name}_{domain.instance}.pickle')
     save_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_run_data_{domain.name}_{domain.instance}.pickle')
 
-print('--------------------------------------------------------------------------------')
-print('Abstraction Experiment - Create Warm Start policies and Run with Warm Start')
-print('--------------------------------------------------------------------------------')
-print()
-
 start_time = time.time()
 
 if __name__ == '__main__':
     freeze_support()
+
+    print('--------------------------------------------------------------------------------')
+    print('Abstraction Experiment - Create Warm Start policies and Run with Warm Start')
+    print('--------------------------------------------------------------------------------')
+    print()
 
     #########################################################################################################
     # Prepare to run in multiple processes
