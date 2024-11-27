@@ -9,8 +9,9 @@ Since we are using a slightly modified version (forked from the original ones) o
 ### Starting new env from scratch
 
 ```sh
-# clone with submodules
+# clone with submodules and go to folder
 git clone --recurse-submodules git@github.com:danielbdias/ptb-abstraction-experimentation.git
+cd ./ptb-abstraction-experimentation
 
 # create venv
 python -m venv ./_venv
