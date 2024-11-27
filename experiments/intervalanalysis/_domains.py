@@ -61,13 +61,14 @@ domains = [
     ##################################################################
     # HVAC
     ##################################################################
-    # DomainExperiment(
-    #     name                     = 'HVAC',
-    #     instance                 = 'instance_h_100',
-    #     ground_fluents_to_freeze = set([ 'occupied___z2', 'occupied___z3', 'occupied___z4', 'temp-zone___z2' ]),
-    #     bound_strategies         = bound_strategies,
-    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32, epochs=20_000, train_seconds=600)
-    # ),
+    DomainExperiment(
+        name                     = 'HVAC',
+        instance                 = 'instance_h_100',
+        ground_fluents_to_freeze = set(),
+        # ground_fluents_to_freeze = set([ 'occupied___z2', 'occupied___z3', 'occupied___z4', 'temp-zone___z2' ]),
+        bound_strategies         = bound_strategies,
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32, epochs=20_000, train_seconds=600)
+    ),
     ##################################################################
     # PowerGen
     ##################################################################
@@ -85,22 +86,23 @@ domains = [
     # DomainExperiment(
     #     name                     = 'MarsRover',
     #     instance                 = 'instance_h_10',
-    #     ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
+    #     ground_fluents_to_freeze = set(),
+    #     # ground_fluents_to_freeze = set([ 'picture-taken___p2', 'picture-taken___p3' ]),
     #     bound_strategies         = bound_strategies,
-    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32)
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.01, batch_size=32, epochs=10_000, train_seconds=1500)
     # ),
     
     ##################################################################
     # Reservoir
     ##################################################################
-    # TODO: define hyperparams
-    # DomainExperiment(
-    #     name                     = 'Reservoir',
-    #     instance                 = 'instance_h_100',
-    #     ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
-    #     bound_strategies         = bound_strategies,
-    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32)
-    # ),
+    DomainExperiment(
+        name                     = 'Reservoir',
+        instance                 = 'instance_h_100',
+        ground_fluents_to_freeze = set(),
+        # ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
+        bound_strategies         = bound_strategies,
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=15_000, train_seconds=1500)
+    ),
 ]
 
 silent = True
