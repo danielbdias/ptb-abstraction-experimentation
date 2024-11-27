@@ -68,7 +68,7 @@ domains = [
     ##################################################################
     DomainExperiment(
         name                     = 'HVAC',
-        instance                 = 'instance_h_20',
+        instance                 = 'inst_5_zones_5_heaters',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
         experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=16_000, train_seconds=train_seconds)
@@ -78,9 +78,8 @@ domains = [
     ##################################################################
     DomainExperiment(
         name                     = 'PowerGen',
-        instance                 = 'instance_h_100',
+        instance                 = 'inst_5_gen',
         ground_fluents_to_freeze = set(),
-        # ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
         bound_strategies         = bound_strategies,
         experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=40_000, train_seconds=train_seconds)
     ),    
@@ -89,9 +88,8 @@ domains = [
     ##################################################################
     DomainExperiment(
         name                     = 'Reservoir',
-        instance                 = 'instance_h_100',
+        instance                 = 'inst_10_reservoirs',
         ground_fluents_to_freeze = set(),
-        # ground_fluents_to_freeze = set([ 'rlevel___t3', 'rlevel___t4', 'rlevel___t7', 'rlevel___t10' ]),
         bound_strategies         = bound_strategies,
         experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=12_000, train_seconds=train_seconds)
     ),
