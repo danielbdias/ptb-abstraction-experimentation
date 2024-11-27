@@ -5,7 +5,7 @@ import time
 from _domains import domains, threshold_to_choose_fluents
 
 import pyRDDLGym
-from pyRDDLGym.core.intervals import RDDLIntervalAnalysis
+from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, RDDLIntervalAnalysisMean, RDDLIntervalAnalysisPercentile
 
 from pyRDDLGym import RDDLEnv
 
@@ -128,6 +128,14 @@ def build_fluent_values_to_analyse(ground_fluent : str, state_bounds : dict, ana
     upper_values[object_index] = state_bounds[lifted_fluent][1][object_index]
 
     return {lifted_fluent: (np.asarray(lower_values), np.asarray(upper_values)) }
+
+def get_interval_analysis(environment: RDDLEnv, strategy_type: str, strategy_params: dict):
+    if strategy_type == 'mean':
+        return RDDLIntervalAnalysisMean(environment.model)
+    elif strategy_type == 'percentile':
+        return RDDLIntervalAnalysisPercentile(environment.model, strategy_params)
+    else:
+        return RDDLIntervalAnalysis(environment.model)
 
 def compute_action_bounds(environment):
     action_bounds = {}

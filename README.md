@@ -19,6 +19,7 @@ python -m venv ./_venv
 source _venv/bin/activate
 
 # install requirements
+pip install --upgrade pip
 pip install -r requirements.txt
 
 # install local pyRDDLGym libs
@@ -28,8 +29,6 @@ pip install ./pyRDDLGym-jax
 
 ### Run Experiments
 ```sh
-
-# Abstraction experiments
 
 sh ./_run_intervalanalysis_all_steps_slp.sh
 ```
