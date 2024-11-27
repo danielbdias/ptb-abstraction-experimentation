@@ -5,7 +5,6 @@ from typing import Set
 from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
 
 from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic
-from pyRDDLGym.core.intervals import IntervalAnalysisStrategy
 
 @dataclass(frozen=True)
 class DomainExperiment:
@@ -26,9 +25,9 @@ jax_seeds = [
 ]
 
 bound_strategies = {
-    'support': (IntervalAnalysisStrategy.SUPPORT, {}),
-    'mean': (IntervalAnalysisStrategy.MEAN, {}),
-    'percentiles': (IntervalAnalysisStrategy.PERCENTILE, { 'percentiles': [0.05, 0.95] }),
+    'support': None,
+    'mean': None,
+    'percentiles': (0.05, 0.95),
 }
 
 bound_strategy_to_choose_fluents = 'mean'
@@ -36,8 +35,6 @@ threshold_to_choose_fluents = 0.3 # 30% of the fluents
 
 def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None):
     return PlannerParameters(
-        epsilon_error          = None,
-        epsilon_iteration_stop = None,
         model_params = PlanningModelParameters(
             logic=FuzzyLogic(
                 tnorm  = ProductTNorm(),

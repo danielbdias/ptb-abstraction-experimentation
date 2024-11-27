@@ -131,11 +131,11 @@ def build_fluent_values_to_analyse(ground_fluent : str, state_bounds : dict, ana
 
 def get_interval_analysis(environment: RDDLEnv, strategy_type: str, strategy_params: dict):
     if strategy_type == 'mean':
-        return RDDLIntervalAnalysisMean(environment.model)
+        return RDDLIntervalAnalysisMean(environment)
     elif strategy_type == 'percentile':
-        return RDDLIntervalAnalysisPercentile(environment.model, strategy_params)
+        return RDDLIntervalAnalysisPercentile(environment, strategy_params['percentiles'])
     else:
-        return RDDLIntervalAnalysis(environment.model)
+        return RDDLIntervalAnalysis(environment)
 
 def compute_action_bounds(environment):
     action_bounds = {}
@@ -192,12 +192,10 @@ for domain in domains:
         output_file_analysis_time=f"{root_folder}/_results/time_{domain.name}_{domain.instance}_{strategy_name}.csv"
         output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{domain.name}_{domain.instance}_{strategy_name}.csv"
         
-        strategy_type, strategy_params = strategy
-        
         # Random policy
         start_time_for_analysis = time.time()
 
-        analysis = RDDLIntervalAnalysis(environment.model, strategy=strategy_type, **strategy_params)
+        analysis = get_interval_analysis(environment.model, strategy_name, strategy)
         action_bounds = compute_action_bounds(environment)
         state_bounds = compute_state_bounds(environment)
 

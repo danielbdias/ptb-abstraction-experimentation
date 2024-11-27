@@ -4,17 +4,11 @@ import optax
 import time
 import pickle
 
-from scipy.stats import entropy
-
 from dataclasses import dataclass
-from typing import Dict, List, Set
 
-import pyRDDLGym
-from pyRDDLGym import RDDLEnv
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
-from pyRDDLGym.core.policy import RandomAgent
 from pyRDDLGym_jax.core.logic import FuzzyLogic
-from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxOfflineController
+from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan
 
 import numpy as np
 
@@ -40,8 +34,6 @@ class TrainingParameters:
 
 @dataclass(frozen=False)
 class PlannerParameters:
-    epsilon_error:              float
-    epsilon_iteration_stop:     int
     model_params:               PlanningModelParameters
     optimizer_params:           OptimizerParameters   
     training_params:            TrainingParameters
@@ -104,8 +96,6 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
     planner_callbacks = planner.optimize(
         planner_parameters.training_params.seed, 
         epochs                 = planner_parameters.training_params.epochs, 
-        epsilon_error          = planner_parameters.epsilon_error,
-        epsilon_iteration_stop = planner_parameters.epsilon_iteration_stop,
         policy_hyperparams     = planner_parameters.training_params.policy_hyperparams,
         train_seconds          = planner_parameters.training_params.train_seconds,
         return_callback        = True,
