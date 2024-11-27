@@ -77,7 +77,8 @@ domains = [
     DomainExperiment(
         name                     = 'PowerGen',
         instance                 = 'instance_h_100',
-        ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
+        ground_fluents_to_freeze = set(),
+        # ground_fluents_to_freeze = set([ 'prevOn___p1', 'prevOn___p2', 'prevOn___p3', 'prevOn___p4', 'prevOn___p5' ]),
         bound_strategies         = bound_strategies,
         experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=60_000, train_seconds=1500)
     ),

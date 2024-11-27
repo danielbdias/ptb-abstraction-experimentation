@@ -24,26 +24,14 @@ pip install -r requirements.txt
 # install local pyRDDLGym libs
 pip install ./pyRDDLGym
 pip install ./pyRDDLGym-jax
-pip install ./pyRDDLGym-symbolic
 ```
 
 ### Run Experiments
 ```sh
 
-# Low dynamic fluent experiments
+# Abstraction experiments
 
-# Step 0: Evaluate fluents
-PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step1_evaluate_fluents.py
-
-# Step 1: Evaluate fluents
-PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step1_evaluate_fluents.py
-
-# Step 2: Choose best fluents from CSVs and update ./experiments/lowdynamicfluent/_domains.py
-#         then run the following command:
-PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step2_create_warm_start_policies_and_run_jaxplan.py
-
-# Step 3: Compute statistics
-PYTHONWARNINGS=ignore python ./experiments/lowdynamicfluent/step3_compute_experiment_statistics.py
+sh ./_run_intervalanalysis_all_steps_slp.sh
 ```
 
 ### Install python with Tkinter on MacOSX

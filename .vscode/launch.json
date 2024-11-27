@@ -10,10 +10,9 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            // "justMyCode": true,
             "justMyCode": false,
             "python": "/Users/danielbdias/Development/Repositories/doctorate/ptb-abstraction-experimentation/_venv/bin/python",
-            "args": ["navigation"]
-        }
+            "args": []
+        },
     ]
 }
