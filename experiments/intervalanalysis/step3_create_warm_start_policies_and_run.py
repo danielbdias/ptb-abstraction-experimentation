@@ -15,10 +15,7 @@ from _utils import run_experiment, save_data, load_data, PlannerParameters
 root_folder = os.path.dirname(__file__)
 
 def perform_experiment(domain):
-    print('--------------------------------------------------------------------------------')
-    print('Domain: ', domain)
-    print('--------------------------------------------------------------------------------')
-    print()
+    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance)
 
     #########################################################################################################
     # Runs PtB with modified domain (that has ground fluents frozen with initial state values)

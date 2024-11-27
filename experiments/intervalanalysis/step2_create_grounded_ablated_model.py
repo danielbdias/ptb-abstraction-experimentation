@@ -56,7 +56,7 @@ def write_grounded_model_to_file(grounded_model, domain_file_file_path, grounded
 root_folder = os.path.dirname(__file__)
 
 def perform_experiment(domain):
-    print(f'[{os.getpid()}] Domain: ', domain)
+    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance)
 
     domain_path = f"{root_folder}/domains/{domain.name}"
     domain_file_path = f'{domain_path}/domain.rddl'

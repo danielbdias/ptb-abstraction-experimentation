@@ -15,7 +15,7 @@ from _utils import run_experiment, save_data
 root_folder = os.path.dirname(__file__)
 
 def perform_experiment(domain):
-    print(f'[{os.getpid()}] Domain: ', domain)
+    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance)
 
     #########################################################################################################
     # Runs with regular domain (just to use as comparison)
