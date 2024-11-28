@@ -62,7 +62,8 @@ def get_planner_parameters(model_weight : int, learning_rate : float, batch_size
             epochs             = epochs,
             train_seconds      = train_seconds,
             policy_hyperparams = policy_hyperparams,
-            stopping_rule      = NoImprovementStoppingRule(patience=patience)
+            # stopping_rule      = NoImprovementStoppingRule(patience=patience)
+            stopping_rule      = None
         )
     )
 
