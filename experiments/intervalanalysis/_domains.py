@@ -71,7 +71,7 @@ domains = [
         instance                 = 'inst_5_zones_5_heaters',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=16_000, train_seconds=train_seconds)
+        experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=10_000, train_seconds=train_seconds)
     ),
     ##################################################################
     # PowerGen
@@ -81,7 +81,7 @@ domains = [
         instance                 = 'inst_5_gen',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=40_000, train_seconds=train_seconds)
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=35_000, train_seconds=train_seconds)
     ),    
     ##################################################################
     # Reservoir
