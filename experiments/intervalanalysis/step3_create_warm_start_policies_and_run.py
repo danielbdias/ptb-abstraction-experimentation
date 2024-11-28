@@ -5,7 +5,7 @@ import jax
 import pyRDDLGym
 from pyRDDLGym.core.grounder import RDDLGrounder
 
-from pyRDDLGym_jax.core.planner import JaxStraightLinePlan
+from pyRDDLGym_jax.core.planner import JaxStraightLinePlan, JaxDeepReactivePolicy
 
 from multiprocessing import get_context, freeze_support
 
@@ -15,7 +15,61 @@ from _utils import run_experiment, save_data, load_data, PlannerParameters
 root_folder = os.path.dirname(__file__)
 
 def perform_experiment(domain):
-    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance)
+    if domain.experiment_params.is_drp():
+        return perform_drp_experiment(domain)
+    
+    return perform_slp_experiment(domain)
+
+def perform_drp_experiment(domain):
+    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance, ' DRP')
+
+    #########################################################################################################
+    # Runs PtB with modified domain (that has ground fluents frozen with initial state values)
+    #########################################################################################################
+
+    domain_path = f"{root_folder}/domains/{domain.name}"
+    
+    regular_domain_file_path = f'{domain_path}/domain.rddl'
+    regular_instance_file_path = f'{domain_path}/{domain.instance}.rddl'
+
+    regular_environment = pyRDDLGym.make(domain=regular_domain_file_path, instance=regular_instance_file_path)
+    grounder = RDDLGrounder(regular_environment.model.ast)
+    regular_grounded_model = grounder.ground()
+    
+    ablated_model_file_path = f'{root_folder}/_intermediate/domain_{domain.name}_{domain.instance}.model'
+    ablated_grounded_model = load_data(ablated_model_file_path)
+
+    warm_start_creation_experiment_stats = []
+    warm_start_run_experiment_stats = []
+
+    for jax_seed in jax_seeds:
+        experiment_params = domain.experiment_params
+        experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(domain.experiment_params.topology)
+        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
+
+        env_params = experiment_params
+
+        abstraction_env_experiment_summary = run_experiment(f"{domain.name} (warm-start creation) - DRP", rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
+        warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
+
+        initializers_per_layer = {} # TODO: improve this
+        for layer_name in abstraction_env_experiment_summary.final_policy_weights.keys():
+            initializers_per_layer[layer_name] = abstraction_env_experiment_summary.final_policy_weights[layer_name]
+
+        experiment_params = domain.experiment_params
+        experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(domain.experiment_params.topology, initializer_per_layer=initializers_per_layer)        
+        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
+
+        warm_start_env_params = experiment_params
+
+        warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm-start initialization) - DRP", rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
+        warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)
+
+    save_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_drp_run_data_{domain.name}_{domain.instance}.pickle')
+    save_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_drp_run_data_{domain.name}_{domain.instance}.pickle')
+
+def perform_slp_experiment(domain):
+    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance, ' SLP')
 
     #########################################################################################################
     # Runs PtB with modified domain (that has ground fluents frozen with initial state values)
@@ -56,8 +110,8 @@ def perform_experiment(domain):
         warm_start_env_experiment_summary = run_experiment(f"{domain.name} (warm-start initialization) - Straight line", rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
         warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)
 
-    save_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_run_data_{domain.name}_{domain.instance}.pickle')
-    save_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_run_data_{domain.name}_{domain.instance}.pickle')
+    save_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_slp_run_data_{domain.name}_{domain.instance}.pickle')
+    save_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_slp_run_data_{domain.name}_{domain.instance}.pickle')
 
 start_time = time.time()
 

@@ -6,6 +6,7 @@ import time
 import pickle
 
 from dataclasses import dataclass
+from typing import List
 
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym_jax.core.logic import FuzzyLogic
@@ -40,6 +41,10 @@ class PlannerParameters:
     model_params:               PlanningModelParameters
     optimizer_params:           OptimizerParameters   
     training_params:            TrainingParameters
+    topology:                   List[int] = None
+    
+    def is_drp(self):
+        return self.topology is not None
 
 ########################################
 ########################################
