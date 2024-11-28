@@ -1,6 +1,6 @@
 import optax
 from dataclasses import dataclass
-from typing import Set
+from typing import Set, List
 
 from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
 
@@ -21,6 +21,7 @@ class DomainExperiment:
 
 jax_seeds = [
     42
+    # 42, 101, 967, 
     # 42, 101, 967, 103, 61, 
     # 107, 647, 109, 347, 113, 
     # 139, 127, 367, 131, 13, 137, 971, 139, 31, 149
@@ -38,8 +39,9 @@ threshold_to_choose_fluents = 0.3 # 30% of the fluents
 train_seconds = 3600 # 1 hour, JaxPlan stops training after this time or if the number of epochs is reached
 patience = 1000 # JaxPlan stops training if the test return does not improve for this number of epochs
 
-def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None):
+def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None, topology : List[int] = None):
     return PlannerParameters(
+        topology = topology,
         model_params = PlanningModelParameters(
             logic=FuzzyLogic(
                 tnorm      = ProductTNorm(),
@@ -71,32 +73,59 @@ domains = [
     ##################################################################
     # HVAC
     ##################################################################
-    DomainExperiment(
+    # DomainExperiment( #SLP
+    #     name                     = 'HVAC',
+    #     instance                 = 'inst_5_zones_5_heaters',
+    #     ground_fluents_to_freeze = set(),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, 
+    #                                                       epochs=10_000, train_seconds=train_seconds)
+    # ),
+    DomainExperiment( # DRP
         name                     = 'HVAC',
         instance                 = 'inst_5_zones_5_heaters',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=10_000, train_seconds=train_seconds)
+        experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.001, batch_size=32, 
+                                                          epochs=10_000, train_seconds=train_seconds, topology=[64, 64])
     ),
     ##################################################################
     # PowerGen
     ##################################################################
-    DomainExperiment(
+    # DomainExperiment( # SLP
+    #     name                     = 'PowerGen',
+    #     instance                 = 'inst_5_gen',
+    #     ground_fluents_to_freeze = set(),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, 
+    #                                                       epochs=35_000, train_seconds=train_seconds)
+    # ),
+    DomainExperiment( # DRP
         name                     = 'PowerGen',
         instance                 = 'inst_5_gen',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=35_000, train_seconds=train_seconds)
-    ),    
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, 
+                                                          epochs=10_000, train_seconds=train_seconds, topology=[256, 128])
+    ),
     ##################################################################
     # Reservoir
     ##################################################################
-    DomainExperiment(
+    # DomainExperiment( # SLP
+    #     name                     = 'Reservoir',
+    #     instance                 = 'inst_10_reservoirs',
+    #     ground_fluents_to_freeze = set(),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, 
+    #                                                       epochs=12_000, train_seconds=train_seconds)
+    # ),
+    DomainExperiment( # DRP
         name                     = 'Reservoir',
         instance                 = 'inst_10_reservoirs',
         ground_fluents_to_freeze = set(),
         bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=12_000, train_seconds=train_seconds)
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, 
+                                                          epochs=10_000, train_seconds=train_seconds, topology=[64, 32])
     ),
 ]
 

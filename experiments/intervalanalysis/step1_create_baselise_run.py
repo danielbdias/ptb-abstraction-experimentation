@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
     pool_context = 'spawn'
     num_workers = 4
-    timeout = 3_600 # 1 hour
+    timeout = 7_200 # 2 hours
 
     # create worker pool: note each iteration must wait for all workers
     # to finish before moving to the next

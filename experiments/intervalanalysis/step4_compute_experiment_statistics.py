@@ -154,7 +154,7 @@ def plot_cost_curve_per_iteration(plot_folder, domain, planner_type, random_poli
         plt.plot(iterations, best_return_curves_mean, '-', label=key)
         plt.fill_between(iterations, (best_return_curves_mean - best_return_curves_stddev), (best_return_curves_mean + best_return_curves_stddev), alpha=0.2)
 
-    plt.title(f'Best Reward per Iteration\n({domain.name} - {domain.instance} - {planner_type)', fontsize=14, fontweight='bold')
+    plt.title(f'Best Reward per Iteration\n({domain.name} - {domain.instance} - {planner_type})', fontsize=14, fontweight='bold')
     plt.xlabel("Iterations", fontsize=14)
     plt.ylabel("Reward", fontsize=14)
     plt.legend(loc="best", fontsize=14)
