@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym_jax.core.logic import FuzzyLogic
-from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan
+from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxPlannerStoppingRule
 
 import numpy as np
 
@@ -33,6 +33,7 @@ class TrainingParameters:
     seed:               jax.random.PRNGKey
     train_seconds:      int
     policy_hyperparams: dict
+    stopping_rule:      JaxPlannerStoppingRule    
 
 @dataclass(frozen=False)
 class PlannerParameters:
@@ -92,6 +93,8 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
         optimizer_kwargs = {'learning_rate': planner_parameters.optimizer_params.learning_rate},
         action_bounds    = planner_parameters.optimizer_params.action_bounds)
 
+    stopping_rule = planner_parameters.training_params.stopping_rule
+
     # run the planner as an optimization process
     planner_callbacks = planner.optimize_generator(
         planner_parameters.training_params.seed, 
@@ -101,6 +104,7 @@ def run_experiment(name : str, rddl_model : RDDLPlanningModel, planner_parameter
         guess                  = planner_parameters.optimizer_params.guess,
         print_summary          = not silent,
         print_progress         = not silent,
+        stopping_rule          = stopping_rule
     )
 
     final_policy_weights = None

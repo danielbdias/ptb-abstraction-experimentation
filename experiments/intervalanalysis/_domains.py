@@ -5,6 +5,8 @@ from typing import Set
 from _utils import PlannerParameters, PlanningModelParameters, OptimizerParameters, TrainingParameters
 
 from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic, SigmoidComparison, SoftRounding, SoftControlFlow
+from pyRDDLGym_jax.core.planner import NoImprovementStoppingRule
+
 
 @dataclass(frozen=True)
 class DomainExperiment:
@@ -34,6 +36,7 @@ bound_strategy_to_choose_fluents = 'mean'
 threshold_to_choose_fluents = 0.3 # 30% of the fluents
 
 train_seconds = 3600 # 1 hour, JaxPlan stops training after this time or if the number of epochs is reached
+patience = 1000 # JaxPlan stops training if the test return does not improve for this number of epochs
 
 def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None):
     return PlannerParameters(
@@ -58,7 +61,8 @@ def get_planner_parameters(model_weight : int, learning_rate : float, batch_size
             seed               = 42,
             epochs             = epochs,
             train_seconds      = train_seconds,
-            policy_hyperparams = policy_hyperparams
+            policy_hyperparams = policy_hyperparams,
+            stopping_rule      = NoImprovementStoppingRule(patience=patience)
         )
     )
 
