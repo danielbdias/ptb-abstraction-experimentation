@@ -4,9 +4,9 @@ import time
 
 from collections import namedtuple
 from typing import Dict, List, Tuple
-from multiprocessing import get_context, freeze_support
 
-from _domains import domains, threshold_to_choose_fluents
+from _config import experiments, threshold_to_choose_fluents
+from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
 import pyRDDLGym
 from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, RDDLIntervalAnalysisMean, RDDLIntervalAnalysisPercentile
@@ -79,12 +79,12 @@ def record_scores(file_path: str, scores: List[ScoreData]):
             writer.writerow([ score.domain, score.fluent, score.accumulated_reward_lower_bound, score.accumulated_reward_upper_bound,
                               score.range_bounds, score.range_bounds_regular_mdp, score.score_diff, score.score_explained_interval ])
             
-def record_fluents_to_ablate(file_path: str, scores: List[ScoreData]):
+def record_fluents_to_ablate(file_path: str, scores: List[ScoreData], threshold : float):
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         
         scores_count = len(scores)
-        scores_to_ablate_count = max(1, round(scores_count * threshold_to_choose_fluents))
+        scores_to_ablate_count = max(1, round(scores_count * threshold))
         
         scores_to_ablate = sorted(scores, key=lambda x: x.score_explained_interval)
         
@@ -162,60 +162,60 @@ def compute_state_bounds(environment : RDDLEnv):
 
     return state_bounds
 
-def perform_experiment(domain):
-    domain_path = f"{root_folder}/domains/{domain.name}"
-    domain_file_path = f'{domain_path}/domain.rddl'
-    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
+def perform_experiment(domain_instance_experiment, strategy_name, strategy, threshold):
+    domain_path = f"{root_folder}/domains/{domain_instance_experiment.domain_name}"
+    domain_file_path = f'{domain_path}/domain_instance_experiment.rddl'
+    instance_file_path = f'{domain_path}/{domain_instance_experiment.instance_name}.rddl'
 
+    file_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
+    output_file_interval=f"{root_folder}/_results/intervals_{file_suffix}.csv"
+    output_file_analysis_time=f"{root_folder}/_results/time_{file_suffix}.csv"
+    output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{file_suffix}.csv"
+
+    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Interval Analysis Metric: {strategy_name} - Threshold: {threshold}')
+    
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
     discount_factor = environment.model.discount
     horizon = environment.model.horizon
+    
+    # Random policy
+    start_time_for_analysis = time.time()
 
-    for strategy_name, strategy in domain.bound_strategies.items():
-        print(f'[{os.getpid()}] Domain: {domain.name} - Instance: {domain.instance} - Strategy: {strategy_name}')
+    analysis = get_interval_analysis(environment.model, strategy_name, strategy)
+    action_bounds = compute_action_bounds(environment)
+    state_bounds = compute_state_bounds(environment)
+
+    # run first without fixing any fluent
+    bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True)
+    regular_mdp_bounds = BoudedTrajectory('regular', bounds['reward'][0], bounds['reward'][1])
+    regular_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
+
+    ground_fluents = build_ground_fluent_list(environment)
+    ground_fluent_mdp_accumulated_reward = {}
+    ground_fluent_initialization = {}
+
+    for ground_fluent in ground_fluents:
+        # test of fluent bounds 
+        fluent_values = build_fluent_values_to_analyse(ground_fluent, state_bounds, analysis) # update initial state initialization
+        ground_fluent_initialization[ground_fluent] = fluent_values
         
-        output_file_interval=f"{root_folder}/_results/intervals_{domain.name}_{domain.instance}_{strategy_name}.csv"
-        output_file_analysis_time=f"{root_folder}/_results/time_{domain.name}_{domain.instance}_{strategy_name}.csv"
-        output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{domain.name}_{domain.instance}_{strategy_name}.csv"
-        
-        # Random policy
-        start_time_for_analysis = time.time()
+        # evaluate lower and upper bounds on accumulated reward of random policy
+        bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
+        fixed_fluent_mdp_bounds = BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1])
+        fixed_fluent_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, fixed_fluent_mdp_bounds)
 
-        analysis = get_interval_analysis(environment.model, strategy_name, strategy)
-        action_bounds = compute_action_bounds(environment)
-        state_bounds = compute_state_bounds(environment)
+        ground_fluent_mdp_accumulated_reward[ground_fluent] = fixed_fluent_mdp_accumulated_reward
 
-        # run first without fixing any fluent
-        bounds = analysis.bound(action_bounds=action_bounds, per_epoch=True)
-        regular_mdp_bounds = BoudedTrajectory('regular', bounds['reward'][0], bounds['reward'][1])
-        regular_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, regular_mdp_bounds)
+    scores = compute_scores(domain_instance_experiment.domain_name, ground_fluent_mdp_accumulated_reward, regular_mdp_accumulated_reward)
 
-        ground_fluents = build_ground_fluent_list(environment)
-        ground_fluent_mdp_accumulated_reward = {}
-        ground_fluent_initialization = {}
-
-        for ground_fluent in ground_fluents:
-            # test of fluent bounds 
-            fluent_values = build_fluent_values_to_analyse(ground_fluent, state_bounds, analysis) # update initial state initialization
-            ground_fluent_initialization[ground_fluent] = fluent_values
-            
-            # evaluate lower and upper bounds on accumulated reward of random policy
-            bounds = analysis.bound(action_bounds=action_bounds, state_bounds=fluent_values, per_epoch=True)
-            fixed_fluent_mdp_bounds = BoudedTrajectory(ground_fluent, bounds['reward'][0], bounds['reward'][1])
-            fixed_fluent_mdp_accumulated_reward = compute_accumulated_reward(discount_factor, horizon, fixed_fluent_mdp_bounds)
-
-            ground_fluent_mdp_accumulated_reward[ground_fluent] = fixed_fluent_mdp_accumulated_reward
-
-        scores = compute_scores(domain.name, ground_fluent_mdp_accumulated_reward, regular_mdp_accumulated_reward)
-
-        elapsed_time_for_analysis = time.time() - start_time_for_analysis
-        record_time(output_file_analysis_time, elapsed_time_for_analysis)
-        record_scores(output_file_interval, scores)
-        record_fluents_to_ablate(output_file_fluents_to_ablate, scores)
+    elapsed_time_for_analysis = time.time() - start_time_for_analysis
+    record_time(output_file_analysis_time, elapsed_time_for_analysis)
+    record_scores(output_file_interval, scores)
+    record_fluents_to_ablate(output_file_fluents_to_ablate, scores, threshold)
 
 if __name__ == '__main__':
-    freeze_support()
+    prepare_parallel_experiment_on_main()
 
     print('--------------------------------------------------------------------------------')
     print('Abstraction Experiment - Interval Analysis')
@@ -229,18 +229,15 @@ if __name__ == '__main__':
     # This script will run interval propagation for each domain and instance, and record statistics
     #########################################################################################################
 
-    pool_context = 'spawn'
-    num_workers = 4
-    timeout = 3_600 # 1 hour
+    # create combination of parameters that we will use to run interval propagation
+    args_list = []
+    for domain_instance_experiment in experiments:
+        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
+            for threshold in threshold_to_choose_fluents:
+                args_list.append( (domain_instance_experiment, strategy_name, strategy, threshold, ) )
 
-    # create worker pool: note each iteration must wait for all workers
-    # to finish before moving to the next
-    with get_context(pool_context).Pool(processes=num_workers) as pool:
-        multiple_results = [pool.apply_async(perform_experiment, args=(domain,)) for domain in domains]
-        
-        # wait for all workers to finish
-        for res in multiple_results:
-            res.get(timeout=timeout)
+    # Run experiments in parallel
+    run_experiment_in_parallel(perform_experiment, args_list)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
