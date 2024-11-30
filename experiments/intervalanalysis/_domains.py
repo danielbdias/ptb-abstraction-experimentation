@@ -73,15 +73,15 @@ domains = [
     ##################################################################
     # HVAC
     ##################################################################
-    DomainExperiment( #SLP
-        name                     = 'HVAC',
-        instance                 = 'inst_5_zones_5_heaters',
-        ground_fluents_to_freeze = set(),
-        bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, 
-                                                          epochs=4_000, train_seconds=train_seconds)
-                                                        #   epochs=10_000, train_seconds=train_seconds)
-    ),
+    # DomainExperiment( #SLP
+    #     name                     = 'HVAC',
+    #     instance                 = 'inst_5_zones_5_heaters',
+    #     ground_fluents_to_freeze = set(),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, 
+    #                                                       epochs=4_000, train_seconds=train_seconds)
+    #                                                     #   epochs=10_000, train_seconds=train_seconds)
+    # ),
     # DomainExperiment( # DRP
     #     name                     = 'HVAC',
     #     instance                 = 'inst_5_zones_5_heaters',
@@ -93,35 +93,35 @@ domains = [
     ##################################################################
     # PowerGen
     ##################################################################
-    DomainExperiment( # SLP
-        name                     = 'PowerGen',
-        instance                 = 'inst_5_gen',
-        ground_fluents_to_freeze = set(),
-        bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, 
-                                                          epochs=10_000, train_seconds=train_seconds)
-                                                        #   epochs=35_000, train_seconds=train_seconds)
-    ),
-    # DomainExperiment( # DRP
+    # DomainExperiment( # SLP
     #     name                     = 'PowerGen',
     #     instance                 = 'inst_5_gen',
     #     ground_fluents_to_freeze = set(),
     #     bound_strategies         = bound_strategies,
-    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, 
-    #                                                       epochs=10_000, train_seconds=train_seconds, topology=[256, 128])
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, 
+    #                                                       epochs=10_000, train_seconds=train_seconds)
+    #                                                     #   epochs=35_000, train_seconds=train_seconds)
     # ),
+    DomainExperiment( # DRP
+        name                     = 'PowerGen',
+        instance                 = 'inst_5_gen',
+        ground_fluents_to_freeze = set(),
+        bound_strategies         = bound_strategies,
+        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, 
+                                                          epochs=12_000, train_seconds=train_seconds, topology=[256, 128])
+    ),
     ##################################################################
     # Reservoir
     ##################################################################
-    DomainExperiment( # SLP
-        name                     = 'Reservoir',
-        instance                 = 'inst_10_reservoirs',
-        ground_fluents_to_freeze = set(),
-        bound_strategies         = bound_strategies,
-        experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, 
-                                                          epochs=1_000, train_seconds=train_seconds)
-                                                        #   epochs=12_000, train_seconds=train_seconds)
-    ),
+    # DomainExperiment( # SLP
+    #     name                     = 'Reservoir',
+    #     instance                 = 'inst_10_reservoirs',
+    #     ground_fluents_to_freeze = set(),
+    #     bound_strategies         = bound_strategies,
+    #     experiment_params        = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, 
+    #                                                       epochs=1_000, train_seconds=train_seconds)
+    #                                                     #   epochs=12_000, train_seconds=train_seconds)
+    # ),
     # DomainExperiment( # DRP
     #     name                     = 'Reservoir',
     #     instance                 = 'inst_10_reservoirs',
