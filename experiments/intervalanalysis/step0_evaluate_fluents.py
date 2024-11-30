@@ -80,16 +80,19 @@ def record_scores(file_path: str, scores: List[ScoreData]):
                               score.range_bounds, score.range_bounds_regular_mdp, score.score_diff, score.score_explained_interval ])
             
 def record_fluents_to_ablate(file_path: str, scores: List[ScoreData], threshold : float):
+    scores_count = len(scores)
+    scores_to_ablate_count = max(1, round(scores_count * threshold))
+    
+    scores_to_ablate = sorted(scores, key=lambda x: x.score_explained_interval)
+    any_non_finite = any(map(lambda x : not np.isfinite(x.score_explained_interval), scores_to_ablate))
+    
+    if any_non_finite:
+        return # skip file creation
+    
+    fluents_to_ablate = [score.fluent for score in scores_to_ablate[0:scores_to_ablate_count]]
+    
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        
-        scores_count = len(scores)
-        scores_to_ablate_count = max(1, round(scores_count * threshold))
-        
-        scores_to_ablate = sorted(scores, key=lambda x: x.score_explained_interval)
-        
-        fluents_to_ablate = [score.fluent for score in scores_to_ablate[0:scores_to_ablate_count]]
-        
         writer.writerow(fluents_to_ablate)
             
 
@@ -162,7 +165,7 @@ def compute_state_bounds(environment : RDDLEnv):
 
     return state_bounds
 
-def perform_experiment(domain_instance_experiment, strategy_name, strategy):
+def perform_interval_analysis(domain_instance_experiment, strategy_name, strategy):
     domain_path = f"{root_folder}/domains/{domain_instance_experiment.domain_name}"
     domain_file_path = f'{domain_path}/domain.rddl'
     instance_file_path = f'{domain_path}/{domain_instance_experiment.instance_name}.rddl'
@@ -238,7 +241,7 @@ if __name__ == '__main__':
             args_list.append( (domain_instance_experiment, strategy_name, strategy, ) )
 
     # Run experiments in parallel
-    run_experiment_in_parallel(perform_experiment, args_list)
+    run_experiment_in_parallel(perform_interval_analysis, args_list)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
