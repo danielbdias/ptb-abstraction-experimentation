@@ -33,6 +33,9 @@ domain mars_rover_science_mission {
         MINERAL-POS-X(mineral): { non-fluent, real, default = 0 };            // mineral x location
         MINERAL-POS-Y(mineral): { non-fluent, real, default = 0 };            // mineral y location
 
+        CLIPPING-MIN            : { non-fluent, real, default = -1000000.0 };   // values used to clip during interval analysis
+		CLIPPING-MAX            : { non-fluent, real, default = 1000000.0 };    // values used to clip during interval analysis
+
         // interm & derived fluents
         power(rover) : { interm-fluent, real };                          // derived fluent for control input norm calculation
         u-x(rover) : { interm-fluent, real };                          // derived fluent for norm saturated x control
@@ -84,6 +87,16 @@ domain mars_rover_science_mission {
 
     state-invariants {
         forall_{?m : mineral} [MINERAL-AREA(?m) > 0 ];
+
+        // interval analysis clipping
+		forall_{?r : rover} [ vel-x(?r) <= CLIPPING-MAX ];
+		forall_{?r : rover} [ vel-x(?r) >= CLIPPING-MIN ];
+        forall_{?r : rover} [ vel-y(?r) <= CLIPPING-MAX ];
+        forall_{?r : rover} [ vel-y(?r) >= CLIPPING-MIN ];
+        forall_{?r : rover} [ pos-x(?r) <= CLIPPING-MAX ];
+		forall_{?r : rover} [ pos-x(?r) >= CLIPPING-MIN ];
+        forall_{?r : rover} [ pos-y(?r) <= CLIPPING-MAX ];
+        forall_{?r : rover} [ pos-y(?r) >= CLIPPING-MIN ];
     };
 
     action-preconditions {

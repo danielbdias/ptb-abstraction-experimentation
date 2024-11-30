@@ -91,7 +91,3 @@ domain wildfire_mdp {
  	  + [sum_{?x: x_pos, ?y: y_pos} [ PENALTY_NONTARGET_BURN*[ burning(?x, ?y) ^ ~TARGET(?x, ?y) ]]];
 
 }
-
-
-
-

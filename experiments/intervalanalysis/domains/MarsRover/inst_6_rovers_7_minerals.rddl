@@ -33,6 +33,9 @@ non-fluents nf_mars_rover_science_mission_3c {
 		MINERAL-POS-Y(m7) = -3.665545294443233;
 		MINERAL-AREA(m7) = 1.615109076050517;
 		MINERAL-VALUE(m7) = 0.9399034223799907;
+
+		CLIPPING-MIN = -50.0;
+		CLIPPING-MAX = 50.0;
 	};
 }
 instance inst_mars_rover_science_mission_3c {
