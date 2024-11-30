@@ -1,4 +1,4 @@
-from _utils import DomainInstanceExperiment, get_planner_parameters
+from _experiment import DomainInstanceExperiment, get_planner_parameters
 
 #####################################################################################################################################
 # This file provides configuration for the experiments directly in python variables,
@@ -34,15 +34,11 @@ train_seconds = 3600 # 1 hour, JaxPlan stops training after this time or if the 
 
 silent = True
 
-# context to run parallel experiments
-pool_context = 'spawn'
-num_workers = 4
-timeout = 7_200 # 2 hours
-
 def domain_instance_experiment(domain_name, instance_name, slp_experiment_params, drp_experiment_params):
     experiment = DomainInstanceExperiment(
         domain_name = domain_name, 
         instance_name = instance_name, 
+        ground_fluents_to_freeze = set(),
         bound_strategies = bound_strategies,
         slp_experiment_params = slp_experiment_params,
         drp_experiment_params = drp_experiment_params
@@ -74,9 +70,9 @@ experiments = [
         slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
         drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
     ),
-    domain_instance_experiment(
-         'Wildfire', 'inst_5x5_grid',
-        slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
-    ),
+    # domain_instance_experiment(
+    #      'Wildfire', 'inst_5x5_grid',
+    #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
+    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
+    # ),
 ]

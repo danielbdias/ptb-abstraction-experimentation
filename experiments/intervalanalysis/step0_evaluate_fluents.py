@@ -162,17 +162,15 @@ def compute_state_bounds(environment : RDDLEnv):
 
     return state_bounds
 
-def perform_experiment(domain_instance_experiment, strategy_name, strategy, threshold):
+def perform_experiment(domain_instance_experiment, strategy_name, strategy):
     domain_path = f"{root_folder}/domains/{domain_instance_experiment.domain_name}"
-    domain_file_path = f'{domain_path}/domain_instance_experiment.rddl'
+    domain_file_path = f'{domain_path}/domain.rddl'
     instance_file_path = f'{domain_path}/{domain_instance_experiment.instance_name}.rddl'
 
-    file_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
-    output_file_interval=f"{root_folder}/_results/intervals_{file_suffix}.csv"
-    output_file_analysis_time=f"{root_folder}/_results/time_{file_suffix}.csv"
-    output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{file_suffix}.csv"
+    output_file_interval=f"{root_folder}/_results/intervals_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
+    output_file_analysis_time=f"{root_folder}/_results/time_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
 
-    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Interval Analysis Metric: {strategy_name} - Threshold: {threshold}')
+    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Interval Analysis Metric: {strategy_name}')
     
     environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
@@ -210,9 +208,13 @@ def perform_experiment(domain_instance_experiment, strategy_name, strategy, thre
     scores = compute_scores(domain_instance_experiment.domain_name, ground_fluent_mdp_accumulated_reward, regular_mdp_accumulated_reward)
 
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
+    
     record_time(output_file_analysis_time, elapsed_time_for_analysis)
     record_scores(output_file_interval, scores)
-    record_fluents_to_ablate(output_file_fluents_to_ablate, scores, threshold)
+    
+    for threshold in threshold_to_choose_fluents:
+        output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}.csv"
+        record_fluents_to_ablate(output_file_fluents_to_ablate, scores, threshold)
 
 if __name__ == '__main__':
     prepare_parallel_experiment_on_main()
@@ -233,8 +235,7 @@ if __name__ == '__main__':
     args_list = []
     for domain_instance_experiment in experiments:
         for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
-            for threshold in threshold_to_choose_fluents:
-                args_list.append( (domain_instance_experiment, strategy_name, strategy, threshold, ) )
+            args_list.append( (domain_instance_experiment, strategy_name, strategy, ) )
 
     # Run experiments in parallel
     run_experiment_in_parallel(perform_experiment, args_list)

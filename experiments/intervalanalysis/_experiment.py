@@ -11,7 +11,7 @@ from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic, SigmoidComparison, SoftRounding, SoftControlFlow
 from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxPlannerStoppingRule
 
-from _config import pool_context, num_workers, timeout
+from _config_multiprocess import pool_context, num_workers, timeout
 
 @dataclass(frozen=True)
 class PlanningModelParameters:
@@ -31,9 +31,9 @@ class OptimizerParameters:
 class TrainingParameters:
     epochs:             int
     seed:               jax.random.PRNGKey
-    train_seconds:      int = 3_600
+    train_seconds:      int
     policy_hyperparams: dict
-    stopping_rule:      JaxPlannerStoppingRule    
+    stopping_rule:      JaxPlannerStoppingRule
 
 @dataclass(frozen=False)
 class PlannerParameters:
@@ -52,7 +52,7 @@ class PlannerParameters:
 class DomainInstanceExperiment:
     domain_name:                         str
     instance_name:                       str
-    ground_fluents_to_freeze:            Set[str] = set()
+    ground_fluents_to_freeze:            Set[str]
     bound_strategies:                    dict
     drp_experiment_params:               PlannerParameters
     slp_experiment_params:               PlannerParameters
@@ -64,7 +64,7 @@ class DomainInstanceExperiment:
     def get_state_fluents(self, rddl_model):
         return list(rddl_model.state_fluents.keys())
 
-def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, train_seconds: int, policy_hyperparams: dict = None, topology : List[int] = None):
+def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: dict = None, topology : List[int] = None):
     return PlannerParameters(
         topology = topology,
         model_params = PlanningModelParameters(
@@ -87,7 +87,7 @@ def get_planner_parameters(model_weight : int, learning_rate : float, batch_size
         training_params = TrainingParameters(
             seed               = 42,
             epochs             = epochs,
-            train_seconds      = train_seconds,
+            train_seconds      = 3_600,
             policy_hyperparams = policy_hyperparams,
             stopping_rule      = None
         )
