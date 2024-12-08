@@ -2,34 +2,24 @@ import os
 import time
 import jax
 
-from multiprocessing import get_context, freeze_support
-
 import pyRDDLGym
 from pyRDDLGym.core.grounder import RDDLGrounder
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan, JaxDeepReactivePolicy
 
-from _domains import domains, jax_seeds, silent
-from _utils import run_experiment, save_data
+from _config import experiments, jax_seeds, silent
+from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_jax_planner
+from _fileio import save_pickle_data
 
 root_folder = os.path.dirname(__file__)
 
-def perform_experiment(domain):
-    if domain.experiment_params.is_drp():
-        return perform_drp_experiment(domain)
-    
-    return perform_slp_experiment(domain)
-
-def perform_drp_experiment(domain):
-    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance, ' DRP')
+def perform_experiment(domain_instance_experiment, planner_type, experiment_params_builder):
+    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - {planner_type}')
 
     #########################################################################################################
     # Runs with regular domain (just to use as comparison)
     #########################################################################################################
-
-    domain_path = f"{root_folder}/domains/{domain.name}"
-    domain_file_path = f'{domain_path}/domain.rddl'
-    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
+    _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
     grounder = RDDLGrounder(regular_environment.model.ast)
@@ -37,56 +27,32 @@ def perform_drp_experiment(domain):
 
     regular_env_experiment_stats = []
 
-    regular_experiment_name = f"{domain.name} (regular) - DRP"
+    regular_experiment_name = f"{domain_instance_experiment.domain_name} (regular) - {planner_type}"
 
     for jax_seed in jax_seeds:
-        experiment_params = domain.experiment_params
-        experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(domain.experiment_params.topology)
+        experiment_params = experiment_params_builder(domain_instance_experiment)
         experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
-
-        env_params = experiment_params
-
-        experiment_summary = run_experiment(regular_experiment_name, rddl_model=grounded_model, planner_parameters=env_params, silent=silent)
+        
+        experiment_summary = run_jax_planner(regular_experiment_name, rddl_model=grounded_model, planner_parameters=experiment_params, silent=silent)
         regular_env_experiment_stats.append(experiment_summary)
 
-    save_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_drp_run_data_{domain.name}_{domain.instance}.pickle')
+    save_pickle_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
 
-def perform_slp_experiment(domain):
-    print(f'[{os.getpid()}] Domain: ', domain.name, ' Instance: ', domain.instance, ' SLP')
+def drp_experiment_params_builder(domain_instance_experiment):
+    experiment_params = domain_instance_experiment.drp_experiment_params
+    experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(domain_instance_experiment.drp_experiment_params.topology)
+    return experiment_params
 
-    #########################################################################################################
-    # Runs with regular domain (just to use as comparison)
-    #########################################################################################################
-
-    domain_path = f"{root_folder}/domains/{domain.name}"
-    domain_file_path = f'{domain_path}/domain.rddl'
-    instance_file_path = f'{domain_path}/{domain.instance}.rddl'
-
-    regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
-    grounder = RDDLGrounder(regular_environment.model.ast)
-    grounded_model = grounder.ground() # we need to run the base model on the same way as the other models
-
-    regular_env_experiment_stats = []
-
-    regular_experiment_name = f"{domain.name} (regular) - Straight line"
-
-    for jax_seed in jax_seeds:
-        experiment_params = domain.experiment_params
-        experiment_params.optimizer_params.plan = JaxStraightLinePlan()
-        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
-
-        env_params = experiment_params
-
-        experiment_summary = run_experiment(regular_experiment_name, rddl_model=grounded_model, planner_parameters=env_params, silent=silent)
-        regular_env_experiment_stats.append(experiment_summary)
-
-    save_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_slp_run_data_{domain.name}_{domain.instance}.pickle')
+def slp_experiment_params_builder(domain_instance_experiment):
+    experiment_params = domain_instance_experiment.slp_experiment_params
+    experiment_params.optimizer_params.plan = JaxStraightLinePlan()
+    return experiment_params
 
 if __name__ == '__main__':
-    freeze_support()
+    prepare_parallel_experiment_on_main()
 
     print('--------------------------------------------------------------------------------')
-    print('Abstraction Experiment - Create baseline Run with random policy')
+    print('Abstraction Experiment - Create baseline Run with Random policy')
     print('--------------------------------------------------------------------------------')
     print()
 
@@ -96,18 +62,17 @@ if __name__ == '__main__':
     # Prepare to run in multiple processes
     #########################################################################################################
 
-    pool_context = 'spawn'
-    num_workers = 4
-    timeout = 7_200 # 2 hours
+    # TODO: review experiments to parallelize DRPs, SLPs
 
-    # create worker pool: note each iteration must wait for all workers
-    # to finish before moving to the next
-    with get_context(pool_context).Pool(processes=num_workers) as pool:
-        multiple_results = [pool.apply_async(perform_experiment, args=(domain,)) for domain in domains]
+    # build arg list
+    args_list = []
+    
+    for experiment in experiments:
+        args_list.append( (experiment, 'slp', slp_experiment_params_builder) )
+        args_list.append( (experiment, 'drp', drp_experiment_params_builder) )
         
-        # wait for all workers to finish
-        for res in multiple_results:
-            res.get(timeout=timeout)
+    # run experiment in parallel
+    run_experiment_in_parallel(perform_experiment, args_list)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
