@@ -1,3 +1,4 @@
+dash
 dm-haiku>=0.0.10
 gymnasium
 jax>=0.4.12

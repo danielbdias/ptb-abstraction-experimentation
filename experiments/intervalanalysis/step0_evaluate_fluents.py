@@ -6,7 +6,7 @@ from collections import namedtuple
 from typing import Dict, List, Tuple
 
 from _config import experiments, threshold_to_choose_fluents
-from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
+from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, prepare_arg_list_for_experiments
 
 import pyRDDLGym
 from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, RDDLIntervalAnalysisMean, RDDLIntervalAnalysisPercentile
@@ -167,9 +167,7 @@ def compute_state_bounds(environment : RDDLEnv):
     return state_bounds
 
 def perform_interval_analysis(domain_instance_experiment, strategy_name, strategy):
-    domain_path = f"{root_folder}/domains/{domain_instance_experiment.domain_name}"
-    domain_file_path = f'{domain_path}/domain.rddl'
-    instance_file_path = f'{domain_path}/{domain_instance_experiment.instance_name}.rddl'
+    _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     output_file_interval=f"{root_folder}/_results/intervals_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
     output_file_analysis_time=f"{root_folder}/_results/time_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
@@ -236,10 +234,7 @@ if __name__ == '__main__':
     #########################################################################################################
 
     # create combination of parameters that we will use to run interval propagation
-    args_list = []
-    for domain_instance_experiment in experiments:
-        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
-            args_list.append( (domain_instance_experiment, strategy_name, strategy, ) )
+    args_list = prepare_arg_list_for_experiments(experiments)
 
     # Run experiments in parallel
     run_experiment_in_parallel(perform_interval_analysis, args_list)

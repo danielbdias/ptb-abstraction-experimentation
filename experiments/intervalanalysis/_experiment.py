@@ -63,6 +63,13 @@ class DomainInstanceExperiment:
     
     def get_state_fluents(self, rddl_model):
         return list(rddl_model.state_fluents.keys())
+    
+    def get_experiment_paths(self, root_folder):
+        domain_path = f"{root_folder}/domains/{self.domain_name}"
+        domain_file_path = f'{domain_path}/domain.rddl'
+        instance_file_path = f'{domain_path}/{self.instance_name}.rddl'
+        
+        return domain_path, domain_file_path, instance_file_path
 
 def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: dict = None, topology : List[int] = None):
     return PlannerParameters(
@@ -188,3 +195,22 @@ def run_experiment_in_parallel(perform_experiment_method, args_list):
         # wait for all workers to finish
         for res in multiple_results:
             res.get(timeout=timeout)
+            
+def prepare_arg_list_for_experiments(experiments):
+    args_list = []
+    
+    for domain_instance_experiment in experiments:
+        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
+            args_list.append( (domain_instance_experiment, strategy_name, strategy, ) )
+            
+    return args_list
+
+def prepare_arg_list_for_experiments_with_thresholds(experiments, thresholds):
+    args_list = []
+    
+    for domain_instance_experiment in experiments:
+        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
+            for threshold in thresholds:
+                args_list.append( (domain_instance_experiment, strategy_name, strategy, threshold) )
+            
+    return args_list
