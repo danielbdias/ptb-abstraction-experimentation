@@ -79,22 +79,23 @@ def record_scores(file_path: str, scores: List[ScoreData]):
             writer.writerow([ score.domain, score.fluent, score.accumulated_reward_lower_bound, score.accumulated_reward_upper_bound,
                               score.range_bounds, score.range_bounds_regular_mdp, score.score_diff, score.score_explained_interval ])
             
-def record_fluents_to_ablate(file_path: str, scores: List[ScoreData], threshold : float):
+def record_fluents_to_ablate(file_path: str, domain_name: str, strategy_name : str, scores: List[ScoreData], threshold : float):
     scores_count = len(scores)
-    scores_to_ablate_count = max(1, round(scores_count * threshold))
+    scores_to_ablate_count = max(0, round(scores_count * threshold))
     
-    scores_to_ablate = sorted(scores, key=lambda x: x.score_explained_interval)
+    sorted_scores = sorted(scores, key=lambda x: x.score_explained_interval)
+    scores_to_ablate = sorted_scores[0:scores_to_ablate_count]
+    
     any_non_finite = any(map(lambda x : not np.isfinite(x.score_explained_interval), scores_to_ablate))
-    
     if any_non_finite:
+        print(f'Could not record fluents to ablate for domain {domain_name} considering {strategy_name} strategy at threshold {threshold}. At least one score to ablate had non-finite values.')
         return # skip file creation
     
-    fluents_to_ablate = [score.fluent for score in scores_to_ablate[0:scores_to_ablate_count]]
+    fluents_to_ablate = [score.fluent for score in scores_to_ablate]
     
     with open(file_path, 'a') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(fluents_to_ablate)
-            
 
 def build_ground_fluent_list(environment : RDDLEnv):
     ground_fluents = []
@@ -217,7 +218,7 @@ def perform_interval_analysis(domain_instance_experiment, strategy_name, strateg
     
     for threshold in threshold_to_choose_fluents:
         output_file_fluents_to_ablate=f"{root_folder}/_results/fluents_to_ablate_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}.csv"
-        record_fluents_to_ablate(output_file_fluents_to_ablate, scores, threshold)
+        record_fluents_to_ablate(output_file_fluents_to_ablate, domain_instance_experiment.domain_name, strategy_name, scores, threshold)
 
 if __name__ == '__main__':
     prepare_parallel_experiment_on_main()
