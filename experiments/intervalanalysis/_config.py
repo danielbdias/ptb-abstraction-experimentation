@@ -58,21 +58,21 @@ experiments = [
         slp_experiment_params = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=4_000),
         drp_experiment_params = get_planner_parameters(model_weight=5, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[64, 64])
     ),
-    # domain_instance_experiment(
-    #     'PowerGen', 'inst_5_gen',
-    #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=10_000),
-    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=12_000, topology=[256, 128])
-    # ),
-    # domain_instance_experiment(
-    #      'Reservoir', 'inst_10_reservoirs',
-    #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
-    # ),
-    # domain_instance_experiment(
-    #      'MarsRover', 'inst_6_rovers_7_minerals',
-    #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
-    # ),
+    domain_instance_experiment(
+        'PowerGen', 'inst_5_gen',
+        slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=10_000),
+        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=12_000, topology=[256, 128])
+    ),
+    domain_instance_experiment(
+         'Reservoir', 'inst_10_reservoirs',
+        slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
+        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
+    ),
+    domain_instance_experiment(
+         'MarsRover', 'inst_6_rovers_7_minerals',
+        slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
+        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
+    ),
     # domain_instance_experiment(
     #      'Wildfire', 'inst_5x5_grid',
     #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),

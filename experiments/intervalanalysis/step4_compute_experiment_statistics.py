@@ -180,7 +180,7 @@ def plot_experiments(domain_instance_experiment, strategy_name, threshold, plann
     # Convergence value
     ############################################################
 
-    plot_cost_curve_per_iteration_path = f'{plot_folder}/convergence_value_{file_common_suffix}.pdf'
+    plot_cost_curve_per_iteration_path = f'{plot_folder}/convergence_value_{planner_type}_{file_common_suffix}.pdf'
     plot_cost_curve_per_iteration(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_execution_experiment_stats)
 
     ############################################################
@@ -194,7 +194,7 @@ def plot_experiments(domain_instance_experiment, strategy_name, threshold, plann
     warm_start_execution = np.mean(list(map(lambda item : item.elapsed_time, warm_start_execution_experiment_stats)))
     baseline_execution = np.mean(list(map(lambda item : item.elapsed_time, baseline_execution_stats)))
 
-    plot_convergence_time_path = f'{plot_folder}/convergence_time_{file_common_suffix}.pdf'
+    plot_convergence_time_path = f'{plot_folder}/convergence_time_{planner_type}_{file_common_suffix}.pdf'
     plot_convergence_time(plot_convergence_time_path, domain_instance_experiment, planner_type, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
 
 def plot_summarizations(domain_instance_experiment, strategy_name, planner_type):    
@@ -219,7 +219,7 @@ def plot_summarizations(domain_instance_experiment, strategy_name, planner_type)
     # Convergence value
     ############################################################
 
-    plot_cost_curve_per_iteration_path = f'{plot_folder}/summarized_convergence_value_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pdf'
+    plot_cost_curve_per_iteration_path = f'{plot_folder}/summarized_convergence_value_{planner_type}_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pdf'
     plot_cost_curve_per_iteration_with_thresholds(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_stats_with_thresholds)
 
 
