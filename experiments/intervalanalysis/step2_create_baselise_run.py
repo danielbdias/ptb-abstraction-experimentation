@@ -7,7 +7,7 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan, JaxDeepReactivePolicy
 
-from _config import experiments, jax_seeds, silent
+from _config import experiments, jax_seeds, silent, run_drp, run_slp
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_jax_planner
 from _fileio import save_pickle_data
 
@@ -62,14 +62,14 @@ if __name__ == '__main__':
     # Prepare to run in multiple processes
     #########################################################################################################
 
-    # TODO: review experiments to parallelize DRPs, SLPs
-
-    # build arg list
+    # create combination of parameters that we will use to run baseline models
     args_list = []
     
     for experiment in experiments:
-        args_list.append( (experiment, 'slp', slp_experiment_params_builder) )
-        args_list.append( (experiment, 'drp', drp_experiment_params_builder) )
+        if run_drp:
+            args_list.append( (experiment, 'drp', drp_experiment_params_builder) )  
+        if run_slp:
+            args_list.append( (experiment, 'slp', slp_experiment_params_builder) )
         
     # run experiment in parallel
     run_experiment_in_parallel(perform_experiment, args_list)

@@ -34,6 +34,9 @@ train_seconds = 3600 # 1 hour, JaxPlan stops training after this time or if the 
 
 silent = True
 
+run_drp = True
+run_slp = True
+
 def domain_instance_experiment(domain_name, instance_name, slp_experiment_params, drp_experiment_params):
     experiment = DomainInstanceExperiment(
         domain_name = domain_name, 

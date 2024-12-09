@@ -11,7 +11,7 @@ from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym.core.parser.expr import Expression
 
 from _config import experiments, threshold_to_choose_fluents
-from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, prepare_arg_list_for_experiments_with_thresholds
+from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
 from _fileio import file_exists, get_ground_fluents_to_ablate_from_csv, save_pickle_data, save_raw_data
 
@@ -42,15 +42,15 @@ def write_grounded_model_to_file(grounded_model, domain_file_path, grounded_mode
     decompiler = RDDLDecompiler()
     grounded_domain_file_content = decompiler.decompile_domain(grounded_model)
 
-    save_data_as_raw(grounded_domain_file_content, domain_file_path)    
-    save_data_as_pickle(grounded_model, grounded_model_file_path)
+    save_raw_data(grounded_domain_file_content, domain_file_path)    
+    save_pickle_data(grounded_model, grounded_model_file_path)
 
 root_folder = os.path.dirname(__file__)
 
-def perform_experiment(domain_instance_experiment, strategy_name, strategy, threshold):
-    _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
+def perform_experiment(domain_instance_experiment, strategy_name, threshold):
+    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Threshold: {threshold}')
     
-    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} Threshold: {threshold}')
+    _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
     fluents_to_freeze_path = f"{root_folder}/_results/fluents_to_ablate_{file_common_suffix}.csv"
@@ -86,8 +86,13 @@ if __name__ == '__main__':
 
     start_time = time.time()
 
-    # create combination of parameters that we will use to run interval propagation
-    args_list = prepare_arg_list_for_experiments_with_thresholds(experiments, threshold_to_choose_fluents)
+    # create combination of parameters that we will use to create ground models
+    args_list = []
+    
+    for domain_instance_experiment in experiments:
+        for strategy_name in domain_instance_experiment.bound_strategies.keys():
+            for threshold in threshold_to_choose_fluents:
+                args_list.append( (domain_instance_experiment, strategy_name, threshold) )
 
     # Run experiments in parallel
     run_experiment_in_parallel(perform_experiment, args_list)

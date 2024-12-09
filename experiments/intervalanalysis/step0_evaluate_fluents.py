@@ -6,7 +6,7 @@ from collections import namedtuple
 from typing import Dict, List, Tuple
 
 from _config import experiments, threshold_to_choose_fluents
-from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, prepare_arg_list_for_experiments
+from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
 import pyRDDLGym
 from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, RDDLIntervalAnalysisMean, RDDLIntervalAnalysisPercentile
@@ -234,7 +234,11 @@ if __name__ == '__main__':
     #########################################################################################################
 
     # create combination of parameters that we will use to run interval propagation
-    args_list = prepare_arg_list_for_experiments(experiments)
+    args_list = []
+    
+    for domain_instance_experiment in experiments:
+        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
+            args_list.append( (domain_instance_experiment, strategy_name, strategy, ) )
 
     # Run experiments in parallel
     run_experiment_in_parallel(perform_interval_analysis, args_list)

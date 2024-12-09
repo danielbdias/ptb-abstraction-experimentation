@@ -131,10 +131,10 @@ class ExperimentStatisticsSummary:
     last_iteration_improved:     int
 
 def run_jax_planner(name : str, rddl_model : RDDLPlanningModel, planner_parameters : PlannerParameters, silent : bool = True):
-    print(f'[{os.getpid()}] Run: {name} - Status: starting')
+    print(f'[{os.getpid()}] Run: {name} - Status: Starting')
     
     if not silent:
-        print(f'[{os.getpid()}] Run: {name} - Seed: {planner_parameters.training_params.seed}')
+        print(f'[{os.getpid()}] Run: {name} - Params: {planner_parameters}')
     
     start_time = time.time()
 
@@ -179,7 +179,7 @@ def run_jax_planner(name : str, rddl_model : RDDLPlanningModel, planner_paramete
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    print(f'[{os.getpid()}] Ran: {name} - Status: {last_status} - Elapsed time: {elapsed_time:.2f} seconds')
+    print(f'[{os.getpid()}] Run: {name} - Status: {last_status} - Elapsed time: {elapsed_time:.2f} seconds')
 
     return ExperimentStatisticsSummary(final_policy_weights, statistics_history, elapsed_time, last_iteration_improved)
 
@@ -195,22 +195,3 @@ def run_experiment_in_parallel(perform_experiment_method, args_list):
         # wait for all workers to finish
         for res in multiple_results:
             res.get(timeout=timeout)
-            
-def prepare_arg_list_for_experiments(experiments):
-    args_list = []
-    
-    for domain_instance_experiment in experiments:
-        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
-            args_list.append( (domain_instance_experiment, strategy_name, strategy, ) )
-            
-    return args_list
-
-def prepare_arg_list_for_experiments_with_thresholds(experiments, thresholds):
-    args_list = []
-    
-    for domain_instance_experiment in experiments:
-        for strategy_name, strategy in domain_instance_experiment.bound_strategies.items():
-            for threshold in thresholds:
-                args_list.append( (domain_instance_experiment, strategy_name, strategy, threshold) )
-            
-    return args_list
