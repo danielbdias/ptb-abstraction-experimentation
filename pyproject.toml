@@ -1,0 +1,27 @@
+[project]
+name = "ptb-abstraction-experimentation"
+version = "0.1.0"
+description = "Experiments considering abstraction with RDDL"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dash",
+    "dash_bootstrap_components",
+    "dm-haiku>=0.0.10",
+    "gymnasium",
+    "gurobipy>=10.0.0",
+    "jax>=0.4.12",
+    "matplotlib>=3.5.0",
+    "numpy>=1.22",
+    "optax>=0.1.9",
+    "pillow>=9.2.0",
+    "ply",
+    "pygame",
+    "scipy",
+    "tensorflow-probability>=0.21.0",
+    "termcolor",
+    "tqdm>=4.66",
+    "pyRDDLGym @ file:///${PROJECT_ROOT}/pyRDDLGym",
+    "pyRDDLGym-jax @ file:///${PROJECT_ROOT}/pyRDDLGym-jax",
+    "pyRDDLGym-gurobi @ file:///${PROJECT_ROOT}/pyRDDLGym-gurobi"
+]
