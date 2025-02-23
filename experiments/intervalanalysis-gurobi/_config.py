@@ -22,7 +22,7 @@ threshold_to_choose_fluents = [
     0.7, # 70% of the fluents
 ] 
 
-solver_timeout = 3600 # 1 hour, GurobiPlan stops running after this time
+solver_timeout = 600 # 10 minutes, GurobiPlan stops running after this time
 
 silent = True
 

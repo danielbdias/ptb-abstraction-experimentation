@@ -1,4 +1,3 @@
-import optax
 import os
 import time
 
@@ -17,6 +16,8 @@ from gurobipy import GRB
 
 from typing import Any
 
+import numpy as np
+
 UNBOUNDED = (-GRB.INFINITY, +GRB.INFINITY)
     
 @dataclass(frozen=True)
@@ -26,10 +27,6 @@ class DomainInstanceExperiment:
     ground_fluents_to_freeze:            Set[str]
     bound_strategies:                    dict
     solver_timeout:                      int
-    
-    def __post_init__(self):
-        if self.drp_experiment_params.topology is None:
-            raise ValueError("drp_experiment_params must have a topology attribute set")
     
     def get_state_fluents(self, rddl_model):
         return list(rddl_model.state_fluents.keys())
@@ -43,35 +40,37 @@ class DomainInstanceExperiment:
 
 @dataclass(frozen=True)
 class ExperimentStatisticsSummary:
-    final_solution:      dict
+    final_solution:      list[dict]
     accumulated_reward:  float
     elapsed_time:        float
-    params:              Any
 
+def compute_action_bounds(model, bounds):
+    action_bounds = {}
 
-def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, silent : bool = True):
+    for action, prange in model.action_ranges.items():
+        lower, upper = bounds[action]
+        if prange == 'bool':
+            lower = np.full(np.shape(lower), fill_value=0, dtype=int)
+            upper = np.full(np.shape(upper), fill_value=1, dtype=int)
+        action_bounds[action] = (lower, upper)
+
+    return action_bounds
+
+def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds : dict, silent : bool = True):
     print(f'[{os.getpid()}] Run: {name} - Status: Starting')
     
     start_time = time.time()
 
     # initialize the planner and compiler
-    planner = GurobiStraightLinePlan(rddl_model)
+    updated_action_bounds = compute_action_bounds(rddl_model, action_bounds)
+    
+    planner = GurobiStraightLinePlan(updated_action_bounds)
     compiler = GurobiRDDLCompiler(rddl=rddl_model, plan=planner, rollout_horizon=rddl_model.horizon)
     gurobi_environment = gurobipy.Env()
-
-    # try to use the preconditions to produce narrow action bounds
-    action_bounds = planner.action_bounds.copy()
-    for name in compiler.rddl.action_fluents:
-        if name not in action_bounds:
-            action_bounds[name] = compiler.bounds.get(name, UNBOUNDED)
-
-    planner.action_bounds = action_bounds
 
     # run the planner as an optimization process
     model, _, params = compiler.compile(env=gurobi_environment)
     model.optimize()
-    
-    print(model)
     
     solved = model.SolCount > 0 # check for existence of valid solution
     
@@ -86,13 +85,15 @@ def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, silent : bool
 
     print(f'[{os.getpid()}] Run: {name} - Elapsed time: {elapsed_time:.2f} seconds')
 
-    final_solution = {}
-    for var in model.getVars():
-        final_solution[var.varName] = var.X
-
+    final_solution = []
+    
+    for i in range(rddl_model.horizon):
+        action_values = planner.evaluate(compiler, params, i, {})
+        final_solution.append(action_values)
+        
     accumulated_reward = model.ObjVal
 
-    return ExperimentStatisticsSummary(final_solution, accumulated_reward, elapsed_time, params)
+    return ExperimentStatisticsSummary(final_solution, accumulated_reward, elapsed_time)
 
 def prepare_parallel_experiment_on_main():
     freeze_support()
