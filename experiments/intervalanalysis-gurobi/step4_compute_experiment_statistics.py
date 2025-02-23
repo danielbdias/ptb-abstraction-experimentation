@@ -4,11 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-from _config import experiments, run_drp, run_slp, threshold_to_choose_fluents
+from _config import experiments, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 from _fileio import load_pickle_data, file_exists
 
-def plot_convergence_time(plot_path, domain_instance_experiment, planner_type, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution):
+def plot_convergence_time(plot_path, domain_instance_experiment, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution):
     methods = (
         "Random Policy",
         "Warm Start Policy"
@@ -16,7 +16,7 @@ def plot_convergence_time(plot_path, domain_instance_experiment, planner_type, e
     metrics = {
         "Interval Analysis": np.array([0, evaluation_time]),
         "Warm Start Computation": np.array([0, warm_start_computation]),
-        "JaxPlan Execution": np.array([baseline_execution, warm_start_execution]),
+        "GurobiPlan Execution": np.array([baseline_execution, warm_start_execution]),
     }
     width = 0.5
 
@@ -37,7 +37,7 @@ def plot_convergence_time(plot_path, domain_instance_experiment, planner_type, e
             if bar_height_as_string != "0.00":
                 plt.text(x_value, y_value, bar_height_as_string, ha='center', va='bottom')
 
-    ax.set_title(f"Convergence time\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name} - {planner_type})")
+    ax.set_title(f"Convergence time\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name})")
     ax.legend(loc="upper right", fontsize=14)
 
     plt.rcParams.update({'font.size':15})
@@ -58,169 +58,72 @@ def read_fluent_evaluation_time_csv(file_path: str):
             lines.append(row[0])
 
     return float(lines[1])
-
-def get_curves(experiment_summaries, attribute_getter):
-    curves = []
-
-    for experiment_summary in experiment_summaries:
-        curve = np.array(list(map(attribute_getter, experiment_summary.statistics_history)))
-        curves.append(curve)
-
-    return curves
-
-def stat_curves(experiment_summaries, attribute_getter):
-    iteration_curves = get_curves(experiment_summaries, lambda item : item.iteration)
-    curves = get_curves(experiment_summaries, attribute_getter)
-
-    iteration_curve_max_len = -1
-    larger_iteration_curve = None
-
-    # find experiment with more iterations
-    for i in range(len(experiment_summaries)):
-        iteration_curve = iteration_curves[i]
-
-        if len(iteration_curve) > iteration_curve_max_len:
-            iteration_curve_max_len = len(iteration_curve)
-            larger_iteration_curve = iteration_curve
-
-    # repeat last value for each curve with less iterations
-    resized_curves = []
-
-    for i in range(len(experiment_summaries)):
-        curve = curves[i]
-        size_diff = iteration_curve_max_len - len(curve)
-        if size_diff <= 0:
-            resized_curves.append(curve)
-        else:
-            curve_last_value = curve[-1]
-            resized_curve = np.append(curve, np.repeat(curve_last_value, size_diff))
-            resized_curves.append(resized_curve)
-
-    # convert "list of np.array" to "np.array of np.array"
-    resized_curves = np.stack(resized_curves)
-
-    curves_mean = np.mean(resized_curves, axis=0)
-    curves_stddev = np.std(resized_curves, axis=0)
-
-    return larger_iteration_curve, curves_mean, curves_stddev
     
-def plot_cost_curve_per_iteration(plot_path, domain_instance_experiment, planner_type, random_policy_stats, warm_start_stats):
-    plt.subplots(1, figsize=(8,5))
-
-    statistics = {
-        'Random Policy': random_policy_stats,
-        'Warm Start': warm_start_stats
-    }
-
-    for key in statistics.keys():
-        stats = statistics[key]
-
-        iterations, best_return_curves_mean, best_return_curves_stddev = stat_curves(stats, lambda item : item.best_return)
-        
-        plt.plot(iterations, best_return_curves_mean, '-', label=key)
-        plt.fill_between(iterations, (best_return_curves_mean - best_return_curves_stddev), (best_return_curves_mean + best_return_curves_stddev), alpha=0.2)
-
-    plt.title(f'Best Reward per Iteration\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name} - {planner_type})', fontsize=14, fontweight='bold')
-    plt.xlabel("Iterations", fontsize=14)
-    plt.ylabel("Reward", fontsize=14)
-    plt.legend(loc="best", fontsize=14)
-    plt.tight_layout()
-
-    plt.rc('font', family='serif')
-
-    plt.savefig(plot_path, format='pdf')
-    
-def plot_cost_curve_per_iteration_with_thresholds(plot_path, domain_instance_experiment, planner_type, random_policy_stats, warm_start_stats_with_thresholds):
-    plt.subplots(1, figsize=(8,5))
-
-    statistics = {
-        'Random Policy': random_policy_stats,
-    }
+def plot_final_reward_per_threshold(plot_path, domain_instance_experiment, random_policy_stats, warm_start_stats_with_thresholds):
+    methods = [ 'Random Policy' ]
+    rewards = [ random_policy_stats.accumulated_reward ]
 
     for threshold in warm_start_stats_with_thresholds.keys():
         warm_start_stats = warm_start_stats_with_thresholds[threshold]
-        statistics[f'Warm Start ({threshold})'] = warm_start_stats
+        methods.append(f'Warm Start ({threshold * 100}%)')
+        rewards.append(warm_start_stats.accumulated_reward)
 
-    for key in statistics.keys():
-        stats = statistics[key]
-
-        iterations, best_return_curves_mean, best_return_curves_stddev = stat_curves(stats, lambda item : item.best_return)
-        
-        plt.plot(iterations, best_return_curves_mean, '-', label=key)
-        plt.fill_between(iterations, (best_return_curves_mean - best_return_curves_stddev), (best_return_curves_mean + best_return_curves_stddev), alpha=0.2)
-
-    plt.title(f'Best Reward per Iteration\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name} - {planner_type})', fontsize=14, fontweight='bold')
-    plt.xlabel("Iterations", fontsize=14)
-    plt.ylabel("Reward", fontsize=14)
-    plt.legend(loc="best", fontsize=14)
+    plt.bar(methods, rewards)
+    
+    plt.xticks(rotation=90)
+    plt.ylabel('Reward')
+    plt.title(f'Accumulated Reward\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name})')
     plt.tight_layout()
 
-    plt.rc('font', family='serif')
-
     plt.savefig(plot_path, format='pdf')
+
+
+###############################
 
 root_folder = os.path.dirname(__file__)
 plot_folder = f'{root_folder}/_plots'
 
-def plot_experiments(domain_instance_experiment, strategy_name, threshold, planner_type):    
-    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Threshold: {threshold} - Planner: {planner_type}')
+def plot_experiments(domain_instance_experiment, strategy_name):    
+    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name}')
     
-    file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
+    file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}'
 
-    warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}.pickle'
+    baseline_execution_stats = load_pickle_data(f'{root_folder}/_results/baseline_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
 
-    if not file_exists(warm_start_execution_experiment_stats_file_path):
-        print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
-        return
-
-    baseline_execution_stats = load_pickle_data(f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
-    warm_start_execution_experiment_stats = load_pickle_data(warm_start_execution_experiment_stats_file_path)
-    
-    ############################################################
-    # Convergence value
-    ############################################################
-
-    plot_cost_curve_per_iteration_path = f'{plot_folder}/convergence_value_{planner_type}_{file_common_suffix}.pdf'
-    plot_cost_curve_per_iteration(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_execution_experiment_stats)
-
-    ############################################################
-    # Convergence time
-    ############################################################
-
-    warm_start_creation_experiment_stats = load_pickle_data(f'{root_folder}/_results/warmstart_creation_{planner_type}_run_data_{file_common_suffix}.pickle')
-
-    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/time_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv')
-    warm_start_computation = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats)))
-    warm_start_execution = np.mean(list(map(lambda item : item.elapsed_time, warm_start_execution_experiment_stats)))
-    baseline_execution = np.mean(list(map(lambda item : item.elapsed_time, baseline_execution_stats)))
-
-    plot_convergence_time_path = f'{plot_folder}/convergence_time_{planner_type}_{file_common_suffix}.pdf'
-    plot_convergence_time(plot_convergence_time_path, domain_instance_experiment, planner_type, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
-
-def plot_summarizations(domain_instance_experiment, strategy_name, planner_type):    
-    print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Planner: {planner_type}')
-    
-    baseline_execution_stats = load_pickle_data(f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
-    
     warm_start_stats_with_thresholds = {}
-    
+
     for threshold in threshold_to_choose_fluents:
-        file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
-        warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}.pickle'
+        warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_run_data_{file_common_suffix}_{threshold}.pickle'
 
         if not file_exists(warm_start_execution_experiment_stats_file_path):
             print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
             return
-
+        
         warm_start_execution_experiment_stats = load_pickle_data(warm_start_execution_experiment_stats_file_path)
         warm_start_stats_with_thresholds[threshold] = warm_start_execution_experiment_stats
     
     ############################################################
-    # Convergence value
+    # Final reward per threshold
     ############################################################
 
-    plot_cost_curve_per_iteration_path = f'{plot_folder}/summarized_convergence_value_{planner_type}_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pdf'
-    plot_cost_curve_per_iteration_with_thresholds(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_stats_with_thresholds)
+    plot_cost_curve_per_iteration_path = f'{plot_folder}/final_reward_per_threshold_{file_common_suffix}.pdf'
+    plot_final_reward_per_threshold(plot_cost_curve_per_iteration_path, domain_instance_experiment, baseline_execution_stats, warm_start_stats_with_thresholds)
+
+    ############################################################
+    # Solution time
+    ############################################################
+
+    evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/time_{file_common_suffix}.csv')
+
+    for threshold in threshold_to_choose_fluents:
+        warm_start_creation_experiment_stats = load_pickle_data(f'{root_folder}/_results/warmstart_creation_run_data_{file_common_suffix}_{threshold}.pickle')
+        
+        warm_start_computation = warm_start_creation_experiment_stats.elapsed_time
+        warm_start_execution = warm_start_execution_experiment_stats.elapsed_time
+        baseline_execution = baseline_execution_stats.elapsed_time
+
+        plot_convergence_time_path = f'{plot_folder}/convergence_time_{file_common_suffix}_{threshold}.pdf'
+        plot_convergence_time(plot_convergence_time_path, domain_instance_experiment, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
 
 
 if __name__ == '__main__':
@@ -238,27 +141,10 @@ if __name__ == '__main__':
     
     for domain_instance_experiment in experiments:
         for strategy_name in domain_instance_experiment.bound_strategies.keys():
-            for threshold in threshold_to_choose_fluents:
-                if run_drp:
-                    args_list_plots.append( (domain_instance_experiment, strategy_name, threshold, 'drp') )  
-                if run_slp:
-                    args_list_plots.append( (domain_instance_experiment, strategy_name, threshold, 'slp') )
+            args_list_plots.append( (domain_instance_experiment, strategy_name,) )
 
     # run plot generation in parallel
-    # run_experiment_in_parallel(plot_experiments, args_list_plots)
-    
-    # create combination of parameters that we will use to create summarized plots
-    args_list_summarization = []
-    
-    for domain_instance_experiment in experiments:
-        for strategy_name in domain_instance_experiment.bound_strategies.keys():
-            if run_drp:
-                args_list_summarization.append( (domain_instance_experiment, strategy_name, 'drp') )  
-            if run_slp:
-                args_list_summarization.append( (domain_instance_experiment, strategy_name, 'slp') )
-
-    # run plot generation in parallel
-    run_experiment_in_parallel(plot_summarizations, args_list_summarization)
+    run_experiment_in_parallel(plot_experiments, args_list_plots)
 
     end_time = time.time()
     elapsed_time = end_time - start_time

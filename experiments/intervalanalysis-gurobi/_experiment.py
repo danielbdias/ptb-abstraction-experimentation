@@ -56,7 +56,7 @@ def compute_action_bounds(model, bounds):
 
     return action_bounds
 
-def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds : dict, silent : bool = True):
+def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds : dict, warm_start_policy : list[dict] | None = None, silent : bool = True):
     print(f'[{os.getpid()}] Run: {name} - Status: Starting')
     
     start_time = time.time()
@@ -70,9 +70,19 @@ def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds
 
     # run the planner as an optimization process
     model, _, params = compiler.compile(env=gurobi_environment)
+    
+    if warm_start_policy is not None:
+        for step in range(rddl_model.horizon):
+            for action, value in warm_start_policy[step].items():
+                name = f'{action}__{step}'
+                
+                var = params[name][0]
+                var.Start = value
+    
     model.optimize()
     
-    solved = model.SolCount > 0 # check for existence of valid solution
+    # check for existence of valid solution
+    solved = model.SolCount > 0 
     
     if not solved:
         raise ValueError("Gurobi failed to find a feasible solution")
@@ -87,8 +97,8 @@ def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds
 
     final_solution = []
     
-    for i in range(rddl_model.horizon):
-        action_values = planner.evaluate(compiler, params, i, {})
+    for step in range(rddl_model.horizon):
+        action_values = planner.evaluate(compiler, params, step, {})
         final_solution.append(action_values)
         
     accumulated_reward = model.ObjVal
