@@ -26,31 +26,18 @@ def perform_experiment(domain_instance_experiment, strategy_name, threshold):
             print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
             return
 
+        action_bounds_to_use = load_pickle_data(f'{root_folder}/_results/action_bounds_{file_common_suffix}.pickle')
+
         regular_environment = pyRDDLGym.make(domain=regular_domain_file_path, instance=regular_instance_file_path)
-        grounder = RDDLGrounder(regular_environment.model.ast)
-        regular_grounded_model = grounder.ground()
-        
-        ablated_model_file_path = f'{root_folder}/_intermediate/domain_{file_common_suffix}.model'
-        ablated_grounded_model = load_pickle_data(ablated_model_file_path)
 
-        warm_start_creation_run_name = f"{domain_instance_experiment.domain_name} (creating warm-start) - {strategy_name} - {threshold}"
-        abstraction_env_experiment_summary = run_gurobi_planner(
-            warm_start_creation_run_name, 
-            rddl_model=ablated_grounded_model, 
-            action_bounds=regular_environment._bounds, 
-            silent=silent
-        )
-
-        warm_start_run_name = f"{domain_instance_experiment.domain_name} (running with warm-start) - {strategy_name} - {threshold}"
+        warm_start_run_name = f"{domain_instance_experiment.domain_name} (running with action bounds) - {strategy_name} - {threshold}"
         warm_start_env_experiment_summary = run_gurobi_planner(
             warm_start_run_name, 
-            rddl_model=regular_grounded_model, 
-            action_bounds=regular_environment._bounds, 
-            warm_start_policy=abstraction_env_experiment_summary.final_solution, 
+            rddl_model=regular_environment, 
+            action_bounds=action_bounds_to_use, 
             silent=silent
         )
 
-        save_pickle_data(abstraction_env_experiment_summary, f'{root_folder}/_results/warmstart_creation_run_data_{file_common_suffix}.pickle')
         save_pickle_data(warm_start_env_experiment_summary, f'{root_folder}/_results/warmstart_execution_run_data_{file_common_suffix}.pickle')
     except Exception as e:
         print(f"Error running experiment for domain {domain_instance_experiment.domain_name} and instance {domain_instance_experiment.instance_name}: {e}")
@@ -61,7 +48,7 @@ if __name__ == '__main__':
     prepare_parallel_experiment_on_main()
 
     print('--------------------------------------------------------------------------------')
-    print('Abstraction Experiment - Create Warm Start policies and Run with Warm Start')
+    print('Abstraction Experiment - Create Run with new Action Bounds')
     print('--------------------------------------------------------------------------------')
     print()
 

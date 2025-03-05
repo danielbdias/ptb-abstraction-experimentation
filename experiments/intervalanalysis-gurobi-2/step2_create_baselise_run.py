@@ -19,14 +19,11 @@ def perform_experiment(domain_instance_experiment):
     _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
-    
-    grounder = RDDLGrounder(regular_environment.model.ast)
-    grounded_model = grounder.ground() # we need to run the base model on the same way as the other models
 
     regular_experiment_name = f"{domain_instance_experiment.domain_name} (regular)"
     
     try:
-        experiment_summary = run_gurobi_planner(regular_experiment_name, rddl_model=grounded_model, action_bounds=regular_environment._bounds, silent=silent)
+        experiment_summary = run_gurobi_planner(regular_experiment_name, rddl_model=regular_environment.rddl, action_bounds=regular_environment._bounds, silent=silent)
         save_pickle_data(experiment_summary, f'{root_folder}/_results/baseline_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
     except Exception as e:
         print(f"Error running experiment {regular_experiment_name}: {e}")

@@ -54,7 +54,7 @@ def compute_action_bounds(model, bounds):
 
     return action_bounds
 
-def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds : dict, warm_start_policy : list[dict] | None = None, silent : bool = True):
+def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds : dict, silent : bool = True):
     print(f'[{os.getpid()}] Run: {name} - Status: Starting')
     
     start_time = time.time()
