@@ -69,14 +69,6 @@ def run_gurobi_planner(name : str, rddl_model : RDDLPlanningModel, action_bounds
     # run the planner as an optimization process
     model, _, params = compiler.compile(env=gurobi_environment)
     
-    if warm_start_policy is not None:
-        for step in range(rddl_model.horizon):
-            for action, value in warm_start_policy[step].items():
-                name = f'{action}__{step}'
-                
-                var = params[name][0]
-                var.Start = value
-    
     model.optimize()
     
     # check for existence of valid solution

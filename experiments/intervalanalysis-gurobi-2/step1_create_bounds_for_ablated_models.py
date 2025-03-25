@@ -1,6 +1,6 @@
 import os
 import time
-
+import csv
 import numpy as np
 
 import pyRDDLGym
@@ -11,7 +11,13 @@ from pyRDDLGym.core.intervals import RDDLIntervalAnalysis, RDDLIntervalAnalysisM
 from _config import experiments, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
-from _fileio import file_exists, get_ground_fluents_to_ablate_from_csv, save_pickle_data, record_time
+from _fileio import file_exists, get_ground_fluents_to_ablate_from_csv, save_pickle_data
+
+def record_time(file_path: str, time: float):
+    with open(file_path, 'a') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(['Time'])
+        writer.writerow([time])
 
 def get_ground_fluents_to_ablate(domain, file_path: str):
     if domain.ground_fluents_to_freeze is not None and len(domain.ground_fluents_to_freeze) > 0:
@@ -88,7 +94,7 @@ def perform_experiment(domain_instance_experiment, strategy_name, strategy, thre
     file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
     
     fluents_to_freeze_path = f"{root_folder}/_results/fluents_to_ablate_{file_common_suffix}.csv"
-    output_file_final_analysis_time=f"{root_folder}/_results/time_final_analysis_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
+    output_file_final_analysis_time=f"{root_folder}/_results/time_final_analysis_{file_common_suffix}.csv"
     
     if not file_exists(fluents_to_freeze_path):
         print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
@@ -116,7 +122,7 @@ def perform_experiment(domain_instance_experiment, strategy_name, strategy, thre
     elapsed_time_for_analysis = time.time() - start_time_for_analysis
     
     record_time(output_file_final_analysis_time, elapsed_time_for_analysis)
-    save_pickle_data(action_bounds_to_save, f'{root_folder}/_results/action_bounds_{file_common_suffix}.pickle')
+    save_pickle_data(action_bounds_to_save, f'{root_folder}/_intermediate/action_bounds_{file_common_suffix}.pickle')
 
 if __name__ == '__main__':
     prepare_parallel_experiment_on_main()

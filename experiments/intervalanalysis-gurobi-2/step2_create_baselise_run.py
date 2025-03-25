@@ -1,8 +1,7 @@
 import os
 import time
-
+import traceback
 import pyRDDLGym
-from pyRDDLGym.core.grounder import RDDLGrounder
 
 from _config import experiments, silent
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_gurobi_planner
@@ -18,15 +17,16 @@ def perform_experiment(domain_instance_experiment):
     #########################################################################################################
     _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
-    regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
+    regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=True)
 
     regular_experiment_name = f"{domain_instance_experiment.domain_name} (regular)"
     
     try:
-        experiment_summary = run_gurobi_planner(regular_experiment_name, rddl_model=regular_environment.rddl, action_bounds=regular_environment._bounds, silent=silent)
+        experiment_summary = run_gurobi_planner(regular_experiment_name, rddl_model=regular_environment.model, action_bounds=regular_environment._bounds, silent=silent)
         save_pickle_data(experiment_summary, f'{root_folder}/_results/baseline_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
     except Exception as e:
         print(f"Error running experiment {regular_experiment_name}: {e}")
+        traceback.print_exc()
         return
 
 if __name__ == '__main__':

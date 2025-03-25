@@ -8,14 +8,25 @@ from _config import experiments, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 from _fileio import load_pickle_data, file_exists
 
+def load_time(file_path: str):
+    with open(file_path, 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';', quotechar='|')
+
+        lines = []
+
+        for row in reader:
+            lines.append(row[0])
+
+        return float(lines[1])
+
 def plot_convergence_time(plot_path, domain_instance_experiment, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution):
     methods = (
         "Random Policy",
-        "Warm Start Policy"
+        "Bounded Actions"
     )
     metrics = {
         "Interval Analysis": np.array([0, evaluation_time]),
-        "Warm Start Computation": np.array([0, warm_start_computation]),
+        "Bounded Action Computation": np.array([0, warm_start_computation]),
         "GurobiPlan Execution": np.array([baseline_execution, warm_start_execution]),
     }
     width = 0.5
@@ -116,14 +127,13 @@ def plot_experiments(domain_instance_experiment, strategy_name):
     evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/time_{file_common_suffix}.csv')
 
     for threshold in threshold_to_choose_fluents:
-        warm_start_creation_experiment_stats = load_pickle_data(f'{root_folder}/_results/warmstart_creation_run_data_{file_common_suffix}_{threshold}.pickle')
+        bouded_actions_computation_time = load_time(f'{root_folder}/_results/time_final_analysis_{file_common_suffix}_{threshold}.csv')
         
-        warm_start_computation = warm_start_creation_experiment_stats.elapsed_time
         warm_start_execution = warm_start_execution_experiment_stats.elapsed_time
         baseline_execution = baseline_execution_stats.elapsed_time
 
         plot_convergence_time_path = f'{plot_folder}/convergence_time_{file_common_suffix}_{threshold}.pdf'
-        plot_convergence_time(plot_convergence_time_path, domain_instance_experiment, evaluation_time, warm_start_computation, warm_start_execution, baseline_execution)
+        plot_convergence_time(plot_convergence_time_path, domain_instance_experiment, evaluation_time, bouded_actions_computation_time, warm_start_execution, baseline_execution)
 
 
 if __name__ == '__main__':
