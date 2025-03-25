@@ -1,15 +1,6 @@
-[submodule "pyRDDLGym"]
-	path = pyRDDLGym
-	url = git@github.com:pyrddlgym-project/pyRDDLGym.git
 [submodule "pyRDDLGym-jax"]
 	path = pyRDDLGym-jax
 	url = git@github.com:danielbdias/pyRDDLGym-jax.git
-[submodule "rddlrepository"]
-	path = rddlrepository
-	url = git@github.com:pyrddlgym-project/rddlrepository.git
 [submodule "rddl-for-vscode-plugin"]
 	path = rddl-for-vscode-plugin
 	url = git@github.com:pyrddlgym-project/rddl-for-vscode-plugin.git
-[submodule "pyRDDLGym-gurobi"]
-	path = pyRDDLGym-gurobi
-	url = git@github.com:danielbdias/pyRDDLGym-gurobi.git
