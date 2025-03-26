@@ -11,7 +11,6 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "python": "/Users/danielbdias/Development/Repositories/doctorate/ptb-abstraction-experimentation/_venv/bin/python",
             "args": []
         },
     ]

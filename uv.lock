@@ -814,8 +814,8 @@ requires-dist = [
     { name = "pillow", specifier = ">=9.2.0" },
     { name = "ply" },
     { name = "pygame" },
-    { name = "pyrddlgym", directory = "pyRDDLGym" },
-    { name = "pyrddlgym-gurobi", directory = "pyRDDLGym-gurobi" },
+    { name = "pyrddlgym" },
+    { name = "pyrddlgym-gurobi" },
     { name = "pyrddlgym-jax", directory = "pyRDDLGym-jax" },
     { name = "scipy" },
     { name = "tensorflow-probability", specifier = ">=0.21.0" },
@@ -856,8 +856,8 @@ wheels = [
 
 [[package]]
 name = "pyrddlgym"
-version = "2.1"
-source = { directory = "pyRDDLGym" }
+version = "2.2"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "gymnasium" },
     { name = "matplotlib" },
@@ -867,36 +867,27 @@ dependencies = [
     { name = "pygame" },
     { name = "termcolor" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "gymnasium" },
-    { name = "matplotlib", specifier = ">=3.5.0" },
-    { name = "numpy", specifier = ">=1.22" },
-    { name = "pillow", specifier = ">=9.2.0" },
-    { name = "ply" },
-    { name = "pygame" },
-    { name = "termcolor" },
+sdist = { url = "https://files.pythonhosted.org/packages/fc/2b/d9c898f26eb176ee24584bf982f5fe51bd41c91ac6dc6d7abeba36cbb7d1/pyrddlgym-2.2.tar.gz", hash = "sha256:678224d8a1a8d3f782ace98c0e6a72d65d8a0a960dee5bb83b8de91ab83f6022", size = 89789 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/53/48/dab26bc4918c3711755a1aaab43487772a6bee1cab2c853ceab7821fcd2a/pyRDDLGym-2.2-py3-none-any.whl", hash = "sha256:3dec51f12c397b776494af8d8b4d510a67c3dbcaf4da7946df3716a3d05db672", size = 99995 },
 ]
 
 [[package]]
 name = "pyrddlgym-gurobi"
 version = "0.2"
-source = { directory = "pyRDDLGym-gurobi" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "gurobipy" },
     { name = "pyrddlgym" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "gurobipy", specifier = ">=10.0.0" },
-    { name = "pyrddlgym", specifier = ">=2.0" },
+sdist = { url = "https://files.pythonhosted.org/packages/09/73/0fe54afbe52107bcbe1f312b6e20f82f3288f15c955a8318e349212eb5e4/pyrddlgym_gurobi-0.2.tar.gz", hash = "sha256:72c847f352739a313caaa4f7002a3ff06999dd86d3c34a7b8383de9876de8e9d", size = 21501 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/71/d3/a609f4b616ea3cbe0528cd2d82e3a40335be42b799be647286e39b03ef99/pyRDDLGym_gurobi-0.2-py3-none-any.whl", hash = "sha256:b81b164d35cb1e9309da3a9a5ed6feba8f949620b95e171787b790c809a1d4b5", size = 20367 },
 ]
 
 [[package]]
 name = "pyrddlgym-jax"
-version = "0.5"
+version = "2.4"
 source = { directory = "pyRDDLGym-jax" }
 dependencies = [
     { name = "dm-haiku" },
@@ -910,6 +901,8 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "bayesian-optimization", marker = "extra == 'extra'", specifier = ">=2.0.0" },
+    { name = "dash", marker = "extra == 'dashboard'", specifier = ">=2.18.0" },
+    { name = "dash-bootstrap-components", marker = "extra == 'dashboard'", specifier = ">=1.6.0" },
     { name = "dm-haiku", specifier = ">=0.0.10" },
     { name = "jax", specifier = ">=0.4.12" },
     { name = "optax", specifier = ">=0.1.9" },

@@ -3,14 +3,14 @@ TIMEFORMAT='Elapsed time is %R seconds to clean files.'
 
 time {
     # clean intermediate files
-    rm ./experiments/intervalanalysis-gurobi-updated/_intermediate/*.model
-    rm ./experiments/intervalanalysis-gurobi-updated/_intermediate/*.rddl
-    rm ./experiments/intervalanalysis-gurobi-updated/_intermediate/*.pickle
+    rm ./experiments/intervalanalysis-jaxplan/_intermediate/*.model
+    rm ./experiments/intervalanalysis-jaxplan/_intermediate/*.rddl
+    rm ./experiments/intervalanalysis-jaxplan/_intermediate/*.pickle
 
     # clean plots
-    rm ./experiments/intervalanalysis-gurobi-updated/_plots/*.pdf
+    rm ./experiments/intervalanalysis-jaxplan/_plots/*.pdf
 
     # clean results
-    rm ./experiments/intervalanalysis-gurobi-updated/_results/*.csv
-    rm ./experiments/intervalanalysis-gurobi-updated/_results/*.pickle
+    rm ./experiments/intervalanalysis-jaxplan/_results/*.csv
+    rm ./experiments/intervalanalysis-jaxplan/_results/*.pickle
 }

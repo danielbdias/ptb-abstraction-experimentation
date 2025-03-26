@@ -245,7 +245,7 @@ if __name__ == '__main__':
                     args_list_plots.append( (domain_instance_experiment, strategy_name, threshold, 'slp') )
 
     # run plot generation in parallel
-    # run_experiment_in_parallel(plot_experiments, args_list_plots)
+    run_experiment_in_parallel(plot_experiments, args_list_plots)
     
     # create combination of parameters that we will use to create summarized plots
     args_list_summarization = []

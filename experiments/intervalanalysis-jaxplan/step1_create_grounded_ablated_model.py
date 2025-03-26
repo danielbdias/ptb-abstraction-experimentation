@@ -16,7 +16,7 @@ from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_
 from _fileio import file_exists, get_ground_fluents_to_ablate_from_csv, save_pickle_data, save_raw_data
 
 def get_ground_fluents_to_ablate(domain, file_path: str):
-    if domain.ground_fluents_to_freeze is not None or len(domain.ground_fluents_to_freeze) > 0:
+    if domain.ground_fluents_to_freeze is not None and len(domain.ground_fluents_to_freeze) < 0:
         return domain.ground_fluents_to_freeze
 
     return get_ground_fluents_to_ablate_from_csv(file_path)

@@ -21,7 +21,7 @@ dependencies = [
     "tensorflow-probability>=0.21.0",
     "termcolor",
     "tqdm>=4.66",
-    "pyRDDLGym @ file:///${PROJECT_ROOT}/pyRDDLGym",
+    "pyRDDLGym",
     "pyRDDLGym-jax @ file:///${PROJECT_ROOT}/pyRDDLGym-jax",
-    "pyRDDLGym-gurobi @ file:///${PROJECT_ROOT}/pyRDDLGym-gurobi"
+    "pyRDDLGym-gurobi"
 ]
