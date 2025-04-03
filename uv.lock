@@ -858,7 +858,7 @@ wheels = [
 
 [[package]]
 name = "pyrddlgym-jax"
-version = "2.4"
+version = "2.4.1"
 source = { directory = "pyRDDLGym-jax" }
 dependencies = [
     { name = "dm-haiku" },

@@ -34,8 +34,7 @@ train_seconds = 3600 # 1 hour, JaxPlan stops training after this time or if the 
 
 silent = True
 
-# run_drp = True
-run_drp = False
+run_drp = True
 run_slp = True
 
 def domain_instance_experiment(domain_name, instance_name, slp_experiment_params, drp_experiment_params):
@@ -64,11 +63,11 @@ experiments = [
         slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=10_000),
         drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=12_000, topology=[256, 128])
     ),
-    domain_instance_experiment(
-        'Reservoir', 'inst_10_reservoirs',
-        slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
-    ),
+    # domain_instance_experiment(
+    #     'Reservoir', 'inst_10_reservoirs',
+    #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
+    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
+    # ),
     # domain_instance_experiment(
     #      'MarsRover', 'inst_6_rovers_7_minerals',
     #     slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
