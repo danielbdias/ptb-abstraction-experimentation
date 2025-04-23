@@ -24,8 +24,8 @@ class OptimizerParameters:
     learning_rate:    float
     batch_size_train: int
     batch_size_test:  int
-    action_bounds:    dict
-    guess:            dict
+    action_bounds:    dict | None 
+    guess:            dict | None
 
 @dataclass(frozen=False)
 class TrainingParameters:
@@ -54,8 +54,8 @@ class DomainInstanceExperiment:
     instance_name:                       str
     ground_fluents_to_freeze:            Set[str]
     bound_strategies:                    dict
-    drp_experiment_params:               PlannerParameters
-    slp_experiment_params:               PlannerParameters
+    drp_experiment_params:               PlannerParameters | None
+    slp_experiment_params:               PlannerParameters | None
     
     def __post_init__(self):
         if self.drp_experiment_params.topology is None:
