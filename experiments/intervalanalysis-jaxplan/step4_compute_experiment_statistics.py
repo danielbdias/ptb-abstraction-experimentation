@@ -139,7 +139,7 @@ def plot_cost_curve_per_iteration_with_thresholds(plot_path, domain_instance_exp
 
     for threshold in warm_start_stats_with_thresholds.keys():
         warm_start_stats = warm_start_stats_with_thresholds[threshold]
-        statistics[f'Warm Start ({threshold})'] = warm_start_stats
+        statistics[f'Warm Start ({threshold * 100:.0f}%)'] = warm_start_stats
 
     for key in statistics.keys():
         stats = statistics[key]
@@ -219,7 +219,7 @@ def plot_summarizations(domain_instance_experiment, strategy_name, planner_type)
     # Convergence value
     ############################################################
 
-    plot_cost_curve_per_iteration_path = f'{plot_folder}/summarized_convergence_value_{planner_type}_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pdf'
+    plot_cost_curve_per_iteration_path = f'{plot_folder}/summarized_convergence_value_{planner_type}_{strategy_name}_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pdf'
     plot_cost_curve_per_iteration_with_thresholds(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_stats_with_thresholds)
 
 
