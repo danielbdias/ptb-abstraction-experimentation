@@ -46,9 +46,11 @@ def domain_instance_experiment(domain_name, instance_name, slp_experiment_params
         slp_experiment_params = slp_experiment_params,
         drp_experiment_params = drp_experiment_params
     )
-    
-    experiment.slp_experiment_params.training_params.train_seconds = train_seconds
-    experiment.drp_experiment_params.training_params.train_seconds = train_seconds
+
+    if slp_experiment_params is not None:
+        experiment.slp_experiment_params.training_params.train_seconds = train_seconds
+    if drp_experiment_params is not None:
+        experiment.drp_experiment_params.training_params.train_seconds = train_seconds
     
     return experiment
 
@@ -56,42 +58,36 @@ experiments = [
     # Continuous Domains
     domain_instance_experiment(
         'Reservoir', 'inst_10_reservoirs',
-        # slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
         drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
     ),
-    domain_instance_experiment(
-        'UAV', 'inst_10_reservoirs',
-        # slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-        drp_experiment_params = get_planner_parameters(model_weight=1, learning_rate=0.0003, batch_size=32, epochs=10_000, topology=[64, 32])
-    ),
-    domain_instance_experiment(
-        'MountainCar', 'instance1',
-        # slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.1, batch_size=32, epochs=10_000, topology=[64, 32])
-    ),
+    # domain_instance_experiment(
+    #     'UAV', 'instance4',
+    #     drp_experiment_params = get_planner_parameters(model_weight=1, learning_rate=0.0003, batch_size=32, epochs=10_000, topology=[64, 32])
+    # ),
+    # domain_instance_experiment(
+    #     'MountainCar', 'instance1',
+    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.1, batch_size=32, epochs=10_000, topology=[64, 32])
+    # ),
     
     # Continuous and Discrete (Mixed) Domains
     domain_instance_experiment(
         'HVAC', 'inst_5_zones_5_heaters',
-        # slp_experiment_params = get_planner_parameters(model_weight=5, learning_rate=0.02, batch_size=32, epochs=4_000),
         drp_experiment_params = get_planner_parameters(model_weight=5, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[64, 64])
     ),
     domain_instance_experiment(
         'PowerGen', 'inst_5_gen',
-        # slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.05, batch_size=32, epochs=10_000),
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=12_000, topology=[256, 128])
+        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=10_000, topology=[256, 128])
     ),
-    domain_instance_experiment(
-        'MarsRover', 'inst_6_rovers_7_minerals',
-        # slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
-    ),
+    # domain_instance_experiment(
+    #     'MarsRover', 'inst_6_rovers_7_minerals',
+    #     # slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
+    #     drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
+    # ),
     
     # Discrete Domains
     domain_instance_experiment(
         'Wildfire', 'inst_5x5_grid',
-        slp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.2, batch_size=32, epochs=1_000),
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0002, batch_size=32, epochs=10_000, topology=[64, 32])
+        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
     ),
     # SysAdmin
     # TriangleTireworld
