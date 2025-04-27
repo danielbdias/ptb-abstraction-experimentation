@@ -1,60 +1,44 @@
-import os
-import sys
-
-import jax
-
 import pyRDDLGym
+from pyRDDLGym_jax.core.tuning import JaxParameterTuning, Hyperparameter
 
-from pyRDDLGym_jax.core.tuning import JaxParameterTuningSLP
-from pyRDDLGym_jax.core.planner import load_config
+from _config_tuning import experiments, tuning_seed, eval_trials, num_workers, gp_iters
 
-from _domains import domains, jax_seeds
-
-root_folder = os.path.dirname(__file__)
-
-def main(domain, domain_name, instance, planner_args, plan_args, train_args, trials=5, iters=20, workers=4):
-    env = pyRDDLGym.make(domain, instance, vectorized=True)
-    
-    tuning = JaxParameterTuningSLP(env=env,
-                          train_epochs=train_args['epochs'],
-                          timeout_training=train_args['train_seconds'],
-                          eval_trials=trials,
-                          planner_kwargs=planner_args,
-                          plan_kwargs=plan_args,
-                          num_workers=workers,
-                          gp_iters=iters)
-    
-    # perform tuning and report best parameters
-    best = tuning.tune(key=train_args['key'], filename=f'gp_{domain_name}', save_plot=True)
-    print(f'best parameters found: {best}')
-
-if __name__ == "__main__":
-    for domain in domains:
+if __name__ == '__main__':
+    for domain_instance_experiment in experiments:
         print('--------------------------------------------------------------------------------')
-        print('Domain: ', domain)
+        print('Parameter Tuning - ', domain_instance_experiment.domain_name, domain_instance_experiment.instance_name)
         print('--------------------------------------------------------------------------------')
         print()
+        
+        domain = domain_instance_experiment.domain_name
+        instance = domain_instance_experiment.instance_name
+        drp_template_file = domain_instance_experiment.drp_template_file
+        with open(drp_template_file, 'r') as file: 
+            drp_config_template = file.read() 
 
-        #########################################################################################################
-        # Runs with regular domain (just to use as comparison)
-        #########################################################################################################
+        # map parameters in the config that will be tuned
+        def power_10(x): return 10.0 ** x
+        def power_2(x): return 2.0 ** x
+            
+        hyperparams = [
+            Hyperparameter('TUNABLE_WEIGHT', -1., 5., power_10),  # tune weight from 10^-1 ... 10^5
+            Hyperparameter('TUNABLE_LEARNING_RATE', -5., 1., power_10),   # tune lr from 10^-5 ... 10^1
+            Hyperparameter('TUNABLE_TOPOLOGY_FIRST_LAYER', 4, 8, power_2),  # tune weight from 16 ... 256
+            Hyperparameter('TUNABLE_TOPOLOGY_SECOND_LAYER', 4, 8, power_2),   # tune lr from 16 ... 256
+        ]
 
-        domain_path = f"{root_folder}/domains/{domain.name}"
-        domain_file_path = f'{domain_path}/domain.rddl'
-        instance_file_path = f'{domain_path}/{domain.instance}.rddl'
+        # set up the environment   
+        env = pyRDDLGym.make(domain, instance, vectorized=True)
+    
+        # build the tuner and tune
+        tuning = JaxParameterTuning(env=env,
+                                    config_template=drp_config_template,
+                                    hyperparams=hyperparams,
+                                    online=False,
+                                    eval_trials=eval_trials,
+                                    num_workers=num_workers,
+                                    gp_iters=gp_iters)
         
-        train_args = {
-            'key': jax.random.PRNGKey(jax_seeds[0]),
-            'epochs': domain.experiment_params.training_params.epochs,
-            'train_seconds': domain.experiment_params.training_params.train_seconds
-        }
-        
-        planner_args = { # Optimizer
-            'batch_size_train': domain.experiment_params.optimizer_params.batch_size_train,
-            'batch_size_test': domain.experiment_params.optimizer_params.batch_size_test,
-            'optimizer': domain.experiment_params.optimizer_params.optimizer,
-        }
-        
-        plan_args = {} # Model
-        
-        main(domain_file_path, domain.name, instance_file_path, planner_args, plan_args, train_args, workers=6)
+        best_params = tuning.tune(key=tuning_seed, log_file=f'_intermediate/log_{domain}_{instance}.csv')
+        with open(f'_results/_best_params_{domain}_{instance}.txt', 'w') as file:
+            file.write(str(best_params))
