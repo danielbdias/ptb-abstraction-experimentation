@@ -34,7 +34,7 @@ class DomainInstanceExperiment:
         domain_file_path = f'{domain_path}/domain.rddl'
         instance_file_path = f'{domain_path}/{self.instance_name}.rddl'
         
-        return domain_path, domain_file_path, instance_file_path
+        return domain_file_path, instance_file_path
 
 @dataclass(frozen=True)
 class ExperimentStatisticsSummary:

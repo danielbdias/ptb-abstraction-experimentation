@@ -11,7 +11,6 @@ num_workers = 6
 gp_iters = 20
 
 silent = True
-
 run_drp = True
 
 @dataclass(frozen=True)
@@ -19,6 +18,13 @@ class DomainInstanceTuningData:
     domain_name: str
     instance_name: str
     drp_template_file: str
+    
+    def get_experiment_paths(self, root_folder):
+        domain_path = f"{root_folder}/domains/{self.domain_name}"
+        domain_file_path = f'{domain_path}/domain.rddl'
+        instance_file_path = f'{domain_path}/{self.instance_name}.rddl'
+        
+        return domain_file_path, instance_file_path
 
 def domain_instance_tuning_data(domain_name, instance_name):
     experiment = DomainInstanceTuningData(

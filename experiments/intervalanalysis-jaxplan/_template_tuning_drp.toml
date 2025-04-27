@@ -17,4 +17,3 @@ batch_size_test=32
 train_seconds=600
 print_summary=False
 print_progress=False
-train_on_reset=True

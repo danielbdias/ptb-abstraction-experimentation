@@ -167,7 +167,7 @@ def compute_state_bounds(environment : RDDLEnv):
     return state_bounds
 
 def perform_interval_analysis(domain_instance_experiment, strategy_name, strategy):
-    _, domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
+    domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     output_file_interval=f"{root_folder}/_results/intervals_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
     output_file_analysis_time=f"{root_folder}/_results/time_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv"
