@@ -7,7 +7,7 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 
 from pyRDDLGym_jax.core.planner import JaxStraightLinePlan, JaxDeepReactivePolicy
 
-from _config import experiments, jax_seeds, silent, run_drp, run_slp, threshold_to_choose_fluents
+from _config_run import experiments, jax_seeds, silent, run_drp, run_slp, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_jax_planner
 from _fileio import save_pickle_data, load_pickle_data, file_exists
 

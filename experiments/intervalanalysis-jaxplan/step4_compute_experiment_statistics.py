@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-from _config import experiments, run_drp, run_slp, threshold_to_choose_fluents
+from _config_run import experiments, run_drp, run_slp, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 from _fileio import load_pickle_data, file_exists
 

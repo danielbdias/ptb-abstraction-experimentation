@@ -10,7 +10,7 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym.core.parser.expr import Expression
 
-from _config import experiments, threshold_to_choose_fluents
+from _config_run import experiments, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
 from _fileio import file_exists, get_ground_fluents_to_ablate_from_csv, save_pickle_data, save_raw_data

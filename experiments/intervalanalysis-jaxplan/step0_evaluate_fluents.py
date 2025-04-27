@@ -5,7 +5,7 @@ import time
 from collections import namedtuple
 from typing import Dict, List, Tuple
 
-from _config import experiments, threshold_to_choose_fluents
+from _config_run import experiments, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
 import pyRDDLGym

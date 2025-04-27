@@ -1,0 +1,487 @@
+domain reservoir_control_cont {
+
+
+	pvariables {
+
+		TOP_RES___t1 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t2 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t3 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t4 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t5 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t6 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t7 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t8 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t9 : { non-fluent, real, default = 100.0 };
+		TOP_RES___t10 : { non-fluent, real, default = 100.0 };
+		MAX_LEVEL___t1 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t2 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t3 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t4 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t5 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t6 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t7 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t8 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t9 : { non-fluent, real, default = 80.0 };
+		MAX_LEVEL___t10 : { non-fluent, real, default = 80.0 };
+		MIN_LEVEL___t1 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t2 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t3 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t4 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t5 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t6 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t7 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t8 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t9 : { non-fluent, real, default = 20.0 };
+		MIN_LEVEL___t10 : { non-fluent, real, default = 20.0 };
+		RAIN_VAR___t1 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t2 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t3 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t4 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t5 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t6 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t7 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t8 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t9 : { non-fluent, real, default = 5.0 };
+		RAIN_VAR___t10 : { non-fluent, real, default = 5.0 };
+		RES_CONNECT___t1__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t1__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t2__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t3__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t4__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t5__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t6__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t7__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t8__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t9__t10 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t1 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t2 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t3 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t4 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t5 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t6 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t7 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t8 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t9 : { non-fluent, bool, default = false };
+		RES_CONNECT___t10__t10 : { non-fluent, bool, default = false };
+		EVAPORATION_FACTOR : { non-fluent, real, default = 0.05 };
+		CONNECTED_TO_SEA___t1 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t2 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t3 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t4 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t5 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t6 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t7 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t8 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t9 : { non-fluent, bool, default = false };
+		CONNECTED_TO_SEA___t10 : { non-fluent, bool, default = false };
+		LOW_COST___t1 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t2 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t3 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t4 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t5 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t6 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t7 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t8 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t9 : { non-fluent, real, default = -5.0 };
+		LOW_COST___t10 : { non-fluent, real, default = -5.0 };
+		HIGH_COST___t1 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t2 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t3 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t4 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t5 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t6 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t7 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t8 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t9 : { non-fluent, real, default = -10.0 };
+		HIGH_COST___t10 : { non-fluent, real, default = -10.0 };
+		OVERFLOW_COST___t1 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t2 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t3 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t4 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t5 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t6 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t7 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t8 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t9 : { non-fluent, real, default = -15.0 };
+		OVERFLOW_COST___t10 : { non-fluent, real, default = -15.0 };
+
+		rain___t1 : { interm-fluent, real };
+		rain___t2 : { interm-fluent, real };
+		rain___t3 : { interm-fluent, real };
+		rain___t4 : { interm-fluent, real };
+		rain___t5 : { interm-fluent, real };
+		rain___t6 : { interm-fluent, real };
+		rain___t7 : { interm-fluent, real };
+		rain___t8 : { interm-fluent, real };
+		rain___t9 : { interm-fluent, real };
+		rain___t10 : { interm-fluent, real };
+		evaporated___t1 : { interm-fluent, real };
+		evaporated___t2 : { interm-fluent, real };
+		evaporated___t3 : { interm-fluent, real };
+		evaporated___t4 : { interm-fluent, real };
+		evaporated___t5 : { interm-fluent, real };
+		evaporated___t6 : { interm-fluent, real };
+		evaporated___t7 : { interm-fluent, real };
+		evaporated___t8 : { interm-fluent, real };
+		evaporated___t9 : { interm-fluent, real };
+		evaporated___t10 : { interm-fluent, real };
+		overflow___t1 : { interm-fluent, real };
+		overflow___t2 : { interm-fluent, real };
+		overflow___t3 : { interm-fluent, real };
+		overflow___t4 : { interm-fluent, real };
+		overflow___t5 : { interm-fluent, real };
+		overflow___t6 : { interm-fluent, real };
+		overflow___t7 : { interm-fluent, real };
+		overflow___t8 : { interm-fluent, real };
+		overflow___t9 : { interm-fluent, real };
+		overflow___t10 : { interm-fluent, real };
+		inflow___t1 : { interm-fluent, real };
+		inflow___t2 : { interm-fluent, real };
+		inflow___t3 : { interm-fluent, real };
+		inflow___t4 : { interm-fluent, real };
+		inflow___t5 : { interm-fluent, real };
+		inflow___t6 : { interm-fluent, real };
+		inflow___t7 : { interm-fluent, real };
+		inflow___t8 : { interm-fluent, real };
+		inflow___t9 : { interm-fluent, real };
+		inflow___t10 : { interm-fluent, real };
+		individual_outflow___t1 : { interm-fluent, real };
+		individual_outflow___t2 : { interm-fluent, real };
+		individual_outflow___t3 : { interm-fluent, real };
+		individual_outflow___t4 : { interm-fluent, real };
+		individual_outflow___t5 : { interm-fluent, real };
+		individual_outflow___t6 : { interm-fluent, real };
+		individual_outflow___t7 : { interm-fluent, real };
+		individual_outflow___t8 : { interm-fluent, real };
+		individual_outflow___t9 : { interm-fluent, real };
+		individual_outflow___t10 : { interm-fluent, real };
+		released_water___t1 : { interm-fluent, real };
+		released_water___t2 : { interm-fluent, real };
+		released_water___t3 : { interm-fluent, real };
+		released_water___t4 : { interm-fluent, real };
+		released_water___t5 : { interm-fluent, real };
+		released_water___t6 : { interm-fluent, real };
+		released_water___t7 : { interm-fluent, real };
+		released_water___t8 : { interm-fluent, real };
+		released_water___t9 : { interm-fluent, real };
+		released_water___t10 : { interm-fluent, real };
+
+		rlevel___t1 : { state-fluent, real, default = 50.0 };
+		rlevel___t2 : { state-fluent, real, default = 50.0 };
+		rlevel___t3 : { state-fluent, real, default = 50.0 };
+		rlevel___t4 : { state-fluent, real, default = 50.0 };
+		rlevel___t5 : { state-fluent, real, default = 50.0 };
+		rlevel___t6 : { state-fluent, real, default = 50.0 };
+		rlevel___t7 : { state-fluent, real, default = 50.0 };
+		rlevel___t8 : { state-fluent, real, default = 50.0 };
+		rlevel___t9 : { state-fluent, real, default = 50.0 };
+		rlevel___t10 : { state-fluent, real, default = 50.0 };
+
+		release___t1 : { action-fluent, real, default = 0.0 };
+		release___t2 : { action-fluent, real, default = 0.0 };
+		release___t3 : { action-fluent, real, default = 0.0 };
+		release___t4 : { action-fluent, real, default = 0.0 };
+		release___t5 : { action-fluent, real, default = 0.0 };
+		release___t6 : { action-fluent, real, default = 0.0 };
+		release___t7 : { action-fluent, real, default = 0.0 };
+		release___t8 : { action-fluent, real, default = 0.0 };
+		release___t9 : { action-fluent, real, default = 0.0 };
+		release___t10 : { action-fluent, real, default = 0.0 };
+	};
+
+	cpfs {
+
+		rain___t1 = abs[Normal(0, RAIN_VAR___t1)];
+
+		rain___t2 = abs[Normal(0, RAIN_VAR___t2)];
+
+		rain___t3 = abs[Normal(0, RAIN_VAR___t3)];
+
+		rain___t4 = abs[Normal(0, RAIN_VAR___t4)];
+
+		rain___t5 = abs[Normal(0, RAIN_VAR___t5)];
+
+		rain___t6 = abs[Normal(0, RAIN_VAR___t6)];
+
+		rain___t7 = abs[Normal(0, RAIN_VAR___t7)];
+
+		rain___t8 = abs[Normal(0, RAIN_VAR___t8)];
+
+		rain___t9 = abs[Normal(0, RAIN_VAR___t9)];
+
+		rain___t10 = abs[Normal(0, RAIN_VAR___t10)];
+
+		evaporated___t1 = ( EVAPORATION_FACTOR * rlevel___t1 ) / TOP_RES___t1;
+
+		evaporated___t2 = ( EVAPORATION_FACTOR * rlevel___t2 ) / TOP_RES___t2;
+
+		evaporated___t3 = ( EVAPORATION_FACTOR * rlevel___t3 ) / TOP_RES___t3;
+
+		evaporated___t4 = ( EVAPORATION_FACTOR * rlevel___t4 ) / TOP_RES___t4;
+
+		evaporated___t5 = ( EVAPORATION_FACTOR * rlevel___t5 ) / TOP_RES___t5;
+
+		evaporated___t6 = ( EVAPORATION_FACTOR * rlevel___t6 ) / TOP_RES___t6;
+
+		evaporated___t7 = ( EVAPORATION_FACTOR * rlevel___t7 ) / TOP_RES___t7;
+
+		evaporated___t8 = ( EVAPORATION_FACTOR * rlevel___t8 ) / TOP_RES___t8;
+
+		evaporated___t9 = ( EVAPORATION_FACTOR * rlevel___t9 ) / TOP_RES___t9;
+
+		evaporated___t10 = ( EVAPORATION_FACTOR * rlevel___t10 ) / TOP_RES___t10;
+
+		overflow___t1 = max[0, ( rlevel___t1 - released_water___t1 ) - TOP_RES___t1];
+
+		overflow___t2 = max[0, ( rlevel___t2 - released_water___t2 ) - TOP_RES___t2];
+
+		overflow___t3 = max[0, ( rlevel___t3 - released_water___t3 ) - TOP_RES___t3];
+
+		overflow___t4 = max[0, ( rlevel___t4 - released_water___t4 ) - TOP_RES___t4];
+
+		overflow___t5 = max[0, ( rlevel___t5 - released_water___t5 ) - TOP_RES___t5];
+
+		overflow___t6 = max[0, ( rlevel___t6 - released_water___t6 ) - TOP_RES___t6];
+
+		overflow___t7 = max[0, ( rlevel___t7 - released_water___t7 ) - TOP_RES___t7];
+
+		overflow___t8 = max[0, ( rlevel___t8 - released_water___t8 ) - TOP_RES___t8];
+
+		overflow___t9 = max[0, ( rlevel___t9 - released_water___t9 ) - TOP_RES___t9];
+
+		overflow___t10 = max[0, ( rlevel___t10 - released_water___t10 ) - TOP_RES___t10];
+
+		inflow___t1 = ( RES_CONNECT___t1__t1 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t1 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t1 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t1 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t1 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t1 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t1 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t1 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t1 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t1 * individual_outflow___t10 );
+
+		inflow___t2 = ( RES_CONNECT___t1__t2 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t2 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t2 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t2 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t2 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t2 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t2 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t2 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t2 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t2 * individual_outflow___t10 );
+
+		inflow___t3 = ( RES_CONNECT___t1__t3 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t3 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t3 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t3 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t3 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t3 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t3 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t3 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t3 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t3 * individual_outflow___t10 );
+
+		inflow___t4 = ( RES_CONNECT___t1__t4 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t4 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t4 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t4 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t4 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t4 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t4 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t4 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t4 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t4 * individual_outflow___t10 );
+
+		inflow___t5 = ( RES_CONNECT___t1__t5 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t5 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t5 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t5 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t5 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t5 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t5 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t5 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t5 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t5 * individual_outflow___t10 );
+
+		inflow___t6 = ( RES_CONNECT___t1__t6 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t6 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t6 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t6 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t6 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t6 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t6 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t6 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t6 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t6 * individual_outflow___t10 );
+
+		inflow___t7 = ( RES_CONNECT___t1__t7 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t7 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t7 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t7 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t7 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t7 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t7 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t7 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t7 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t7 * individual_outflow___t10 );
+
+		inflow___t8 = ( RES_CONNECT___t1__t8 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t8 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t8 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t8 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t8 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t8 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t8 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t8 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t8 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t8 * individual_outflow___t10 );
+
+		inflow___t9 = ( RES_CONNECT___t1__t9 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t9 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t9 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t9 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t9 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t9 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t9 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t9 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t9 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t9 * individual_outflow___t10 );
+
+		inflow___t10 = ( RES_CONNECT___t1__t10 * individual_outflow___t1 ) + ( RES_CONNECT___t2__t10 * individual_outflow___t2 ) + ( RES_CONNECT___t3__t10 * individual_outflow___t3 ) + ( RES_CONNECT___t4__t10 * individual_outflow___t4 ) + ( RES_CONNECT___t5__t10 * individual_outflow___t5 ) + ( RES_CONNECT___t6__t10 * individual_outflow___t6 ) + ( RES_CONNECT___t7__t10 * individual_outflow___t7 ) + ( RES_CONNECT___t8__t10 * individual_outflow___t8 ) + ( RES_CONNECT___t9__t10 * individual_outflow___t9 ) + ( RES_CONNECT___t10__t10 * individual_outflow___t10 );
+
+		individual_outflow___t1 = ( released_water___t1 * 1 ) / ( ( RES_CONNECT___t1__t1 + RES_CONNECT___t1__t2 + RES_CONNECT___t1__t3 + RES_CONNECT___t1__t4 + RES_CONNECT___t1__t5 + RES_CONNECT___t1__t6 + RES_CONNECT___t1__t7 + RES_CONNECT___t1__t8 + RES_CONNECT___t1__t9 + RES_CONNECT___t1__t10 ) + CONNECTED_TO_SEA___t1 );
+
+		individual_outflow___t2 = ( released_water___t2 * 1 ) / ( ( RES_CONNECT___t2__t1 + RES_CONNECT___t2__t2 + RES_CONNECT___t2__t3 + RES_CONNECT___t2__t4 + RES_CONNECT___t2__t5 + RES_CONNECT___t2__t6 + RES_CONNECT___t2__t7 + RES_CONNECT___t2__t8 + RES_CONNECT___t2__t9 + RES_CONNECT___t2__t10 ) + CONNECTED_TO_SEA___t2 );
+
+		individual_outflow___t3 = ( released_water___t3 * 1 ) / ( ( RES_CONNECT___t3__t1 + RES_CONNECT___t3__t2 + RES_CONNECT___t3__t3 + RES_CONNECT___t3__t4 + RES_CONNECT___t3__t5 + RES_CONNECT___t3__t6 + RES_CONNECT___t3__t7 + RES_CONNECT___t3__t8 + RES_CONNECT___t3__t9 + RES_CONNECT___t3__t10 ) + CONNECTED_TO_SEA___t3 );
+
+		individual_outflow___t4 = ( released_water___t4 * 1 ) / ( ( RES_CONNECT___t4__t1 + RES_CONNECT___t4__t2 + RES_CONNECT___t4__t3 + RES_CONNECT___t4__t4 + RES_CONNECT___t4__t5 + RES_CONNECT___t4__t6 + RES_CONNECT___t4__t7 + RES_CONNECT___t4__t8 + RES_CONNECT___t4__t9 + RES_CONNECT___t4__t10 ) + CONNECTED_TO_SEA___t4 );
+
+		individual_outflow___t5 = ( released_water___t5 * 1 ) / ( ( RES_CONNECT___t5__t1 + RES_CONNECT___t5__t2 + RES_CONNECT___t5__t3 + RES_CONNECT___t5__t4 + RES_CONNECT___t5__t5 + RES_CONNECT___t5__t6 + RES_CONNECT___t5__t7 + RES_CONNECT___t5__t8 + RES_CONNECT___t5__t9 + RES_CONNECT___t5__t10 ) + CONNECTED_TO_SEA___t5 );
+
+		individual_outflow___t6 = ( released_water___t6 * 1 ) / ( ( RES_CONNECT___t6__t1 + RES_CONNECT___t6__t2 + RES_CONNECT___t6__t3 + RES_CONNECT___t6__t4 + RES_CONNECT___t6__t5 + RES_CONNECT___t6__t6 + RES_CONNECT___t6__t7 + RES_CONNECT___t6__t8 + RES_CONNECT___t6__t9 + RES_CONNECT___t6__t10 ) + CONNECTED_TO_SEA___t6 );
+
+		individual_outflow___t7 = ( released_water___t7 * 1 ) / ( ( RES_CONNECT___t7__t1 + RES_CONNECT___t7__t2 + RES_CONNECT___t7__t3 + RES_CONNECT___t7__t4 + RES_CONNECT___t7__t5 + RES_CONNECT___t7__t6 + RES_CONNECT___t7__t7 + RES_CONNECT___t7__t8 + RES_CONNECT___t7__t9 + RES_CONNECT___t7__t10 ) + CONNECTED_TO_SEA___t7 );
+
+		individual_outflow___t8 = ( released_water___t8 * 1 ) / ( ( RES_CONNECT___t8__t1 + RES_CONNECT___t8__t2 + RES_CONNECT___t8__t3 + RES_CONNECT___t8__t4 + RES_CONNECT___t8__t5 + RES_CONNECT___t8__t6 + RES_CONNECT___t8__t7 + RES_CONNECT___t8__t8 + RES_CONNECT___t8__t9 + RES_CONNECT___t8__t10 ) + CONNECTED_TO_SEA___t8 );
+
+		individual_outflow___t9 = ( released_water___t9 * 1 ) / ( ( RES_CONNECT___t9__t1 + RES_CONNECT___t9__t2 + RES_CONNECT___t9__t3 + RES_CONNECT___t9__t4 + RES_CONNECT___t9__t5 + RES_CONNECT___t9__t6 + RES_CONNECT___t9__t7 + RES_CONNECT___t9__t8 + RES_CONNECT___t9__t9 + RES_CONNECT___t9__t10 ) + CONNECTED_TO_SEA___t9 );
+
+		individual_outflow___t10 = ( released_water___t10 * 1 ) / ( ( RES_CONNECT___t10__t1 + RES_CONNECT___t10__t2 + RES_CONNECT___t10__t3 + RES_CONNECT___t10__t4 + RES_CONNECT___t10__t5 + RES_CONNECT___t10__t6 + RES_CONNECT___t10__t7 + RES_CONNECT___t10__t8 + RES_CONNECT___t10__t9 + RES_CONNECT___t10__t10 ) + CONNECTED_TO_SEA___t10 );
+
+		released_water___t1 = max[0, min[rlevel___t1, release___t1]];
+
+		released_water___t2 = max[0, min[rlevel___t2, release___t2]];
+
+		released_water___t3 = max[0, min[rlevel___t3, release___t3]];
+
+		released_water___t4 = max[0, min[rlevel___t4, release___t4]];
+
+		released_water___t5 = max[0, min[rlevel___t5, release___t5]];
+
+		released_water___t6 = max[0, min[rlevel___t6, release___t6]];
+
+		released_water___t7 = max[0, min[rlevel___t7, release___t7]];
+
+		released_water___t8 = max[0, min[rlevel___t8, release___t8]];
+
+		released_water___t9 = max[0, min[rlevel___t9, release___t9]];
+
+		released_water___t10 = max[0, min[rlevel___t10, release___t10]];
+
+		rlevel___t1' = min[TOP_RES___t1, max[0, ( ( ( ( rlevel___t1 + inflow___t1 ) + rain___t1 ) - evaporated___t1 ) - overflow___t1 ) - released_water___t1]];
+
+		rlevel___t2' = min[TOP_RES___t2, max[0, ( ( ( ( rlevel___t2 + inflow___t2 ) + rain___t2 ) - evaporated___t2 ) - overflow___t2 ) - released_water___t2]];
+
+		rlevel___t3' = rlevel___t3;
+
+		rlevel___t4' = rlevel___t4;
+
+		rlevel___t5' = min[TOP_RES___t5, max[0, ( ( ( ( rlevel___t5 + inflow___t5 ) + rain___t5 ) - evaporated___t5 ) - overflow___t5 ) - released_water___t5]];
+
+		rlevel___t6' = min[TOP_RES___t6, max[0, ( ( ( ( rlevel___t6 + inflow___t6 ) + rain___t6 ) - evaporated___t6 ) - overflow___t6 ) - released_water___t6]];
+
+		rlevel___t7' = min[TOP_RES___t7, max[0, ( ( ( ( rlevel___t7 + inflow___t7 ) + rain___t7 ) - evaporated___t7 ) - overflow___t7 ) - released_water___t7]];
+
+		rlevel___t8' = min[TOP_RES___t8, max[0, ( ( ( ( rlevel___t8 + inflow___t8 ) + rain___t8 ) - evaporated___t8 ) - overflow___t8 ) - released_water___t8]];
+
+		rlevel___t9' = min[TOP_RES___t9, max[0, ( ( ( ( rlevel___t9 + inflow___t9 ) + rain___t9 ) - evaporated___t9 ) - overflow___t9 ) - released_water___t9]];
+
+		rlevel___t10' = min[TOP_RES___t10, max[0, ( ( ( ( rlevel___t10 + inflow___t10 ) + rain___t10 ) - evaporated___t10 ) - overflow___t10 ) - released_water___t10]];
+	};
+
+	reward = ( if (( rlevel___t1' >= MIN_LEVEL___t1 ) ^ ( rlevel___t1' <= MAX_LEVEL___t1 ))
+			then 0
+			else ( if (rlevel___t1' <= MIN_LEVEL___t1)
+				then ( LOW_COST___t1 * ( MIN_LEVEL___t1 - rlevel___t1' ) )
+				else ( if (( rlevel___t1' > MAX_LEVEL___t1 ) ^ ( rlevel___t1' <= TOP_RES___t1 ))
+					then ( HIGH_COST___t1 * ( rlevel___t1' - MAX_LEVEL___t1 ) )
+					else ( ( HIGH_COST___t1 * ( rlevel___t1' - MAX_LEVEL___t1 ) ) + ( OVERFLOW_COST___t1 * overflow___t1 ) ) ) ) ) + ( if (( rlevel___t2' >= MIN_LEVEL___t2 ) ^ ( rlevel___t2' <= MAX_LEVEL___t2 ))
+			then 0
+			else ( if (rlevel___t2' <= MIN_LEVEL___t2)
+				then ( LOW_COST___t2 * ( MIN_LEVEL___t2 - rlevel___t2' ) )
+				else ( if (( rlevel___t2' > MAX_LEVEL___t2 ) ^ ( rlevel___t2' <= TOP_RES___t2 ))
+					then ( HIGH_COST___t2 * ( rlevel___t2' - MAX_LEVEL___t2 ) )
+					else ( ( HIGH_COST___t2 * ( rlevel___t2' - MAX_LEVEL___t2 ) ) + ( OVERFLOW_COST___t2 * overflow___t2 ) ) ) ) ) + ( if (( rlevel___t3' >= MIN_LEVEL___t3 ) ^ ( rlevel___t3' <= MAX_LEVEL___t3 ))
+			then 0
+			else ( if (rlevel___t3' <= MIN_LEVEL___t3)
+				then ( LOW_COST___t3 * ( MIN_LEVEL___t3 - rlevel___t3' ) )
+				else ( if (( rlevel___t3' > MAX_LEVEL___t3 ) ^ ( rlevel___t3' <= TOP_RES___t3 ))
+					then ( HIGH_COST___t3 * ( rlevel___t3' - MAX_LEVEL___t3 ) )
+					else ( ( HIGH_COST___t3 * ( rlevel___t3' - MAX_LEVEL___t3 ) ) + ( OVERFLOW_COST___t3 * overflow___t3 ) ) ) ) ) + ( if (( rlevel___t4' >= MIN_LEVEL___t4 ) ^ ( rlevel___t4' <= MAX_LEVEL___t4 ))
+			then 0
+			else ( if (rlevel___t4' <= MIN_LEVEL___t4)
+				then ( LOW_COST___t4 * ( MIN_LEVEL___t4 - rlevel___t4' ) )
+				else ( if (( rlevel___t4' > MAX_LEVEL___t4 ) ^ ( rlevel___t4' <= TOP_RES___t4 ))
+					then ( HIGH_COST___t4 * ( rlevel___t4' - MAX_LEVEL___t4 ) )
+					else ( ( HIGH_COST___t4 * ( rlevel___t4' - MAX_LEVEL___t4 ) ) + ( OVERFLOW_COST___t4 * overflow___t4 ) ) ) ) ) + ( if (( rlevel___t5' >= MIN_LEVEL___t5 ) ^ ( rlevel___t5' <= MAX_LEVEL___t5 ))
+			then 0
+			else ( if (rlevel___t5' <= MIN_LEVEL___t5)
+				then ( LOW_COST___t5 * ( MIN_LEVEL___t5 - rlevel___t5' ) )
+				else ( if (( rlevel___t5' > MAX_LEVEL___t5 ) ^ ( rlevel___t5' <= TOP_RES___t5 ))
+					then ( HIGH_COST___t5 * ( rlevel___t5' - MAX_LEVEL___t5 ) )
+					else ( ( HIGH_COST___t5 * ( rlevel___t5' - MAX_LEVEL___t5 ) ) + ( OVERFLOW_COST___t5 * overflow___t5 ) ) ) ) ) + ( if (( rlevel___t6' >= MIN_LEVEL___t6 ) ^ ( rlevel___t6' <= MAX_LEVEL___t6 ))
+			then 0
+			else ( if (rlevel___t6' <= MIN_LEVEL___t6)
+				then ( LOW_COST___t6 * ( MIN_LEVEL___t6 - rlevel___t6' ) )
+				else ( if (( rlevel___t6' > MAX_LEVEL___t6 ) ^ ( rlevel___t6' <= TOP_RES___t6 ))
+					then ( HIGH_COST___t6 * ( rlevel___t6' - MAX_LEVEL___t6 ) )
+					else ( ( HIGH_COST___t6 * ( rlevel___t6' - MAX_LEVEL___t6 ) ) + ( OVERFLOW_COST___t6 * overflow___t6 ) ) ) ) ) + ( if (( rlevel___t7' >= MIN_LEVEL___t7 ) ^ ( rlevel___t7' <= MAX_LEVEL___t7 ))
+			then 0
+			else ( if (rlevel___t7' <= MIN_LEVEL___t7)
+				then ( LOW_COST___t7 * ( MIN_LEVEL___t7 - rlevel___t7' ) )
+				else ( if (( rlevel___t7' > MAX_LEVEL___t7 ) ^ ( rlevel___t7' <= TOP_RES___t7 ))
+					then ( HIGH_COST___t7 * ( rlevel___t7' - MAX_LEVEL___t7 ) )
+					else ( ( HIGH_COST___t7 * ( rlevel___t7' - MAX_LEVEL___t7 ) ) + ( OVERFLOW_COST___t7 * overflow___t7 ) ) ) ) ) + ( if (( rlevel___t8' >= MIN_LEVEL___t8 ) ^ ( rlevel___t8' <= MAX_LEVEL___t8 ))
+			then 0
+			else ( if (rlevel___t8' <= MIN_LEVEL___t8)
+				then ( LOW_COST___t8 * ( MIN_LEVEL___t8 - rlevel___t8' ) )
+				else ( if (( rlevel___t8' > MAX_LEVEL___t8 ) ^ ( rlevel___t8' <= TOP_RES___t8 ))
+					then ( HIGH_COST___t8 * ( rlevel___t8' - MAX_LEVEL___t8 ) )
+					else ( ( HIGH_COST___t8 * ( rlevel___t8' - MAX_LEVEL___t8 ) ) + ( OVERFLOW_COST___t8 * overflow___t8 ) ) ) ) ) + ( if (( rlevel___t9' >= MIN_LEVEL___t9 ) ^ ( rlevel___t9' <= MAX_LEVEL___t9 ))
+			then 0
+			else ( if (rlevel___t9' <= MIN_LEVEL___t9)
+				then ( LOW_COST___t9 * ( MIN_LEVEL___t9 - rlevel___t9' ) )
+				else ( if (( rlevel___t9' > MAX_LEVEL___t9 ) ^ ( rlevel___t9' <= TOP_RES___t9 ))
+					then ( HIGH_COST___t9 * ( rlevel___t9' - MAX_LEVEL___t9 ) )
+					else ( ( HIGH_COST___t9 * ( rlevel___t9' - MAX_LEVEL___t9 ) ) + ( OVERFLOW_COST___t9 * overflow___t9 ) ) ) ) ) + ( if (( rlevel___t10' >= MIN_LEVEL___t10 ) ^ ( rlevel___t10' <= MAX_LEVEL___t10 ))
+			then 0
+			else ( if (rlevel___t10' <= MIN_LEVEL___t10)
+				then ( LOW_COST___t10 * ( MIN_LEVEL___t10 - rlevel___t10' ) )
+				else ( if (( rlevel___t10' > MAX_LEVEL___t10 ) ^ ( rlevel___t10' <= TOP_RES___t10 ))
+					then ( HIGH_COST___t10 * ( rlevel___t10' - MAX_LEVEL___t10 ) )
+					else ( ( HIGH_COST___t10 * ( rlevel___t10' - MAX_LEVEL___t10 ) ) + ( OVERFLOW_COST___t10 * overflow___t10 ) ) ) ) );
+
+	state-invariants {
+		( rlevel___t1 >= 0 ) ^ ( rlevel___t2 >= 0 ) ^ ( rlevel___t3 >= 0 ) ^ ( rlevel___t4 >= 0 ) ^ ( rlevel___t5 >= 0 ) ^ ( rlevel___t6 >= 0 ) ^ ( rlevel___t7 >= 0 ) ^ ( rlevel___t8 >= 0 ) ^ ( rlevel___t9 >= 0 ) ^ ( rlevel___t10 >= 0 );
+		( rlevel___t1 <= TOP_RES___t1 ) ^ ( rlevel___t2 <= TOP_RES___t2 ) ^ ( rlevel___t3 <= TOP_RES___t3 ) ^ ( rlevel___t4 <= TOP_RES___t4 ) ^ ( rlevel___t5 <= TOP_RES___t5 ) ^ ( rlevel___t6 <= TOP_RES___t6 ) ^ ( rlevel___t7 <= TOP_RES___t7 ) ^ ( rlevel___t8 <= TOP_RES___t8 ) ^ ( rlevel___t9 <= TOP_RES___t9 ) ^ ( rlevel___t10 <= TOP_RES___t10 );
+		( CONNECTED_TO_SEA___t1 + CONNECTED_TO_SEA___t2 + CONNECTED_TO_SEA___t3 + CONNECTED_TO_SEA___t4 + CONNECTED_TO_SEA___t5 + CONNECTED_TO_SEA___t6 + CONNECTED_TO_SEA___t7 + CONNECTED_TO_SEA___t8 + CONNECTED_TO_SEA___t9 + CONNECTED_TO_SEA___t10 ) == 1;
+	};
+
+	action-preconditions {
+		( release___t1 <= TOP_RES___t1 ) ^ ( release___t2 <= TOP_RES___t2 ) ^ ( release___t3 <= TOP_RES___t3 ) ^ ( release___t4 <= TOP_RES___t4 ) ^ ( release___t5 <= TOP_RES___t5 ) ^ ( release___t6 <= TOP_RES___t6 ) ^ ( release___t7 <= TOP_RES___t7 ) ^ ( release___t8 <= TOP_RES___t8 ) ^ ( release___t9 <= TOP_RES___t9 ) ^ ( release___t10 <= TOP_RES___t10 );
+		( release___t1 >= 0 ) ^ ( release___t2 >= 0 ) ^ ( release___t3 >= 0 ) ^ ( release___t4 >= 0 ) ^ ( release___t5 >= 0 ) ^ ( release___t6 >= 0 ) ^ ( release___t7 >= 0 ) ^ ( release___t8 >= 0 ) ^ ( release___t9 >= 0 ) ^ ( release___t10 >= 0 );
+	};
+}
