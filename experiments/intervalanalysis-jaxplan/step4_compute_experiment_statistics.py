@@ -104,7 +104,7 @@ def stat_curves(experiment_summaries, attribute_getter):
 
     return larger_iteration_curve, curves_mean, curves_stddev
     
-def plot_cost_curve_per_iteration(plot_path, domain_instance_experiment, planner_type, random_policy_stats, warm_start_stats):
+def plot_cost_curve_per_iteration(plot_path, domain_instance_experiment, planner_type, random_policy_stats, warm_start_stats, iter_cutting_point):
     plt.subplots(1, figsize=(8,5))
 
     statistics = {
@@ -123,14 +123,16 @@ def plot_cost_curve_per_iteration(plot_path, domain_instance_experiment, planner
     plt.title(f'Best Reward per Iteration\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name} - {planner_type})', fontsize=14, fontweight='bold')
     plt.xlabel("Iterations", fontsize=14)
     plt.ylabel("Reward", fontsize=14)
-    plt.legend(loc="best", fontsize=14)
+    plt.legend(loc="lower right", fontsize=10)
     plt.tight_layout()
+
+    plt.xlim(0, iter_cutting_point + 500)
 
     plt.rc('font', family='serif')
 
     plt.savefig(plot_path, format='pdf')
     
-def plot_cost_curve_per_iteration_with_thresholds(plot_path, domain_instance_experiment, planner_type, random_policy_stats, warm_start_stats_with_thresholds):
+def plot_cost_curve_per_iteration_with_thresholds(plot_path, domain_instance_experiment, planner_type, random_policy_stats, warm_start_stats_with_thresholds, iter_cutting_point):
     plt.subplots(1, figsize=(8,5))
 
     statistics = {
@@ -152,8 +154,10 @@ def plot_cost_curve_per_iteration_with_thresholds(plot_path, domain_instance_exp
     plt.title(f'Best Reward per Iteration\n({domain_instance_experiment.domain_name} - {domain_instance_experiment.instance_name} - {planner_type})', fontsize=14, fontweight='bold')
     plt.xlabel("Iterations", fontsize=14)
     plt.ylabel("Reward", fontsize=14)
-    plt.legend(loc="best", fontsize=14)
+    plt.legend(loc="lower right", fontsize=10)
     plt.tight_layout()
+
+    plt.xlim(0, iter_cutting_point + 500)
 
     plt.rc('font', family='serif')
 
@@ -181,7 +185,7 @@ def plot_experiments(domain_instance_experiment, strategy_name, threshold, plann
     ############################################################
 
     plot_cost_curve_per_iteration_path = f'{plot_folder}/convergence_value_{planner_type}_{file_common_suffix}.pdf'
-    plot_cost_curve_per_iteration(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_execution_experiment_stats)
+    plot_cost_curve_per_iteration(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_execution_experiment_stats, domain_instance_experiment.iter_cutting_point)
 
     ############################################################
     # Convergence time
@@ -220,7 +224,7 @@ def plot_summarizations(domain_instance_experiment, strategy_name, planner_type)
     ############################################################
 
     plot_cost_curve_per_iteration_path = f'{plot_folder}/summarized_convergence_value_{planner_type}_{strategy_name}_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pdf'
-    plot_cost_curve_per_iteration_with_thresholds(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_stats_with_thresholds)
+    plot_cost_curve_per_iteration_with_thresholds(plot_cost_curve_per_iteration_path, domain_instance_experiment, planner_type, baseline_execution_stats, warm_start_stats_with_thresholds, domain_instance_experiment.iter_cutting_point)
 
 
 if __name__ == '__main__':

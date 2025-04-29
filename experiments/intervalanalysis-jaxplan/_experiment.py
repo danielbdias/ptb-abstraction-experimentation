@@ -56,6 +56,10 @@ class DomainInstanceExperiment:
     bound_strategies:                    dict
     drp_experiment_params:               PlannerParameters | None
     slp_experiment_params:               PlannerParameters | None
+    iter_cutting_point:         int = 10000
+    """
+    This is the number of iterations considered for plotting the best reward curve.
+    """
     
     def __post_init__(self):
         if self.drp_experiment_params.topology is None:
