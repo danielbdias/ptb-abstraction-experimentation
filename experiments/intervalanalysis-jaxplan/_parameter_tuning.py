@@ -10,7 +10,6 @@ import os
 root_folder = os.path.dirname(__file__)
 
 def power_10(x): return 10.0 ** x
-def power_2(x): return 2.0 ** x
     
 if __name__ == '__main__':
     prepare_parallel_experiment_on_main()
@@ -35,8 +34,6 @@ if __name__ == '__main__':
         hyperparams = [
             Hyperparameter('TUNABLE_WEIGHT', -1., 5., power_10),  # tune weight from 10^-1 ... 10^5
             Hyperparameter('TUNABLE_LEARNING_RATE', -5., 1., power_10),   # tune lr from 10^-5 ... 10^1
-            Hyperparameter('TUNABLE_TOPOLOGY_FIRST_LAYER', 4, 8, power_2),  # tune weight from 16 ... 256
-            Hyperparameter('TUNABLE_TOPOLOGY_SECOND_LAYER', 4, 8, power_2),   # tune lr from 16 ... 256
         ]
 
         # set up the environment   

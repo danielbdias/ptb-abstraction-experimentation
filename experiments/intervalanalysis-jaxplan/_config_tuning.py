@@ -8,7 +8,7 @@ from dataclasses import dataclass
 tuning_seed = 42
 eval_trials = 5
 num_workers = 6
-gp_iters = 20
+gp_iters = 10
 
 silent = True
 run_drp = True

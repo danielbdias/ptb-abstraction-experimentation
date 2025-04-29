@@ -6,7 +6,7 @@ control_kwargs={'weight': TUNABLE_WEIGHT}
 
 [Optimizer]
 method='JaxDeepReactivePolicy'
-method_kwargs={'topology': [TUNABLE_TOPOLOGY_FIRST_LAYER, TUNABLE_TOPOLOGY_SECOND_LAYER]}
+method_kwargs={'topology': [64, 32]}
 optimizer='rmsprop'
 optimizer_kwargs={'learning_rate': TUNABLE_LEARNING_RATE}
 batch_size_train=32
