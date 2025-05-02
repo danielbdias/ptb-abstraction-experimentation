@@ -1,0 +1,469 @@
+domain kinematic_UAVs_con {
+
+
+	pvariables {
+
+		CONTROLLABLE___a1 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a2 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a3 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a4 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a5 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a6 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a7 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a8 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a9 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a10 : { non-fluent, bool, default = false };
+		GRAVITY : { non-fluent, real, default = 9.8 };
+		MIN-X : { non-fluent, real, default = -50000.0 };
+		MAX-X : { non-fluent, real, default = 50000.0 };
+		MIN-Y : { non-fluent, real, default = -50000.0 };
+		MAX-Y : { non-fluent, real, default = 50000.0 };
+		MIN-Z : { non-fluent, real, default = -50000.0 };
+		MAX-Z : { non-fluent, real, default = 50000.0 };
+		SCALE-FACTOR : { non-fluent, real, default = 0.1 };
+		RANDOM-WALK-COEFF : { non-fluent, real, default = 0.1 };
+		VEL-REG : { non-fluent, real, default = 0.001 };
+		MIN-ACC___a1 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a2 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a3 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a4 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a5 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a6 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a7 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a8 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a9 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a10 : { non-fluent, real, default = -1.0 };
+		MAX-ACC___a1 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a2 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a3 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a4 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a5 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a6 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a7 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a8 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a9 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a10 : { non-fluent, real, default = 1.0 };
+		MIN-DELTA-PHI___a1 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a2 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a3 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a4 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a5 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a6 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a7 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a8 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a9 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a10 : { non-fluent, real, default = -1.0 };
+		MAX-DELTA-PHI___a1 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a2 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a3 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a4 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a5 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a6 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a7 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a8 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a9 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a10 : { non-fluent, real, default = 1.0 };
+		MIN-DELTA-THETA___a1 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a2 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a3 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a4 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a5 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a6 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a7 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a8 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a9 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a10 : { non-fluent, real, default = -1.0 };
+		MAX-DELTA-THETA___a1 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a2 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a3 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a4 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a5 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a6 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a7 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a8 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a9 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a10 : { non-fluent, real, default = 1.0 };
+		GOAL-X___a1 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a2 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a3 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a4 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a5 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a6 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a7 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a8 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a9 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a10 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a1 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a2 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a3 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a4 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a5 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a6 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a7 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a8 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a9 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a10 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a1 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a2 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a3 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a4 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a5 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a6 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a7 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a8 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a9 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a10 : { non-fluent, real, default = 100.0 };
+
+		pos-x___a1 : { state-fluent, real, default = 0.0 };
+		pos-x___a2 : { state-fluent, real, default = 0.0 };
+		pos-x___a3 : { state-fluent, real, default = 0.0 };
+		pos-x___a4 : { state-fluent, real, default = 0.0 };
+		pos-x___a5 : { state-fluent, real, default = 0.0 };
+		pos-x___a6 : { state-fluent, real, default = 0.0 };
+		pos-x___a7 : { state-fluent, real, default = 0.0 };
+		pos-x___a8 : { state-fluent, real, default = 0.0 };
+		pos-x___a9 : { state-fluent, real, default = 0.0 };
+		pos-x___a10 : { state-fluent, real, default = 0.0 };
+		pos-y___a1 : { state-fluent, real, default = 0.0 };
+		pos-y___a2 : { state-fluent, real, default = 0.0 };
+		pos-y___a3 : { state-fluent, real, default = 0.0 };
+		pos-y___a4 : { state-fluent, real, default = 0.0 };
+		pos-y___a5 : { state-fluent, real, default = 0.0 };
+		pos-y___a6 : { state-fluent, real, default = 0.0 };
+		pos-y___a7 : { state-fluent, real, default = 0.0 };
+		pos-y___a8 : { state-fluent, real, default = 0.0 };
+		pos-y___a9 : { state-fluent, real, default = 0.0 };
+		pos-y___a10 : { state-fluent, real, default = 0.0 };
+		pos-z___a1 : { state-fluent, real, default = 0.0 };
+		pos-z___a2 : { state-fluent, real, default = 0.0 };
+		pos-z___a3 : { state-fluent, real, default = 0.0 };
+		pos-z___a4 : { state-fluent, real, default = 0.0 };
+		pos-z___a5 : { state-fluent, real, default = 0.0 };
+		pos-z___a6 : { state-fluent, real, default = 0.0 };
+		pos-z___a7 : { state-fluent, real, default = 0.0 };
+		pos-z___a8 : { state-fluent, real, default = 0.0 };
+		pos-z___a9 : { state-fluent, real, default = 0.0 };
+		pos-z___a10 : { state-fluent, real, default = 0.0 };
+		theta___a1 : { state-fluent, real, default = 0.0 };
+		theta___a2 : { state-fluent, real, default = 0.0 };
+		theta___a3 : { state-fluent, real, default = 0.0 };
+		theta___a4 : { state-fluent, real, default = 0.0 };
+		theta___a5 : { state-fluent, real, default = 0.0 };
+		theta___a6 : { state-fluent, real, default = 0.0 };
+		theta___a7 : { state-fluent, real, default = 0.0 };
+		theta___a8 : { state-fluent, real, default = 0.0 };
+		theta___a9 : { state-fluent, real, default = 0.0 };
+		theta___a10 : { state-fluent, real, default = 0.0 };
+		phi___a1 : { state-fluent, real, default = 0.0 };
+		phi___a2 : { state-fluent, real, default = 0.0 };
+		phi___a3 : { state-fluent, real, default = 0.0 };
+		phi___a4 : { state-fluent, real, default = 0.0 };
+		phi___a5 : { state-fluent, real, default = 0.0 };
+		phi___a6 : { state-fluent, real, default = 0.0 };
+		phi___a7 : { state-fluent, real, default = 0.0 };
+		phi___a8 : { state-fluent, real, default = 0.0 };
+		phi___a9 : { state-fluent, real, default = 0.0 };
+		phi___a10 : { state-fluent, real, default = 0.0 };
+		psi___a1 : { state-fluent, real, default = 0.0 };
+		psi___a2 : { state-fluent, real, default = 0.0 };
+		psi___a3 : { state-fluent, real, default = 0.0 };
+		psi___a4 : { state-fluent, real, default = 0.0 };
+		psi___a5 : { state-fluent, real, default = 0.0 };
+		psi___a6 : { state-fluent, real, default = 0.0 };
+		psi___a7 : { state-fluent, real, default = 0.0 };
+		psi___a8 : { state-fluent, real, default = 0.0 };
+		psi___a9 : { state-fluent, real, default = 0.0 };
+		psi___a10 : { state-fluent, real, default = 0.0 };
+		vel___a1 : { state-fluent, real, default = 1.0 };
+		vel___a2 : { state-fluent, real, default = 1.0 };
+		vel___a3 : { state-fluent, real, default = 1.0 };
+		vel___a4 : { state-fluent, real, default = 1.0 };
+		vel___a5 : { state-fluent, real, default = 1.0 };
+		vel___a6 : { state-fluent, real, default = 1.0 };
+		vel___a7 : { state-fluent, real, default = 1.0 };
+		vel___a8 : { state-fluent, real, default = 1.0 };
+		vel___a9 : { state-fluent, real, default = 1.0 };
+		vel___a10 : { state-fluent, real, default = 1.0 };
+
+		set-acc___a1 : { action-fluent, real, default = 0.0 };
+		set-acc___a2 : { action-fluent, real, default = 0.0 };
+		set-acc___a3 : { action-fluent, real, default = 0.0 };
+		set-acc___a4 : { action-fluent, real, default = 0.0 };
+		set-acc___a5 : { action-fluent, real, default = 0.0 };
+		set-acc___a6 : { action-fluent, real, default = 0.0 };
+		set-acc___a7 : { action-fluent, real, default = 0.0 };
+		set-acc___a8 : { action-fluent, real, default = 0.0 };
+		set-acc___a9 : { action-fluent, real, default = 0.0 };
+		set-acc___a10 : { action-fluent, real, default = 0.0 };
+		set-phi___a1 : { action-fluent, real, default = 0.0 };
+		set-phi___a2 : { action-fluent, real, default = 0.0 };
+		set-phi___a3 : { action-fluent, real, default = 0.0 };
+		set-phi___a4 : { action-fluent, real, default = 0.0 };
+		set-phi___a5 : { action-fluent, real, default = 0.0 };
+		set-phi___a6 : { action-fluent, real, default = 0.0 };
+		set-phi___a7 : { action-fluent, real, default = 0.0 };
+		set-phi___a8 : { action-fluent, real, default = 0.0 };
+		set-phi___a9 : { action-fluent, real, default = 0.0 };
+		set-phi___a10 : { action-fluent, real, default = 0.0 };
+		set-theta___a1 : { action-fluent, real, default = 0.0 };
+		set-theta___a2 : { action-fluent, real, default = 0.0 };
+		set-theta___a3 : { action-fluent, real, default = 0.0 };
+		set-theta___a4 : { action-fluent, real, default = 0.0 };
+		set-theta___a5 : { action-fluent, real, default = 0.0 };
+		set-theta___a6 : { action-fluent, real, default = 0.0 };
+		set-theta___a7 : { action-fluent, real, default = 0.0 };
+		set-theta___a8 : { action-fluent, real, default = 0.0 };
+		set-theta___a9 : { action-fluent, real, default = 0.0 };
+		set-theta___a10 : { action-fluent, real, default = 0.0 };
+	};
+
+	cpfs {
+
+		pos-x___a1' = if (CONTROLLABLE___a1)
+			then ( pos-x___a1 + ( ( SCALE-FACTOR * vel___a1 ) * cos[psi___a1] ) )
+			else ( pos-x___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a2' = if (CONTROLLABLE___a2)
+			then ( pos-x___a2 + ( ( SCALE-FACTOR * vel___a2 ) * cos[psi___a2] ) )
+			else ( pos-x___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a3' = if (CONTROLLABLE___a3)
+			then ( pos-x___a3 + ( ( SCALE-FACTOR * vel___a3 ) * cos[psi___a3] ) )
+			else ( pos-x___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a4' = if (CONTROLLABLE___a4)
+			then ( pos-x___a4 + ( ( SCALE-FACTOR * vel___a4 ) * cos[psi___a4] ) )
+			else ( pos-x___a4 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a5' = if (CONTROLLABLE___a5)
+			then ( pos-x___a5 + ( ( SCALE-FACTOR * vel___a5 ) * cos[psi___a5] ) )
+			else ( pos-x___a5 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a6' = if (CONTROLLABLE___a6)
+			then ( pos-x___a6 + ( ( SCALE-FACTOR * vel___a6 ) * cos[psi___a6] ) )
+			else ( pos-x___a6 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a7' = if (CONTROLLABLE___a7)
+			then ( pos-x___a7 + ( ( SCALE-FACTOR * vel___a7 ) * cos[psi___a7] ) )
+			else ( pos-x___a7 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a8' = if (CONTROLLABLE___a8)
+			then ( pos-x___a8 + ( ( SCALE-FACTOR * vel___a8 ) * cos[psi___a8] ) )
+			else ( pos-x___a8 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a9' = if (CONTROLLABLE___a9)
+			then ( pos-x___a9 + ( ( SCALE-FACTOR * vel___a9 ) * cos[psi___a9] ) )
+			else ( pos-x___a9 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a10' = if (CONTROLLABLE___a10)
+			then ( pos-x___a10 + ( ( SCALE-FACTOR * vel___a10 ) * cos[psi___a10] ) )
+			else ( pos-x___a10 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a1' = if (CONTROLLABLE___a1)
+			then ( pos-y___a1 + ( ( SCALE-FACTOR * vel___a1 ) * sin[psi___a1] ) )
+			else ( pos-y___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a2' = if (CONTROLLABLE___a2)
+			then ( pos-y___a2 + ( ( SCALE-FACTOR * vel___a2 ) * sin[psi___a2] ) )
+			else ( pos-y___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a3' = if (CONTROLLABLE___a3)
+			then ( pos-y___a3 + ( ( SCALE-FACTOR * vel___a3 ) * sin[psi___a3] ) )
+			else ( pos-y___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a4' = if (CONTROLLABLE___a4)
+			then ( pos-y___a4 + ( ( SCALE-FACTOR * vel___a4 ) * sin[psi___a4] ) )
+			else ( pos-y___a4 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a5' = if (CONTROLLABLE___a5)
+			then ( pos-y___a5 + ( ( SCALE-FACTOR * vel___a5 ) * sin[psi___a5] ) )
+			else ( pos-y___a5 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a6' = if (CONTROLLABLE___a6)
+			then ( pos-y___a6 + ( ( SCALE-FACTOR * vel___a6 ) * sin[psi___a6] ) )
+			else ( pos-y___a6 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a7' = if (CONTROLLABLE___a7)
+			then ( pos-y___a7 + ( ( SCALE-FACTOR * vel___a7 ) * sin[psi___a7] ) )
+			else ( pos-y___a7 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a8' = if (CONTROLLABLE___a8)
+			then ( pos-y___a8 + ( ( SCALE-FACTOR * vel___a8 ) * sin[psi___a8] ) )
+			else ( pos-y___a8 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a9' = if (CONTROLLABLE___a9)
+			then ( pos-y___a9 + ( ( SCALE-FACTOR * vel___a9 ) * sin[psi___a9] ) )
+			else ( pos-y___a9 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a10' = if (CONTROLLABLE___a10)
+			then ( pos-y___a10 + ( ( SCALE-FACTOR * vel___a10 ) * sin[psi___a10] ) )
+			else ( pos-y___a10 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a1' = if (CONTROLLABLE___a1)
+			then ( pos-z___a1 + ( ( SCALE-FACTOR * vel___a1 ) * sin[theta___a1] ) )
+			else ( pos-z___a1 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a2' = if (CONTROLLABLE___a2)
+			then ( pos-z___a2 + ( ( SCALE-FACTOR * vel___a2 ) * sin[theta___a2] ) )
+			else ( pos-z___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a3' = if (CONTROLLABLE___a3)
+			then ( pos-z___a3 + ( ( SCALE-FACTOR * vel___a3 ) * sin[theta___a3] ) )
+			else ( pos-z___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a4' = if (CONTROLLABLE___a4)
+			then ( pos-z___a4 + ( ( SCALE-FACTOR * vel___a4 ) * sin[theta___a4] ) )
+			else ( pos-z___a4 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a5' = if (CONTROLLABLE___a5)
+			then ( pos-z___a5 + ( ( SCALE-FACTOR * vel___a5 ) * sin[theta___a5] ) )
+			else ( pos-z___a5 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a6' = if (CONTROLLABLE___a6)
+			then ( pos-z___a6 + ( ( SCALE-FACTOR * vel___a6 ) * sin[theta___a6] ) )
+			else ( pos-z___a6 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a7' = if (CONTROLLABLE___a7)
+			then ( pos-z___a7 + ( ( SCALE-FACTOR * vel___a7 ) * sin[theta___a7] ) )
+			else ( pos-z___a7 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a8' = if (CONTROLLABLE___a8)
+			then ( pos-z___a8 + ( ( SCALE-FACTOR * vel___a8 ) * sin[theta___a8] ) )
+			else ( pos-z___a8 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a9' = if (CONTROLLABLE___a9)
+			then ( pos-z___a9 + ( ( SCALE-FACTOR * vel___a9 ) * sin[theta___a9] ) )
+			else ( pos-z___a9 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a10' = if (CONTROLLABLE___a10)
+			then ( pos-z___a10 + ( ( SCALE-FACTOR * vel___a10 ) * sin[theta___a10] ) )
+			else ( pos-z___a10 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		theta___a1' = theta___a1;
+
+		theta___a2' = theta___a2;
+
+		theta___a3' = theta___a3;
+
+		theta___a4' = if (CONTROLLABLE___a4)
+			then ( theta___a4 + ( SCALE-FACTOR * max[min[set-theta___a4, MAX-DELTA-THETA___a4], MIN-DELTA-THETA___a4] ) )
+			else ( theta___a4 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		theta___a5' = theta___a5;
+
+		theta___a6' = theta___a6;
+
+		theta___a7' = theta___a7;
+
+		theta___a8' = theta___a8;
+
+		theta___a9' = theta___a9;
+
+		theta___a10' = if (CONTROLLABLE___a10)
+			then ( theta___a10 + ( SCALE-FACTOR * max[min[set-theta___a10, MAX-DELTA-THETA___a10], MIN-DELTA-THETA___a10] ) )
+			else ( theta___a10 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		phi___a1' = phi___a1;
+
+		phi___a2' = phi___a2;
+
+		phi___a3' = phi___a3;
+
+		phi___a4' = phi___a4;
+
+		phi___a5' = phi___a5;
+
+		phi___a6' = phi___a6;
+
+		phi___a7' = phi___a7;
+
+		phi___a8' = phi___a8;
+
+		phi___a9' = phi___a9;
+
+		phi___a10' = phi___a10;
+
+		psi___a1' = psi___a1;
+
+		psi___a2' = psi___a2;
+
+		psi___a3' = psi___a3;
+
+		psi___a4' = psi___a4;
+
+		psi___a5' = psi___a5;
+
+		psi___a6' = psi___a6;
+
+		psi___a7' = psi___a7;
+
+		psi___a8' = psi___a8;
+
+		psi___a9' = psi___a9;
+
+		psi___a10' = psi___a10;
+
+		vel___a1' = if (CONTROLLABLE___a1)
+			then max[0, vel___a1 + ( SCALE-FACTOR * max[min[set-acc___a1, MAX-ACC___a1], MIN-ACC___a1] )]
+			else max[0, vel___a1 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a2' = if (CONTROLLABLE___a2)
+			then max[0, vel___a2 + ( SCALE-FACTOR * max[min[set-acc___a2, MAX-ACC___a2], MIN-ACC___a2] )]
+			else max[0, vel___a2 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a3' = if (CONTROLLABLE___a3)
+			then max[0, vel___a3 + ( SCALE-FACTOR * max[min[set-acc___a3, MAX-ACC___a3], MIN-ACC___a3] )]
+			else max[0, vel___a3 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a4' = if (CONTROLLABLE___a4)
+			then max[0, vel___a4 + ( SCALE-FACTOR * max[min[set-acc___a4, MAX-ACC___a4], MIN-ACC___a4] )]
+			else max[0, vel___a4 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a5' = if (CONTROLLABLE___a5)
+			then max[0, vel___a5 + ( SCALE-FACTOR * max[min[set-acc___a5, MAX-ACC___a5], MIN-ACC___a5] )]
+			else max[0, vel___a5 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a6' = if (CONTROLLABLE___a6)
+			then max[0, vel___a6 + ( SCALE-FACTOR * max[min[set-acc___a6, MAX-ACC___a6], MIN-ACC___a6] )]
+			else max[0, vel___a6 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a7' = if (CONTROLLABLE___a7)
+			then max[0, vel___a7 + ( SCALE-FACTOR * max[min[set-acc___a7, MAX-ACC___a7], MIN-ACC___a7] )]
+			else max[0, vel___a7 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a8' = if (CONTROLLABLE___a8)
+			then max[0, vel___a8 + ( SCALE-FACTOR * max[min[set-acc___a8, MAX-ACC___a8], MIN-ACC___a8] )]
+			else max[0, vel___a8 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a9' = if (CONTROLLABLE___a9)
+			then max[0, vel___a9 + ( SCALE-FACTOR * max[min[set-acc___a9, MAX-ACC___a9], MIN-ACC___a9] )]
+			else max[0, vel___a9 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a10' = if (CONTROLLABLE___a10)
+			then max[0, vel___a10 + ( SCALE-FACTOR * max[min[set-acc___a10, MAX-ACC___a10], MIN-ACC___a10] )]
+			else max[0, vel___a10 + Normal(0.0, RANDOM-WALK-COEFF)];
+	};
+
+	reward = -( ( CONTROLLABLE___a1 * sqrt[( pow[pos-x___a1 - GOAL-X___a1, 2] + pow[pos-y___a1 - GOAL-Y___a1, 2] ) + pow[pos-z___a1 - GOAL-Z___a1, 2]] ) + ( CONTROLLABLE___a2 * sqrt[( pow[pos-x___a2 - GOAL-X___a2, 2] + pow[pos-y___a2 - GOAL-Y___a2, 2] ) + pow[pos-z___a2 - GOAL-Z___a2, 2]] ) + ( CONTROLLABLE___a3 * sqrt[( pow[pos-x___a3 - GOAL-X___a3, 2] + pow[pos-y___a3 - GOAL-Y___a3, 2] ) + pow[pos-z___a3 - GOAL-Z___a3, 2]] ) + ( CONTROLLABLE___a4 * sqrt[( pow[pos-x___a4 - GOAL-X___a4, 2] + pow[pos-y___a4 - GOAL-Y___a4, 2] ) + pow[pos-z___a4 - GOAL-Z___a4, 2]] ) + ( CONTROLLABLE___a5 * sqrt[( pow[pos-x___a5 - GOAL-X___a5, 2] + pow[pos-y___a5 - GOAL-Y___a5, 2] ) + pow[pos-z___a5 - GOAL-Z___a5, 2]] ) + ( CONTROLLABLE___a6 * sqrt[( pow[pos-x___a6 - GOAL-X___a6, 2] + pow[pos-y___a6 - GOAL-Y___a6, 2] ) + pow[pos-z___a6 - GOAL-Z___a6, 2]] ) + ( CONTROLLABLE___a7 * sqrt[( pow[pos-x___a7 - GOAL-X___a7, 2] + pow[pos-y___a7 - GOAL-Y___a7, 2] ) + pow[pos-z___a7 - GOAL-Z___a7, 2]] ) + ( CONTROLLABLE___a8 * sqrt[( pow[pos-x___a8 - GOAL-X___a8, 2] + pow[pos-y___a8 - GOAL-Y___a8, 2] ) + pow[pos-z___a8 - GOAL-Z___a8, 2]] ) + ( CONTROLLABLE___a9 * sqrt[( pow[pos-x___a9 - GOAL-X___a9, 2] + pow[pos-y___a9 - GOAL-Y___a9, 2] ) + pow[pos-z___a9 - GOAL-Z___a9, 2]] ) + ( CONTROLLABLE___a10 * sqrt[( pow[pos-x___a10 - GOAL-X___a10, 2] + pow[pos-y___a10 - GOAL-Y___a10, 2] ) + pow[pos-z___a10 - GOAL-Z___a10, 2]] ) );
+
+	state-invariants {
+		( pos-x___a1 <= MAX-X ) ^ ( pos-x___a2 <= MAX-X ) ^ ( pos-x___a3 <= MAX-X ) ^ ( pos-x___a4 <= MAX-X ) ^ ( pos-x___a5 <= MAX-X ) ^ ( pos-x___a6 <= MAX-X ) ^ ( pos-x___a7 <= MAX-X ) ^ ( pos-x___a8 <= MAX-X ) ^ ( pos-x___a9 <= MAX-X ) ^ ( pos-x___a10 <= MAX-X );
+		( pos-x___a1 >= MIN-X ) ^ ( pos-x___a2 >= MIN-X ) ^ ( pos-x___a3 >= MIN-X ) ^ ( pos-x___a4 >= MIN-X ) ^ ( pos-x___a5 >= MIN-X ) ^ ( pos-x___a6 >= MIN-X ) ^ ( pos-x___a7 >= MIN-X ) ^ ( pos-x___a8 >= MIN-X ) ^ ( pos-x___a9 >= MIN-X ) ^ ( pos-x___a10 >= MIN-X );
+		( pos-y___a1 <= MAX-Y ) ^ ( pos-y___a2 <= MAX-Y ) ^ ( pos-y___a3 <= MAX-Y ) ^ ( pos-y___a4 <= MAX-Y ) ^ ( pos-y___a5 <= MAX-Y ) ^ ( pos-y___a6 <= MAX-Y ) ^ ( pos-y___a7 <= MAX-Y ) ^ ( pos-y___a8 <= MAX-Y ) ^ ( pos-y___a9 <= MAX-Y ) ^ ( pos-y___a10 <= MAX-Y );
+		( pos-y___a1 >= MIN-Y ) ^ ( pos-y___a2 >= MIN-Y ) ^ ( pos-y___a3 >= MIN-Y ) ^ ( pos-y___a4 >= MIN-Y ) ^ ( pos-y___a5 >= MIN-Y ) ^ ( pos-y___a6 >= MIN-Y ) ^ ( pos-y___a7 >= MIN-Y ) ^ ( pos-y___a8 >= MIN-Y ) ^ ( pos-y___a9 >= MIN-Y ) ^ ( pos-y___a10 >= MIN-Y );
+		( pos-z___a1 <= MAX-Z ) ^ ( pos-z___a2 <= MAX-Z ) ^ ( pos-z___a3 <= MAX-Z ) ^ ( pos-z___a4 <= MAX-Z ) ^ ( pos-z___a5 <= MAX-Z ) ^ ( pos-z___a6 <= MAX-Z ) ^ ( pos-z___a7 <= MAX-Z ) ^ ( pos-z___a8 <= MAX-Z ) ^ ( pos-z___a9 <= MAX-Z ) ^ ( pos-z___a10 <= MAX-Z );
+		( pos-z___a1 >= MIN-Z ) ^ ( pos-z___a2 >= MIN-Z ) ^ ( pos-z___a3 >= MIN-Z ) ^ ( pos-z___a4 >= MIN-Z ) ^ ( pos-z___a5 >= MIN-Z ) ^ ( pos-z___a6 >= MIN-Z ) ^ ( pos-z___a7 >= MIN-Z ) ^ ( pos-z___a8 >= MIN-Z ) ^ ( pos-z___a9 >= MIN-Z ) ^ ( pos-z___a10 >= MIN-Z );
+		( ( ( GRAVITY >= 0 ) ^ ( SCALE-FACTOR >= 0 ) ) ^ ( RANDOM-WALK-COEFF >= 0 ) ) ^ ( VEL-REG >= 0 );
+		( ( MAX-X >= MIN-X ) ^ ( MAX-Y >= MIN-Y ) ) ^ ( MAX-Z >= MIN-Z );
+		( ( ( MAX-ACC___a1 >= MIN-ACC___a1 ) ^ ( MAX-DELTA-PHI___a1 >= MIN-DELTA-PHI___a1 ) ) ^ ( MAX-DELTA-THETA___a1 >= MIN-DELTA-THETA___a1 ) ) ^ ( ( ( MAX-ACC___a2 >= MIN-ACC___a2 ) ^ ( MAX-DELTA-PHI___a2 >= MIN-DELTA-PHI___a2 ) ) ^ ( MAX-DELTA-THETA___a2 >= MIN-DELTA-THETA___a2 ) ) ^ ( ( ( MAX-ACC___a3 >= MIN-ACC___a3 ) ^ ( MAX-DELTA-PHI___a3 >= MIN-DELTA-PHI___a3 ) ) ^ ( MAX-DELTA-THETA___a3 >= MIN-DELTA-THETA___a3 ) ) ^ ( ( ( MAX-ACC___a4 >= MIN-ACC___a4 ) ^ ( MAX-DELTA-PHI___a4 >= MIN-DELTA-PHI___a4 ) ) ^ ( MAX-DELTA-THETA___a4 >= MIN-DELTA-THETA___a4 ) ) ^ ( ( ( MAX-ACC___a5 >= MIN-ACC___a5 ) ^ ( MAX-DELTA-PHI___a5 >= MIN-DELTA-PHI___a5 ) ) ^ ( MAX-DELTA-THETA___a5 >= MIN-DELTA-THETA___a5 ) ) ^ ( ( ( MAX-ACC___a6 >= MIN-ACC___a6 ) ^ ( MAX-DELTA-PHI___a6 >= MIN-DELTA-PHI___a6 ) ) ^ ( MAX-DELTA-THETA___a6 >= MIN-DELTA-THETA___a6 ) ) ^ ( ( ( MAX-ACC___a7 >= MIN-ACC___a7 ) ^ ( MAX-DELTA-PHI___a7 >= MIN-DELTA-PHI___a7 ) ) ^ ( MAX-DELTA-THETA___a7 >= MIN-DELTA-THETA___a7 ) ) ^ ( ( ( MAX-ACC___a8 >= MIN-ACC___a8 ) ^ ( MAX-DELTA-PHI___a8 >= MIN-DELTA-PHI___a8 ) ) ^ ( MAX-DELTA-THETA___a8 >= MIN-DELTA-THETA___a8 ) ) ^ ( ( ( MAX-ACC___a9 >= MIN-ACC___a9 ) ^ ( MAX-DELTA-PHI___a9 >= MIN-DELTA-PHI___a9 ) ) ^ ( MAX-DELTA-THETA___a9 >= MIN-DELTA-THETA___a9 ) ) ^ ( ( ( MAX-ACC___a10 >= MIN-ACC___a10 ) ^ ( MAX-DELTA-PHI___a10 >= MIN-DELTA-PHI___a10 ) ) ^ ( MAX-DELTA-THETA___a10 >= MIN-DELTA-THETA___a10 ) );
+	};
+
+	action-preconditions {
+		( set-acc___a1 <= MAX-ACC___a1 ) ^ ( set-acc___a2 <= MAX-ACC___a2 ) ^ ( set-acc___a3 <= MAX-ACC___a3 ) ^ ( set-acc___a4 <= MAX-ACC___a4 ) ^ ( set-acc___a5 <= MAX-ACC___a5 ) ^ ( set-acc___a6 <= MAX-ACC___a6 ) ^ ( set-acc___a7 <= MAX-ACC___a7 ) ^ ( set-acc___a8 <= MAX-ACC___a8 ) ^ ( set-acc___a9 <= MAX-ACC___a9 ) ^ ( set-acc___a10 <= MAX-ACC___a10 );
+		( set-acc___a1 >= MIN-ACC___a1 ) ^ ( set-acc___a2 >= MIN-ACC___a2 ) ^ ( set-acc___a3 >= MIN-ACC___a3 ) ^ ( set-acc___a4 >= MIN-ACC___a4 ) ^ ( set-acc___a5 >= MIN-ACC___a5 ) ^ ( set-acc___a6 >= MIN-ACC___a6 ) ^ ( set-acc___a7 >= MIN-ACC___a7 ) ^ ( set-acc___a8 >= MIN-ACC___a8 ) ^ ( set-acc___a9 >= MIN-ACC___a9 ) ^ ( set-acc___a10 >= MIN-ACC___a10 );
+		( set-phi___a1 <= MAX-DELTA-PHI___a1 ) ^ ( set-phi___a2 <= MAX-DELTA-PHI___a2 ) ^ ( set-phi___a3 <= MAX-DELTA-PHI___a3 ) ^ ( set-phi___a4 <= MAX-DELTA-PHI___a4 ) ^ ( set-phi___a5 <= MAX-DELTA-PHI___a5 ) ^ ( set-phi___a6 <= MAX-DELTA-PHI___a6 ) ^ ( set-phi___a7 <= MAX-DELTA-PHI___a7 ) ^ ( set-phi___a8 <= MAX-DELTA-PHI___a8 ) ^ ( set-phi___a9 <= MAX-DELTA-PHI___a9 ) ^ ( set-phi___a10 <= MAX-DELTA-PHI___a10 );
+		( set-phi___a1 >= MIN-DELTA-PHI___a1 ) ^ ( set-phi___a2 >= MIN-DELTA-PHI___a2 ) ^ ( set-phi___a3 >= MIN-DELTA-PHI___a3 ) ^ ( set-phi___a4 >= MIN-DELTA-PHI___a4 ) ^ ( set-phi___a5 >= MIN-DELTA-PHI___a5 ) ^ ( set-phi___a6 >= MIN-DELTA-PHI___a6 ) ^ ( set-phi___a7 >= MIN-DELTA-PHI___a7 ) ^ ( set-phi___a8 >= MIN-DELTA-PHI___a8 ) ^ ( set-phi___a9 >= MIN-DELTA-PHI___a9 ) ^ ( set-phi___a10 >= MIN-DELTA-PHI___a10 );
+		( set-theta___a1 <= MAX-DELTA-THETA___a1 ) ^ ( set-theta___a2 <= MAX-DELTA-THETA___a2 ) ^ ( set-theta___a3 <= MAX-DELTA-THETA___a3 ) ^ ( set-theta___a4 <= MAX-DELTA-THETA___a4 ) ^ ( set-theta___a5 <= MAX-DELTA-THETA___a5 ) ^ ( set-theta___a6 <= MAX-DELTA-THETA___a6 ) ^ ( set-theta___a7 <= MAX-DELTA-THETA___a7 ) ^ ( set-theta___a8 <= MAX-DELTA-THETA___a8 ) ^ ( set-theta___a9 <= MAX-DELTA-THETA___a9 ) ^ ( set-theta___a10 <= MAX-DELTA-THETA___a10 );
+		( set-theta___a1 >= MIN-DELTA-THETA___a1 ) ^ ( set-theta___a2 >= MIN-DELTA-THETA___a2 ) ^ ( set-theta___a3 >= MIN-DELTA-THETA___a3 ) ^ ( set-theta___a4 >= MIN-DELTA-THETA___a4 ) ^ ( set-theta___a5 >= MIN-DELTA-THETA___a5 ) ^ ( set-theta___a6 >= MIN-DELTA-THETA___a6 ) ^ ( set-theta___a7 >= MIN-DELTA-THETA___a7 ) ^ ( set-theta___a8 >= MIN-DELTA-THETA___a8 ) ^ ( set-theta___a9 >= MIN-DELTA-THETA___a9 ) ^ ( set-theta___a10 >= MIN-DELTA-THETA___a10 );
+	};
+}
