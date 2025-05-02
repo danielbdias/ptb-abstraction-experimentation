@@ -73,7 +73,7 @@ class DomainInstanceExperiment:
         domain_file_path = f'{domain_path}/domain.rddl'
         instance_file_path = f'{domain_path}/{self.instance_name}.rddl'
         
-        return domain_path, domain_file_path, instance_file_path
+        return domain_file_path, instance_file_path
 
 def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: dict = None, topology : List[int] = None):
     return PlannerParameters(

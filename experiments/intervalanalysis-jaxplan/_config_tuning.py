@@ -37,14 +37,17 @@ def domain_instance_tuning_data(domain_name, instance_name):
 
 experiments = [    
     # Continuous Domains
-    domain_instance_tuning_data('UAV', 'instance4'),
-    domain_instance_tuning_data('MountainCar', 'instance1'),
+    domain_instance_tuning_data('UAV_ippc2023', 'instance4'),
+    domain_instance_tuning_data('MountainCar_ippc2023', 'instance1'),
+    domain_instance_tuning_data('Reservoir_ippc2023', 'instance3'),
     
     # Continuous and Discrete (Mixed) Domains
-    domain_instance_tuning_data('MarsRover', 'inst_6_rovers_7_minerals'),
+    domain_instance_tuning_data('MarsRover_ippc2023', 'instance3'),
+    domain_instance_tuning_data('HVAC_ippc2023', 'instance3'),
+    domain_instance_tuning_data('PowerGen_ippc2023', 'instance3'),
     
     # Discrete Domains
-    domain_instance_tuning_data('Wildfire', 'inst_5x5_grid'),
-    domain_instance_tuning_data('SysAdmin', 'instance2'),
-    domain_instance_tuning_data('TriangleTireworld', 'instance4'),
+    domain_instance_tuning_data('Wildfire_MDP_ippc2014', 'instance5'),
+    domain_instance_tuning_data('SysAdmin_POMDP_ippc2011', 'instance2'),
+    domain_instance_tuning_data('TriangleTireworld_MDP_ippc2014', 'instance4'),
 ]

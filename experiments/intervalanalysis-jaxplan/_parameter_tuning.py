@@ -9,6 +9,7 @@ import os
 
 root_folder = os.path.dirname(__file__)
 
+def power_2(x): return int(2 ** x)
 def power_10(x): return 10.0 ** x
     
 if __name__ == '__main__':
@@ -32,8 +33,11 @@ if __name__ == '__main__':
         print('--------------------------------------------------------------------------------')
             
         hyperparams = [
-            Hyperparameter('TUNABLE_WEIGHT', -1., 5., power_10),  # tune weight from 10^-1 ... 10^5
-            Hyperparameter('TUNABLE_LEARNING_RATE', -5., 1., power_10),   # tune lr from 10^-5 ... 10^1
+            Hyperparameter('MODEL_WEIGHT_TUNE', -1., 4., power_10),
+            Hyperparameter('POLICY_WEIGHT_TUNE', -2., 2., power_10),
+            Hyperparameter('LEARNING_RATE_TUNE', -5., 0., power_10),
+            Hyperparameter('LAYER1_TUNE', 1, 8, power_2),
+            Hyperparameter('LAYER2_TUNE', 1, 8, power_2)
         ]
 
         # set up the environment   
