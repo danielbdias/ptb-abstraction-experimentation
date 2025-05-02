@@ -2,7 +2,7 @@ import pyRDDLGym
 from pyRDDLGym_jax.core.tuning import JaxParameterTuning, Hyperparameter
 
 from _config_tuning import experiments, tuning_seed, eval_trials, num_workers, gp_iters
-from _fileio import save_raw_data
+from _fileio import save_raw_data, read_file
 from _experiment import prepare_parallel_experiment_on_main
 
 import os
@@ -21,14 +21,14 @@ if __name__ == '__main__':
         print('Parameter Tuning - ', domain_instance_experiment.domain_name, domain_instance_experiment.instance_name)
         print()
         
-        domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
-        drp_template_file = f"{root_folder}/{domain_instance_experiment.drp_template_file}"
-        with open(drp_template_file, 'r') as file: 
-            drp_config_template = file.read() 
+        # domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
+        domain_file_path = domain_instance_experiment.domain_name
+        instance_file_path = domain_instance_experiment.instance_name
+        
+        drp_config_template = read_file(f"{root_folder}/{domain_instance_experiment.drp_template_file}")
 
         print('Domain file: ', domain_file_path)
         print('Instance file: ', instance_file_path)
-        print('Template file: ', drp_template_file)
         print()
         print('--------------------------------------------------------------------------------')
             

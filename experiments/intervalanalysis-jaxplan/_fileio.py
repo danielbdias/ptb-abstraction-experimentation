@@ -29,3 +29,6 @@ def get_ground_fluents_to_ablate_from_csv(file_path: str):
 def file_exists(file_path : str) -> bool:
     return os.path.exists(file_path)
         
+def read_file(file_path : str) -> str:
+    with open(file_path, 'r') as file:
+        return file.read()
