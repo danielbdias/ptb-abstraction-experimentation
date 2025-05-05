@@ -37,9 +37,9 @@ def domain_instance_tuning_data(domain_name, instance_name):
 
 experiments = [    
     # Continuous Domains
-    domain_instance_tuning_data('UAV_ippc2023', '3'),
-    domain_instance_tuning_data('MountainCar_ippc2023', '1'),
-    domain_instance_tuning_data('Reservoir_ippc2023', '3'),
+    # domain_instance_tuning_data('UAV_ippc2023', '3'),
+    # domain_instance_tuning_data('MountainCar_ippc2023', '1'),
+    # domain_instance_tuning_data('Reservoir_ippc2023', '3'),
     
     # Continuous and Discrete (Mixed) Domains
     domain_instance_tuning_data('MarsRover_ippc2023', '3'),

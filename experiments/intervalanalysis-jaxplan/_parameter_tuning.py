@@ -36,8 +36,8 @@ if __name__ == '__main__':
             Hyperparameter('MODEL_WEIGHT_TUNE', -1., 4., power_10),
             Hyperparameter('POLICY_WEIGHT_TUNE', -2., 2., power_10),
             Hyperparameter('LEARNING_RATE_TUNE', -5., 0., power_10),
-            Hyperparameter('LAYER1_TUNE', 1, 8, power_2),
-            Hyperparameter('LAYER2_TUNE', 1, 8, power_2)
+            Hyperparameter('LAYER1_TUNE', 3, 8, power_2),
+            Hyperparameter('LAYER2_TUNE', 3, 8, power_2)
         ]
 
         # set up the environment   
