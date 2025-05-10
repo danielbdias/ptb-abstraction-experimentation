@@ -1,0 +1,173 @@
+domain kinematic_UAVs_con {
+
+
+	pvariables {
+
+		CONTROLLABLE___a1 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a2 : { non-fluent, bool, default = false };
+		CONTROLLABLE___a3 : { non-fluent, bool, default = false };
+		GRAVITY : { non-fluent, real, default = 9.8 };
+		MIN-X : { non-fluent, real, default = -50000.0 };
+		MAX-X : { non-fluent, real, default = 50000.0 };
+		MIN-Y : { non-fluent, real, default = -50000.0 };
+		MAX-Y : { non-fluent, real, default = 50000.0 };
+		MIN-Z : { non-fluent, real, default = -50000.0 };
+		MAX-Z : { non-fluent, real, default = 50000.0 };
+		SCALE-FACTOR : { non-fluent, real, default = 0.1 };
+		RANDOM-WALK-COEFF : { non-fluent, real, default = 0.1 };
+		VEL-REG : { non-fluent, real, default = 0.001 };
+		MIN-ACC___a1 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a2 : { non-fluent, real, default = -1.0 };
+		MIN-ACC___a3 : { non-fluent, real, default = -1.0 };
+		MAX-ACC___a1 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a2 : { non-fluent, real, default = 1.0 };
+		MAX-ACC___a3 : { non-fluent, real, default = 1.0 };
+		MIN-DELTA-PHI___a1 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a2 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-PHI___a3 : { non-fluent, real, default = -1.0 };
+		MAX-DELTA-PHI___a1 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a2 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-PHI___a3 : { non-fluent, real, default = 1.0 };
+		MIN-DELTA-THETA___a1 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a2 : { non-fluent, real, default = -1.0 };
+		MIN-DELTA-THETA___a3 : { non-fluent, real, default = -1.0 };
+		MAX-DELTA-THETA___a1 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a2 : { non-fluent, real, default = 1.0 };
+		MAX-DELTA-THETA___a3 : { non-fluent, real, default = 1.0 };
+		GOAL-X___a1 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a2 : { non-fluent, real, default = 100.0 };
+		GOAL-X___a3 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a1 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a2 : { non-fluent, real, default = 100.0 };
+		GOAL-Y___a3 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a1 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a2 : { non-fluent, real, default = 100.0 };
+		GOAL-Z___a3 : { non-fluent, real, default = 100.0 };
+
+		pos-x___a1 : { state-fluent, real, default = 0.0 };
+		pos-x___a2 : { state-fluent, real, default = 0.0 };
+		pos-x___a3 : { state-fluent, real, default = 0.0 };
+		pos-y___a1 : { state-fluent, real, default = 0.0 };
+		pos-y___a2 : { state-fluent, real, default = 0.0 };
+		pos-y___a3 : { state-fluent, real, default = 0.0 };
+		pos-z___a1 : { state-fluent, real, default = 0.0 };
+		pos-z___a2 : { state-fluent, real, default = 0.0 };
+		pos-z___a3 : { state-fluent, real, default = 0.0 };
+		theta___a1 : { state-fluent, real, default = 0.0 };
+		theta___a2 : { state-fluent, real, default = 0.0 };
+		theta___a3 : { state-fluent, real, default = 0.0 };
+		phi___a1 : { state-fluent, real, default = 0.0 };
+		phi___a2 : { state-fluent, real, default = 0.0 };
+		phi___a3 : { state-fluent, real, default = 0.0 };
+		psi___a1 : { state-fluent, real, default = 0.0 };
+		psi___a2 : { state-fluent, real, default = 0.0 };
+		psi___a3 : { state-fluent, real, default = 0.0 };
+		vel___a1 : { state-fluent, real, default = 1.0 };
+		vel___a2 : { state-fluent, real, default = 1.0 };
+		vel___a3 : { state-fluent, real, default = 1.0 };
+
+		set-acc___a1 : { action-fluent, real, default = 0.0 };
+		set-acc___a2 : { action-fluent, real, default = 0.0 };
+		set-acc___a3 : { action-fluent, real, default = 0.0 };
+		set-phi___a1 : { action-fluent, real, default = 0.0 };
+		set-phi___a2 : { action-fluent, real, default = 0.0 };
+		set-phi___a3 : { action-fluent, real, default = 0.0 };
+		set-theta___a1 : { action-fluent, real, default = 0.0 };
+		set-theta___a2 : { action-fluent, real, default = 0.0 };
+		set-theta___a3 : { action-fluent, real, default = 0.0 };
+	};
+
+	cpfs {
+
+		pos-x___a1' = pos-x___a1;
+
+		pos-x___a2' = if (CONTROLLABLE___a2)
+			then ( pos-x___a2 + ( ( SCALE-FACTOR * vel___a2 ) * cos[psi___a2] ) )
+			else ( pos-x___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-x___a3' = if (CONTROLLABLE___a3)
+			then ( pos-x___a3 + ( ( SCALE-FACTOR * vel___a3 ) * cos[psi___a3] ) )
+			else ( pos-x___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a1' = pos-y___a1;
+
+		pos-y___a2' = if (CONTROLLABLE___a2)
+			then ( pos-y___a2 + ( ( SCALE-FACTOR * vel___a2 ) * sin[psi___a2] ) )
+			else ( pos-y___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-y___a3' = if (CONTROLLABLE___a3)
+			then ( pos-y___a3 + ( ( SCALE-FACTOR * vel___a3 ) * sin[psi___a3] ) )
+			else ( pos-y___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a1' = pos-z___a1;
+
+		pos-z___a2' = if (CONTROLLABLE___a2)
+			then ( pos-z___a2 + ( ( SCALE-FACTOR * vel___a2 ) * sin[theta___a2] ) )
+			else ( pos-z___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		pos-z___a3' = if (CONTROLLABLE___a3)
+			then ( pos-z___a3 + ( ( SCALE-FACTOR * vel___a3 ) * sin[theta___a3] ) )
+			else ( pos-z___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		theta___a1' = theta___a1;
+
+		theta___a2' = if (CONTROLLABLE___a2)
+			then ( theta___a2 + ( SCALE-FACTOR * max[min[set-theta___a2, MAX-DELTA-THETA___a2], MIN-DELTA-THETA___a2] ) )
+			else ( theta___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		theta___a3' = if (CONTROLLABLE___a3)
+			then ( theta___a3 + ( SCALE-FACTOR * max[min[set-theta___a3, MAX-DELTA-THETA___a3], MIN-DELTA-THETA___a3] ) )
+			else ( theta___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		phi___a1' = phi___a1;
+
+		phi___a2' = if (CONTROLLABLE___a2)
+			then ( phi___a2 + ( SCALE-FACTOR * max[min[set-phi___a2, MAX-DELTA-PHI___a2], MIN-DELTA-PHI___a2] ) )
+			else ( phi___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		phi___a3' = phi___a3;
+
+		psi___a1' = psi___a1;
+
+		psi___a2' = if (CONTROLLABLE___a2)
+			then ( psi___a2 + ( ( SCALE-FACTOR * ( tan[phi___a2] / ( vel___a2 + VEL-REG ) ) ) * GRAVITY ) )
+			else ( psi___a2 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		psi___a3' = if (CONTROLLABLE___a3)
+			then ( psi___a3 + ( ( SCALE-FACTOR * ( tan[phi___a3] / ( vel___a3 + VEL-REG ) ) ) * GRAVITY ) )
+			else ( psi___a3 + Normal(0.0, RANDOM-WALK-COEFF) );
+
+		vel___a1' = vel___a1;
+
+		vel___a2' = if (CONTROLLABLE___a2)
+			then max[0, vel___a2 + ( SCALE-FACTOR * max[min[set-acc___a2, MAX-ACC___a2], MIN-ACC___a2] )]
+			else max[0, vel___a2 + Normal(0.0, RANDOM-WALK-COEFF)];
+
+		vel___a3' = if (CONTROLLABLE___a3)
+			then max[0, vel___a3 + ( SCALE-FACTOR * max[min[set-acc___a3, MAX-ACC___a3], MIN-ACC___a3] )]
+			else max[0, vel___a3 + Normal(0.0, RANDOM-WALK-COEFF)];
+	};
+
+	reward = -( ( CONTROLLABLE___a1 * sqrt[( pow[pos-x___a1 - GOAL-X___a1, 2] + pow[pos-y___a1 - GOAL-Y___a1, 2] ) + pow[pos-z___a1 - GOAL-Z___a1, 2]] ) + ( CONTROLLABLE___a2 * sqrt[( pow[pos-x___a2 - GOAL-X___a2, 2] + pow[pos-y___a2 - GOAL-Y___a2, 2] ) + pow[pos-z___a2 - GOAL-Z___a2, 2]] ) + ( CONTROLLABLE___a3 * sqrt[( pow[pos-x___a3 - GOAL-X___a3, 2] + pow[pos-y___a3 - GOAL-Y___a3, 2] ) + pow[pos-z___a3 - GOAL-Z___a3, 2]] ) );
+
+	state-invariants {
+		( pos-x___a1 <= MAX-X ) ^ ( pos-x___a2 <= MAX-X ) ^ ( pos-x___a3 <= MAX-X );
+		( pos-x___a1 >= MIN-X ) ^ ( pos-x___a2 >= MIN-X ) ^ ( pos-x___a3 >= MIN-X );
+		( pos-y___a1 <= MAX-Y ) ^ ( pos-y___a2 <= MAX-Y ) ^ ( pos-y___a3 <= MAX-Y );
+		( pos-y___a1 >= MIN-Y ) ^ ( pos-y___a2 >= MIN-Y ) ^ ( pos-y___a3 >= MIN-Y );
+		( pos-z___a1 <= MAX-Z ) ^ ( pos-z___a2 <= MAX-Z ) ^ ( pos-z___a3 <= MAX-Z );
+		( pos-z___a1 >= MIN-Z ) ^ ( pos-z___a2 >= MIN-Z ) ^ ( pos-z___a3 >= MIN-Z );
+		( ( ( GRAVITY >= 0 ) ^ ( SCALE-FACTOR >= 0 ) ) ^ ( RANDOM-WALK-COEFF >= 0 ) ) ^ ( VEL-REG >= 0 );
+		( ( MAX-X >= MIN-X ) ^ ( MAX-Y >= MIN-Y ) ) ^ ( MAX-Z >= MIN-Z );
+		( ( ( MAX-ACC___a1 >= MIN-ACC___a1 ) ^ ( MAX-DELTA-PHI___a1 >= MIN-DELTA-PHI___a1 ) ) ^ ( MAX-DELTA-THETA___a1 >= MIN-DELTA-THETA___a1 ) ) ^ ( ( ( MAX-ACC___a2 >= MIN-ACC___a2 ) ^ ( MAX-DELTA-PHI___a2 >= MIN-DELTA-PHI___a2 ) ) ^ ( MAX-DELTA-THETA___a2 >= MIN-DELTA-THETA___a2 ) ) ^ ( ( ( MAX-ACC___a3 >= MIN-ACC___a3 ) ^ ( MAX-DELTA-PHI___a3 >= MIN-DELTA-PHI___a3 ) ) ^ ( MAX-DELTA-THETA___a3 >= MIN-DELTA-THETA___a3 ) );
+	};
+
+	action-preconditions {
+		( set-acc___a1 <= MAX-ACC___a1 ) ^ ( set-acc___a2 <= MAX-ACC___a2 ) ^ ( set-acc___a3 <= MAX-ACC___a3 );
+		( set-acc___a1 >= MIN-ACC___a1 ) ^ ( set-acc___a2 >= MIN-ACC___a2 ) ^ ( set-acc___a3 >= MIN-ACC___a3 );
+		( set-phi___a1 <= MAX-DELTA-PHI___a1 ) ^ ( set-phi___a2 <= MAX-DELTA-PHI___a2 ) ^ ( set-phi___a3 <= MAX-DELTA-PHI___a3 );
+		( set-phi___a1 >= MIN-DELTA-PHI___a1 ) ^ ( set-phi___a2 >= MIN-DELTA-PHI___a2 ) ^ ( set-phi___a3 >= MIN-DELTA-PHI___a3 );
+		( set-theta___a1 <= MAX-DELTA-THETA___a1 ) ^ ( set-theta___a2 <= MAX-DELTA-THETA___a2 ) ^ ( set-theta___a3 <= MAX-DELTA-THETA___a3 );
+		( set-theta___a1 >= MIN-DELTA-THETA___a1 ) ^ ( set-theta___a2 >= MIN-DELTA-THETA___a2 ) ^ ( set-theta___a3 >= MIN-DELTA-THETA___a3 );
+	};
+}

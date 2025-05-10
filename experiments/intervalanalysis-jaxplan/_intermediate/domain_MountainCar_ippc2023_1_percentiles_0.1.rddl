@@ -1,0 +1,752 @@
+domain mountain_car {
+
+
+	pvariables {
+
+		GRAVITY-MAG : { non-fluent, real, default = 0.0025 };
+		FORCE-MAG : { non-fluent, real, default = 0.0015 };
+		X-START___s1 : { non-fluent, real, default = -1.2 };
+		X-START___s2 : { non-fluent, real, default = -1.2 };
+		X-START___s3 : { non-fluent, real, default = -1.2 };
+		X-START___s4 : { non-fluent, real, default = -1.2 };
+		X-START___s5 : { non-fluent, real, default = -1.2 };
+		X-START___s6 : { non-fluent, real, default = -1.2 };
+		X-START___s7 : { non-fluent, real, default = -1.2 };
+		X-START___s8 : { non-fluent, real, default = -1.2 };
+		X-START___s9 : { non-fluent, real, default = -1.2 };
+		X-START___s10 : { non-fluent, real, default = -1.2 };
+		X-START___s11 : { non-fluent, real, default = -1.2 };
+		X-START___s12 : { non-fluent, real, default = -1.2 };
+		X-START___s13 : { non-fluent, real, default = -1.2 };
+		X-START___s14 : { non-fluent, real, default = -1.2 };
+		X-START___s15 : { non-fluent, real, default = -1.2 };
+		X-START___s16 : { non-fluent, real, default = -1.2 };
+		X-START___s17 : { non-fluent, real, default = -1.2 };
+		X-START___s18 : { non-fluent, real, default = -1.2 };
+		X-START___s19 : { non-fluent, real, default = -1.2 };
+		X-START___s20 : { non-fluent, real, default = -1.2 };
+		X-START___s21 : { non-fluent, real, default = -1.2 };
+		X-START___s22 : { non-fluent, real, default = -1.2 };
+		X-START___s23 : { non-fluent, real, default = -1.2 };
+		X-START___s24 : { non-fluent, real, default = -1.2 };
+		X-START___s25 : { non-fluent, real, default = -1.2 };
+		X-START___s26 : { non-fluent, real, default = -1.2 };
+		X-START___s27 : { non-fluent, real, default = -1.2 };
+		X-START___s28 : { non-fluent, real, default = -1.2 };
+		X-START___s29 : { non-fluent, real, default = -1.2 };
+		X-START___s30 : { non-fluent, real, default = -1.2 };
+		X-START___s31 : { non-fluent, real, default = -1.2 };
+		X-START___s32 : { non-fluent, real, default = -1.2 };
+		X-START___s33 : { non-fluent, real, default = -1.2 };
+		X-START___s34 : { non-fluent, real, default = -1.2 };
+		X-START___s35 : { non-fluent, real, default = -1.2 };
+		X-START___s36 : { non-fluent, real, default = -1.2 };
+		X-START___s37 : { non-fluent, real, default = -1.2 };
+		X-START___s38 : { non-fluent, real, default = -1.2 };
+		X-START___s39 : { non-fluent, real, default = -1.2 };
+		X-START___s40 : { non-fluent, real, default = -1.2 };
+		X-START___s41 : { non-fluent, real, default = -1.2 };
+		X-START___s42 : { non-fluent, real, default = -1.2 };
+		X-START___s43 : { non-fluent, real, default = -1.2 };
+		X-START___s44 : { non-fluent, real, default = -1.2 };
+		X-START___s45 : { non-fluent, real, default = -1.2 };
+		X-START___s46 : { non-fluent, real, default = -1.2 };
+		X-START___s47 : { non-fluent, real, default = -1.2 };
+		X-START___s48 : { non-fluent, real, default = -1.2 };
+		X-START___s49 : { non-fluent, real, default = -1.2 };
+		X-START___s50 : { non-fluent, real, default = -1.2 };
+		X-START___s51 : { non-fluent, real, default = -1.2 };
+		X-START___s52 : { non-fluent, real, default = -1.2 };
+		X-START___s53 : { non-fluent, real, default = -1.2 };
+		X-START___s54 : { non-fluent, real, default = -1.2 };
+		X-START___s55 : { non-fluent, real, default = -1.2 };
+		X-START___s56 : { non-fluent, real, default = -1.2 };
+		X-START___s57 : { non-fluent, real, default = -1.2 };
+		X-START___s58 : { non-fluent, real, default = -1.2 };
+		X-START___s59 : { non-fluent, real, default = -1.2 };
+		X-START___s60 : { non-fluent, real, default = -1.2 };
+		X-START___s61 : { non-fluent, real, default = -1.2 };
+		X-START___s62 : { non-fluent, real, default = -1.2 };
+		X-START___s63 : { non-fluent, real, default = -1.2 };
+		X-START___s64 : { non-fluent, real, default = -1.2 };
+		X-START___s65 : { non-fluent, real, default = -1.2 };
+		X-START___s66 : { non-fluent, real, default = -1.2 };
+		X-START___s67 : { non-fluent, real, default = -1.2 };
+		X-START___s68 : { non-fluent, real, default = -1.2 };
+		X-START___s69 : { non-fluent, real, default = -1.2 };
+		X-START___s70 : { non-fluent, real, default = -1.2 };
+		X-START___s71 : { non-fluent, real, default = -1.2 };
+		X-START___s72 : { non-fluent, real, default = -1.2 };
+		X-START___s73 : { non-fluent, real, default = -1.2 };
+		X-START___s74 : { non-fluent, real, default = -1.2 };
+		X-START___s75 : { non-fluent, real, default = -1.2 };
+		X-START___s76 : { non-fluent, real, default = -1.2 };
+		X-START___s77 : { non-fluent, real, default = -1.2 };
+		X-START___s78 : { non-fluent, real, default = -1.2 };
+		X-START___s79 : { non-fluent, real, default = -1.2 };
+		X-START___s80 : { non-fluent, real, default = -1.2 };
+		X-START___s81 : { non-fluent, real, default = -1.2 };
+		X-START___s82 : { non-fluent, real, default = -1.2 };
+		X-START___s83 : { non-fluent, real, default = -1.2 };
+		X-START___s84 : { non-fluent, real, default = -1.2 };
+		X-START___s85 : { non-fluent, real, default = -1.2 };
+		X-START___s86 : { non-fluent, real, default = -1.2 };
+		X-START___s87 : { non-fluent, real, default = -1.2 };
+		X-START___s88 : { non-fluent, real, default = -1.2 };
+		X-START___s89 : { non-fluent, real, default = -1.2 };
+		X-START___s90 : { non-fluent, real, default = -1.2 };
+		X-START___s91 : { non-fluent, real, default = -1.2 };
+		X-START___s92 : { non-fluent, real, default = -1.2 };
+		X-START___s93 : { non-fluent, real, default = -1.2 };
+		X-START___s94 : { non-fluent, real, default = -1.2 };
+		X-START___s95 : { non-fluent, real, default = -1.2 };
+		X-START___s96 : { non-fluent, real, default = -1.2 };
+		X-START___s97 : { non-fluent, real, default = -1.2 };
+		X-START___s98 : { non-fluent, real, default = -1.2 };
+		X-START___s99 : { non-fluent, real, default = -1.2 };
+		Y-START___s1 : { non-fluent, real, default = 0 };
+		Y-START___s2 : { non-fluent, real, default = 0 };
+		Y-START___s3 : { non-fluent, real, default = 0 };
+		Y-START___s4 : { non-fluent, real, default = 0 };
+		Y-START___s5 : { non-fluent, real, default = 0 };
+		Y-START___s6 : { non-fluent, real, default = 0 };
+		Y-START___s7 : { non-fluent, real, default = 0 };
+		Y-START___s8 : { non-fluent, real, default = 0 };
+		Y-START___s9 : { non-fluent, real, default = 0 };
+		Y-START___s10 : { non-fluent, real, default = 0 };
+		Y-START___s11 : { non-fluent, real, default = 0 };
+		Y-START___s12 : { non-fluent, real, default = 0 };
+		Y-START___s13 : { non-fluent, real, default = 0 };
+		Y-START___s14 : { non-fluent, real, default = 0 };
+		Y-START___s15 : { non-fluent, real, default = 0 };
+		Y-START___s16 : { non-fluent, real, default = 0 };
+		Y-START___s17 : { non-fluent, real, default = 0 };
+		Y-START___s18 : { non-fluent, real, default = 0 };
+		Y-START___s19 : { non-fluent, real, default = 0 };
+		Y-START___s20 : { non-fluent, real, default = 0 };
+		Y-START___s21 : { non-fluent, real, default = 0 };
+		Y-START___s22 : { non-fluent, real, default = 0 };
+		Y-START___s23 : { non-fluent, real, default = 0 };
+		Y-START___s24 : { non-fluent, real, default = 0 };
+		Y-START___s25 : { non-fluent, real, default = 0 };
+		Y-START___s26 : { non-fluent, real, default = 0 };
+		Y-START___s27 : { non-fluent, real, default = 0 };
+		Y-START___s28 : { non-fluent, real, default = 0 };
+		Y-START___s29 : { non-fluent, real, default = 0 };
+		Y-START___s30 : { non-fluent, real, default = 0 };
+		Y-START___s31 : { non-fluent, real, default = 0 };
+		Y-START___s32 : { non-fluent, real, default = 0 };
+		Y-START___s33 : { non-fluent, real, default = 0 };
+		Y-START___s34 : { non-fluent, real, default = 0 };
+		Y-START___s35 : { non-fluent, real, default = 0 };
+		Y-START___s36 : { non-fluent, real, default = 0 };
+		Y-START___s37 : { non-fluent, real, default = 0 };
+		Y-START___s38 : { non-fluent, real, default = 0 };
+		Y-START___s39 : { non-fluent, real, default = 0 };
+		Y-START___s40 : { non-fluent, real, default = 0 };
+		Y-START___s41 : { non-fluent, real, default = 0 };
+		Y-START___s42 : { non-fluent, real, default = 0 };
+		Y-START___s43 : { non-fluent, real, default = 0 };
+		Y-START___s44 : { non-fluent, real, default = 0 };
+		Y-START___s45 : { non-fluent, real, default = 0 };
+		Y-START___s46 : { non-fluent, real, default = 0 };
+		Y-START___s47 : { non-fluent, real, default = 0 };
+		Y-START___s48 : { non-fluent, real, default = 0 };
+		Y-START___s49 : { non-fluent, real, default = 0 };
+		Y-START___s50 : { non-fluent, real, default = 0 };
+		Y-START___s51 : { non-fluent, real, default = 0 };
+		Y-START___s52 : { non-fluent, real, default = 0 };
+		Y-START___s53 : { non-fluent, real, default = 0 };
+		Y-START___s54 : { non-fluent, real, default = 0 };
+		Y-START___s55 : { non-fluent, real, default = 0 };
+		Y-START___s56 : { non-fluent, real, default = 0 };
+		Y-START___s57 : { non-fluent, real, default = 0 };
+		Y-START___s58 : { non-fluent, real, default = 0 };
+		Y-START___s59 : { non-fluent, real, default = 0 };
+		Y-START___s60 : { non-fluent, real, default = 0 };
+		Y-START___s61 : { non-fluent, real, default = 0 };
+		Y-START___s62 : { non-fluent, real, default = 0 };
+		Y-START___s63 : { non-fluent, real, default = 0 };
+		Y-START___s64 : { non-fluent, real, default = 0 };
+		Y-START___s65 : { non-fluent, real, default = 0 };
+		Y-START___s66 : { non-fluent, real, default = 0 };
+		Y-START___s67 : { non-fluent, real, default = 0 };
+		Y-START___s68 : { non-fluent, real, default = 0 };
+		Y-START___s69 : { non-fluent, real, default = 0 };
+		Y-START___s70 : { non-fluent, real, default = 0 };
+		Y-START___s71 : { non-fluent, real, default = 0 };
+		Y-START___s72 : { non-fluent, real, default = 0 };
+		Y-START___s73 : { non-fluent, real, default = 0 };
+		Y-START___s74 : { non-fluent, real, default = 0 };
+		Y-START___s75 : { non-fluent, real, default = 0 };
+		Y-START___s76 : { non-fluent, real, default = 0 };
+		Y-START___s77 : { non-fluent, real, default = 0 };
+		Y-START___s78 : { non-fluent, real, default = 0 };
+		Y-START___s79 : { non-fluent, real, default = 0 };
+		Y-START___s80 : { non-fluent, real, default = 0 };
+		Y-START___s81 : { non-fluent, real, default = 0 };
+		Y-START___s82 : { non-fluent, real, default = 0 };
+		Y-START___s83 : { non-fluent, real, default = 0 };
+		Y-START___s84 : { non-fluent, real, default = 0 };
+		Y-START___s85 : { non-fluent, real, default = 0 };
+		Y-START___s86 : { non-fluent, real, default = 0 };
+		Y-START___s87 : { non-fluent, real, default = 0 };
+		Y-START___s88 : { non-fluent, real, default = 0 };
+		Y-START___s89 : { non-fluent, real, default = 0 };
+		Y-START___s90 : { non-fluent, real, default = 0 };
+		Y-START___s91 : { non-fluent, real, default = 0 };
+		Y-START___s92 : { non-fluent, real, default = 0 };
+		Y-START___s93 : { non-fluent, real, default = 0 };
+		Y-START___s94 : { non-fluent, real, default = 0 };
+		Y-START___s95 : { non-fluent, real, default = 0 };
+		Y-START___s96 : { non-fluent, real, default = 0 };
+		Y-START___s97 : { non-fluent, real, default = 0 };
+		Y-START___s98 : { non-fluent, real, default = 0 };
+		Y-START___s99 : { non-fluent, real, default = 0 };
+		X-END___s1 : { non-fluent, real, default = 0.6 };
+		X-END___s2 : { non-fluent, real, default = 0.6 };
+		X-END___s3 : { non-fluent, real, default = 0.6 };
+		X-END___s4 : { non-fluent, real, default = 0.6 };
+		X-END___s5 : { non-fluent, real, default = 0.6 };
+		X-END___s6 : { non-fluent, real, default = 0.6 };
+		X-END___s7 : { non-fluent, real, default = 0.6 };
+		X-END___s8 : { non-fluent, real, default = 0.6 };
+		X-END___s9 : { non-fluent, real, default = 0.6 };
+		X-END___s10 : { non-fluent, real, default = 0.6 };
+		X-END___s11 : { non-fluent, real, default = 0.6 };
+		X-END___s12 : { non-fluent, real, default = 0.6 };
+		X-END___s13 : { non-fluent, real, default = 0.6 };
+		X-END___s14 : { non-fluent, real, default = 0.6 };
+		X-END___s15 : { non-fluent, real, default = 0.6 };
+		X-END___s16 : { non-fluent, real, default = 0.6 };
+		X-END___s17 : { non-fluent, real, default = 0.6 };
+		X-END___s18 : { non-fluent, real, default = 0.6 };
+		X-END___s19 : { non-fluent, real, default = 0.6 };
+		X-END___s20 : { non-fluent, real, default = 0.6 };
+		X-END___s21 : { non-fluent, real, default = 0.6 };
+		X-END___s22 : { non-fluent, real, default = 0.6 };
+		X-END___s23 : { non-fluent, real, default = 0.6 };
+		X-END___s24 : { non-fluent, real, default = 0.6 };
+		X-END___s25 : { non-fluent, real, default = 0.6 };
+		X-END___s26 : { non-fluent, real, default = 0.6 };
+		X-END___s27 : { non-fluent, real, default = 0.6 };
+		X-END___s28 : { non-fluent, real, default = 0.6 };
+		X-END___s29 : { non-fluent, real, default = 0.6 };
+		X-END___s30 : { non-fluent, real, default = 0.6 };
+		X-END___s31 : { non-fluent, real, default = 0.6 };
+		X-END___s32 : { non-fluent, real, default = 0.6 };
+		X-END___s33 : { non-fluent, real, default = 0.6 };
+		X-END___s34 : { non-fluent, real, default = 0.6 };
+		X-END___s35 : { non-fluent, real, default = 0.6 };
+		X-END___s36 : { non-fluent, real, default = 0.6 };
+		X-END___s37 : { non-fluent, real, default = 0.6 };
+		X-END___s38 : { non-fluent, real, default = 0.6 };
+		X-END___s39 : { non-fluent, real, default = 0.6 };
+		X-END___s40 : { non-fluent, real, default = 0.6 };
+		X-END___s41 : { non-fluent, real, default = 0.6 };
+		X-END___s42 : { non-fluent, real, default = 0.6 };
+		X-END___s43 : { non-fluent, real, default = 0.6 };
+		X-END___s44 : { non-fluent, real, default = 0.6 };
+		X-END___s45 : { non-fluent, real, default = 0.6 };
+		X-END___s46 : { non-fluent, real, default = 0.6 };
+		X-END___s47 : { non-fluent, real, default = 0.6 };
+		X-END___s48 : { non-fluent, real, default = 0.6 };
+		X-END___s49 : { non-fluent, real, default = 0.6 };
+		X-END___s50 : { non-fluent, real, default = 0.6 };
+		X-END___s51 : { non-fluent, real, default = 0.6 };
+		X-END___s52 : { non-fluent, real, default = 0.6 };
+		X-END___s53 : { non-fluent, real, default = 0.6 };
+		X-END___s54 : { non-fluent, real, default = 0.6 };
+		X-END___s55 : { non-fluent, real, default = 0.6 };
+		X-END___s56 : { non-fluent, real, default = 0.6 };
+		X-END___s57 : { non-fluent, real, default = 0.6 };
+		X-END___s58 : { non-fluent, real, default = 0.6 };
+		X-END___s59 : { non-fluent, real, default = 0.6 };
+		X-END___s60 : { non-fluent, real, default = 0.6 };
+		X-END___s61 : { non-fluent, real, default = 0.6 };
+		X-END___s62 : { non-fluent, real, default = 0.6 };
+		X-END___s63 : { non-fluent, real, default = 0.6 };
+		X-END___s64 : { non-fluent, real, default = 0.6 };
+		X-END___s65 : { non-fluent, real, default = 0.6 };
+		X-END___s66 : { non-fluent, real, default = 0.6 };
+		X-END___s67 : { non-fluent, real, default = 0.6 };
+		X-END___s68 : { non-fluent, real, default = 0.6 };
+		X-END___s69 : { non-fluent, real, default = 0.6 };
+		X-END___s70 : { non-fluent, real, default = 0.6 };
+		X-END___s71 : { non-fluent, real, default = 0.6 };
+		X-END___s72 : { non-fluent, real, default = 0.6 };
+		X-END___s73 : { non-fluent, real, default = 0.6 };
+		X-END___s74 : { non-fluent, real, default = 0.6 };
+		X-END___s75 : { non-fluent, real, default = 0.6 };
+		X-END___s76 : { non-fluent, real, default = 0.6 };
+		X-END___s77 : { non-fluent, real, default = 0.6 };
+		X-END___s78 : { non-fluent, real, default = 0.6 };
+		X-END___s79 : { non-fluent, real, default = 0.6 };
+		X-END___s80 : { non-fluent, real, default = 0.6 };
+		X-END___s81 : { non-fluent, real, default = 0.6 };
+		X-END___s82 : { non-fluent, real, default = 0.6 };
+		X-END___s83 : { non-fluent, real, default = 0.6 };
+		X-END___s84 : { non-fluent, real, default = 0.6 };
+		X-END___s85 : { non-fluent, real, default = 0.6 };
+		X-END___s86 : { non-fluent, real, default = 0.6 };
+		X-END___s87 : { non-fluent, real, default = 0.6 };
+		X-END___s88 : { non-fluent, real, default = 0.6 };
+		X-END___s89 : { non-fluent, real, default = 0.6 };
+		X-END___s90 : { non-fluent, real, default = 0.6 };
+		X-END___s91 : { non-fluent, real, default = 0.6 };
+		X-END___s92 : { non-fluent, real, default = 0.6 };
+		X-END___s93 : { non-fluent, real, default = 0.6 };
+		X-END___s94 : { non-fluent, real, default = 0.6 };
+		X-END___s95 : { non-fluent, real, default = 0.6 };
+		X-END___s96 : { non-fluent, real, default = 0.6 };
+		X-END___s97 : { non-fluent, real, default = 0.6 };
+		X-END___s98 : { non-fluent, real, default = 0.6 };
+		X-END___s99 : { non-fluent, real, default = 0.6 };
+		Y-END___s1 : { non-fluent, real, default = 0 };
+		Y-END___s2 : { non-fluent, real, default = 0 };
+		Y-END___s3 : { non-fluent, real, default = 0 };
+		Y-END___s4 : { non-fluent, real, default = 0 };
+		Y-END___s5 : { non-fluent, real, default = 0 };
+		Y-END___s6 : { non-fluent, real, default = 0 };
+		Y-END___s7 : { non-fluent, real, default = 0 };
+		Y-END___s8 : { non-fluent, real, default = 0 };
+		Y-END___s9 : { non-fluent, real, default = 0 };
+		Y-END___s10 : { non-fluent, real, default = 0 };
+		Y-END___s11 : { non-fluent, real, default = 0 };
+		Y-END___s12 : { non-fluent, real, default = 0 };
+		Y-END___s13 : { non-fluent, real, default = 0 };
+		Y-END___s14 : { non-fluent, real, default = 0 };
+		Y-END___s15 : { non-fluent, real, default = 0 };
+		Y-END___s16 : { non-fluent, real, default = 0 };
+		Y-END___s17 : { non-fluent, real, default = 0 };
+		Y-END___s18 : { non-fluent, real, default = 0 };
+		Y-END___s19 : { non-fluent, real, default = 0 };
+		Y-END___s20 : { non-fluent, real, default = 0 };
+		Y-END___s21 : { non-fluent, real, default = 0 };
+		Y-END___s22 : { non-fluent, real, default = 0 };
+		Y-END___s23 : { non-fluent, real, default = 0 };
+		Y-END___s24 : { non-fluent, real, default = 0 };
+		Y-END___s25 : { non-fluent, real, default = 0 };
+		Y-END___s26 : { non-fluent, real, default = 0 };
+		Y-END___s27 : { non-fluent, real, default = 0 };
+		Y-END___s28 : { non-fluent, real, default = 0 };
+		Y-END___s29 : { non-fluent, real, default = 0 };
+		Y-END___s30 : { non-fluent, real, default = 0 };
+		Y-END___s31 : { non-fluent, real, default = 0 };
+		Y-END___s32 : { non-fluent, real, default = 0 };
+		Y-END___s33 : { non-fluent, real, default = 0 };
+		Y-END___s34 : { non-fluent, real, default = 0 };
+		Y-END___s35 : { non-fluent, real, default = 0 };
+		Y-END___s36 : { non-fluent, real, default = 0 };
+		Y-END___s37 : { non-fluent, real, default = 0 };
+		Y-END___s38 : { non-fluent, real, default = 0 };
+		Y-END___s39 : { non-fluent, real, default = 0 };
+		Y-END___s40 : { non-fluent, real, default = 0 };
+		Y-END___s41 : { non-fluent, real, default = 0 };
+		Y-END___s42 : { non-fluent, real, default = 0 };
+		Y-END___s43 : { non-fluent, real, default = 0 };
+		Y-END___s44 : { non-fluent, real, default = 0 };
+		Y-END___s45 : { non-fluent, real, default = 0 };
+		Y-END___s46 : { non-fluent, real, default = 0 };
+		Y-END___s47 : { non-fluent, real, default = 0 };
+		Y-END___s48 : { non-fluent, real, default = 0 };
+		Y-END___s49 : { non-fluent, real, default = 0 };
+		Y-END___s50 : { non-fluent, real, default = 0 };
+		Y-END___s51 : { non-fluent, real, default = 0 };
+		Y-END___s52 : { non-fluent, real, default = 0 };
+		Y-END___s53 : { non-fluent, real, default = 0 };
+		Y-END___s54 : { non-fluent, real, default = 0 };
+		Y-END___s55 : { non-fluent, real, default = 0 };
+		Y-END___s56 : { non-fluent, real, default = 0 };
+		Y-END___s57 : { non-fluent, real, default = 0 };
+		Y-END___s58 : { non-fluent, real, default = 0 };
+		Y-END___s59 : { non-fluent, real, default = 0 };
+		Y-END___s60 : { non-fluent, real, default = 0 };
+		Y-END___s61 : { non-fluent, real, default = 0 };
+		Y-END___s62 : { non-fluent, real, default = 0 };
+		Y-END___s63 : { non-fluent, real, default = 0 };
+		Y-END___s64 : { non-fluent, real, default = 0 };
+		Y-END___s65 : { non-fluent, real, default = 0 };
+		Y-END___s66 : { non-fluent, real, default = 0 };
+		Y-END___s67 : { non-fluent, real, default = 0 };
+		Y-END___s68 : { non-fluent, real, default = 0 };
+		Y-END___s69 : { non-fluent, real, default = 0 };
+		Y-END___s70 : { non-fluent, real, default = 0 };
+		Y-END___s71 : { non-fluent, real, default = 0 };
+		Y-END___s72 : { non-fluent, real, default = 0 };
+		Y-END___s73 : { non-fluent, real, default = 0 };
+		Y-END___s74 : { non-fluent, real, default = 0 };
+		Y-END___s75 : { non-fluent, real, default = 0 };
+		Y-END___s76 : { non-fluent, real, default = 0 };
+		Y-END___s77 : { non-fluent, real, default = 0 };
+		Y-END___s78 : { non-fluent, real, default = 0 };
+		Y-END___s79 : { non-fluent, real, default = 0 };
+		Y-END___s80 : { non-fluent, real, default = 0 };
+		Y-END___s81 : { non-fluent, real, default = 0 };
+		Y-END___s82 : { non-fluent, real, default = 0 };
+		Y-END___s83 : { non-fluent, real, default = 0 };
+		Y-END___s84 : { non-fluent, real, default = 0 };
+		Y-END___s85 : { non-fluent, real, default = 0 };
+		Y-END___s86 : { non-fluent, real, default = 0 };
+		Y-END___s87 : { non-fluent, real, default = 0 };
+		Y-END___s88 : { non-fluent, real, default = 0 };
+		Y-END___s89 : { non-fluent, real, default = 0 };
+		Y-END___s90 : { non-fluent, real, default = 0 };
+		Y-END___s91 : { non-fluent, real, default = 0 };
+		Y-END___s92 : { non-fluent, real, default = 0 };
+		Y-END___s93 : { non-fluent, real, default = 0 };
+		Y-END___s94 : { non-fluent, real, default = 0 };
+		Y-END___s95 : { non-fluent, real, default = 0 };
+		Y-END___s96 : { non-fluent, real, default = 0 };
+		Y-END___s97 : { non-fluent, real, default = 0 };
+		Y-END___s98 : { non-fluent, real, default = 0 };
+		Y-END___s99 : { non-fluent, real, default = 0 };
+		MIN-POS : { non-fluent, real, default = -1.2 };
+		MAX-POS : { non-fluent, real, default = 0.6 };
+		MAX-VEL : { non-fluent, real, default = 0.07 };
+		GOAL-MIN : { non-fluent, real, default = 0.5 };
+		VEL-MIN : { non-fluent, real, default = 0.0 };
+		GOAL-REWARD : { non-fluent, real, default = 100.0 };
+		ACTION-PENALTY : { non-fluent, real, default = 0.1 };
+
+		in-segment___s1 : { interm-fluent, bool };
+		in-segment___s2 : { interm-fluent, bool };
+		in-segment___s3 : { interm-fluent, bool };
+		in-segment___s4 : { interm-fluent, bool };
+		in-segment___s5 : { interm-fluent, bool };
+		in-segment___s6 : { interm-fluent, bool };
+		in-segment___s7 : { interm-fluent, bool };
+		in-segment___s8 : { interm-fluent, bool };
+		in-segment___s9 : { interm-fluent, bool };
+		in-segment___s10 : { interm-fluent, bool };
+		in-segment___s11 : { interm-fluent, bool };
+		in-segment___s12 : { interm-fluent, bool };
+		in-segment___s13 : { interm-fluent, bool };
+		in-segment___s14 : { interm-fluent, bool };
+		in-segment___s15 : { interm-fluent, bool };
+		in-segment___s16 : { interm-fluent, bool };
+		in-segment___s17 : { interm-fluent, bool };
+		in-segment___s18 : { interm-fluent, bool };
+		in-segment___s19 : { interm-fluent, bool };
+		in-segment___s20 : { interm-fluent, bool };
+		in-segment___s21 : { interm-fluent, bool };
+		in-segment___s22 : { interm-fluent, bool };
+		in-segment___s23 : { interm-fluent, bool };
+		in-segment___s24 : { interm-fluent, bool };
+		in-segment___s25 : { interm-fluent, bool };
+		in-segment___s26 : { interm-fluent, bool };
+		in-segment___s27 : { interm-fluent, bool };
+		in-segment___s28 : { interm-fluent, bool };
+		in-segment___s29 : { interm-fluent, bool };
+		in-segment___s30 : { interm-fluent, bool };
+		in-segment___s31 : { interm-fluent, bool };
+		in-segment___s32 : { interm-fluent, bool };
+		in-segment___s33 : { interm-fluent, bool };
+		in-segment___s34 : { interm-fluent, bool };
+		in-segment___s35 : { interm-fluent, bool };
+		in-segment___s36 : { interm-fluent, bool };
+		in-segment___s37 : { interm-fluent, bool };
+		in-segment___s38 : { interm-fluent, bool };
+		in-segment___s39 : { interm-fluent, bool };
+		in-segment___s40 : { interm-fluent, bool };
+		in-segment___s41 : { interm-fluent, bool };
+		in-segment___s42 : { interm-fluent, bool };
+		in-segment___s43 : { interm-fluent, bool };
+		in-segment___s44 : { interm-fluent, bool };
+		in-segment___s45 : { interm-fluent, bool };
+		in-segment___s46 : { interm-fluent, bool };
+		in-segment___s47 : { interm-fluent, bool };
+		in-segment___s48 : { interm-fluent, bool };
+		in-segment___s49 : { interm-fluent, bool };
+		in-segment___s50 : { interm-fluent, bool };
+		in-segment___s51 : { interm-fluent, bool };
+		in-segment___s52 : { interm-fluent, bool };
+		in-segment___s53 : { interm-fluent, bool };
+		in-segment___s54 : { interm-fluent, bool };
+		in-segment___s55 : { interm-fluent, bool };
+		in-segment___s56 : { interm-fluent, bool };
+		in-segment___s57 : { interm-fluent, bool };
+		in-segment___s58 : { interm-fluent, bool };
+		in-segment___s59 : { interm-fluent, bool };
+		in-segment___s60 : { interm-fluent, bool };
+		in-segment___s61 : { interm-fluent, bool };
+		in-segment___s62 : { interm-fluent, bool };
+		in-segment___s63 : { interm-fluent, bool };
+		in-segment___s64 : { interm-fluent, bool };
+		in-segment___s65 : { interm-fluent, bool };
+		in-segment___s66 : { interm-fluent, bool };
+		in-segment___s67 : { interm-fluent, bool };
+		in-segment___s68 : { interm-fluent, bool };
+		in-segment___s69 : { interm-fluent, bool };
+		in-segment___s70 : { interm-fluent, bool };
+		in-segment___s71 : { interm-fluent, bool };
+		in-segment___s72 : { interm-fluent, bool };
+		in-segment___s73 : { interm-fluent, bool };
+		in-segment___s74 : { interm-fluent, bool };
+		in-segment___s75 : { interm-fluent, bool };
+		in-segment___s76 : { interm-fluent, bool };
+		in-segment___s77 : { interm-fluent, bool };
+		in-segment___s78 : { interm-fluent, bool };
+		in-segment___s79 : { interm-fluent, bool };
+		in-segment___s80 : { interm-fluent, bool };
+		in-segment___s81 : { interm-fluent, bool };
+		in-segment___s82 : { interm-fluent, bool };
+		in-segment___s83 : { interm-fluent, bool };
+		in-segment___s84 : { interm-fluent, bool };
+		in-segment___s85 : { interm-fluent, bool };
+		in-segment___s86 : { interm-fluent, bool };
+		in-segment___s87 : { interm-fluent, bool };
+		in-segment___s88 : { interm-fluent, bool };
+		in-segment___s89 : { interm-fluent, bool };
+		in-segment___s90 : { interm-fluent, bool };
+		in-segment___s91 : { interm-fluent, bool };
+		in-segment___s92 : { interm-fluent, bool };
+		in-segment___s93 : { interm-fluent, bool };
+		in-segment___s94 : { interm-fluent, bool };
+		in-segment___s95 : { interm-fluent, bool };
+		in-segment___s96 : { interm-fluent, bool };
+		in-segment___s97 : { interm-fluent, bool };
+		in-segment___s98 : { interm-fluent, bool };
+		in-segment___s99 : { interm-fluent, bool };
+		pos-slope : { interm-fluent, real };
+
+		pos : { state-fluent, real, default = -0.5 };
+		vel : { state-fluent, real, default = 0 };
+
+		action : { action-fluent, real, default = 0 };
+	};
+
+	cpfs {
+
+		in-segment___s1 = ( pos >= X-START___s1 ) ^ ( pos < X-END___s1 );
+
+		in-segment___s2 = ( pos >= X-START___s2 ) ^ ( pos < X-END___s2 );
+
+		in-segment___s3 = ( pos >= X-START___s3 ) ^ ( pos < X-END___s3 );
+
+		in-segment___s4 = ( pos >= X-START___s4 ) ^ ( pos < X-END___s4 );
+
+		in-segment___s5 = ( pos >= X-START___s5 ) ^ ( pos < X-END___s5 );
+
+		in-segment___s6 = ( pos >= X-START___s6 ) ^ ( pos < X-END___s6 );
+
+		in-segment___s7 = ( pos >= X-START___s7 ) ^ ( pos < X-END___s7 );
+
+		in-segment___s8 = ( pos >= X-START___s8 ) ^ ( pos < X-END___s8 );
+
+		in-segment___s9 = ( pos >= X-START___s9 ) ^ ( pos < X-END___s9 );
+
+		in-segment___s10 = ( pos >= X-START___s10 ) ^ ( pos < X-END___s10 );
+
+		in-segment___s11 = ( pos >= X-START___s11 ) ^ ( pos < X-END___s11 );
+
+		in-segment___s12 = ( pos >= X-START___s12 ) ^ ( pos < X-END___s12 );
+
+		in-segment___s13 = ( pos >= X-START___s13 ) ^ ( pos < X-END___s13 );
+
+		in-segment___s14 = ( pos >= X-START___s14 ) ^ ( pos < X-END___s14 );
+
+		in-segment___s15 = ( pos >= X-START___s15 ) ^ ( pos < X-END___s15 );
+
+		in-segment___s16 = ( pos >= X-START___s16 ) ^ ( pos < X-END___s16 );
+
+		in-segment___s17 = ( pos >= X-START___s17 ) ^ ( pos < X-END___s17 );
+
+		in-segment___s18 = ( pos >= X-START___s18 ) ^ ( pos < X-END___s18 );
+
+		in-segment___s19 = ( pos >= X-START___s19 ) ^ ( pos < X-END___s19 );
+
+		in-segment___s20 = ( pos >= X-START___s20 ) ^ ( pos < X-END___s20 );
+
+		in-segment___s21 = ( pos >= X-START___s21 ) ^ ( pos < X-END___s21 );
+
+		in-segment___s22 = ( pos >= X-START___s22 ) ^ ( pos < X-END___s22 );
+
+		in-segment___s23 = ( pos >= X-START___s23 ) ^ ( pos < X-END___s23 );
+
+		in-segment___s24 = ( pos >= X-START___s24 ) ^ ( pos < X-END___s24 );
+
+		in-segment___s25 = ( pos >= X-START___s25 ) ^ ( pos < X-END___s25 );
+
+		in-segment___s26 = ( pos >= X-START___s26 ) ^ ( pos < X-END___s26 );
+
+		in-segment___s27 = ( pos >= X-START___s27 ) ^ ( pos < X-END___s27 );
+
+		in-segment___s28 = ( pos >= X-START___s28 ) ^ ( pos < X-END___s28 );
+
+		in-segment___s29 = ( pos >= X-START___s29 ) ^ ( pos < X-END___s29 );
+
+		in-segment___s30 = ( pos >= X-START___s30 ) ^ ( pos < X-END___s30 );
+
+		in-segment___s31 = ( pos >= X-START___s31 ) ^ ( pos < X-END___s31 );
+
+		in-segment___s32 = ( pos >= X-START___s32 ) ^ ( pos < X-END___s32 );
+
+		in-segment___s33 = ( pos >= X-START___s33 ) ^ ( pos < X-END___s33 );
+
+		in-segment___s34 = ( pos >= X-START___s34 ) ^ ( pos < X-END___s34 );
+
+		in-segment___s35 = ( pos >= X-START___s35 ) ^ ( pos < X-END___s35 );
+
+		in-segment___s36 = ( pos >= X-START___s36 ) ^ ( pos < X-END___s36 );
+
+		in-segment___s37 = ( pos >= X-START___s37 ) ^ ( pos < X-END___s37 );
+
+		in-segment___s38 = ( pos >= X-START___s38 ) ^ ( pos < X-END___s38 );
+
+		in-segment___s39 = ( pos >= X-START___s39 ) ^ ( pos < X-END___s39 );
+
+		in-segment___s40 = ( pos >= X-START___s40 ) ^ ( pos < X-END___s40 );
+
+		in-segment___s41 = ( pos >= X-START___s41 ) ^ ( pos < X-END___s41 );
+
+		in-segment___s42 = ( pos >= X-START___s42 ) ^ ( pos < X-END___s42 );
+
+		in-segment___s43 = ( pos >= X-START___s43 ) ^ ( pos < X-END___s43 );
+
+		in-segment___s44 = ( pos >= X-START___s44 ) ^ ( pos < X-END___s44 );
+
+		in-segment___s45 = ( pos >= X-START___s45 ) ^ ( pos < X-END___s45 );
+
+		in-segment___s46 = ( pos >= X-START___s46 ) ^ ( pos < X-END___s46 );
+
+		in-segment___s47 = ( pos >= X-START___s47 ) ^ ( pos < X-END___s47 );
+
+		in-segment___s48 = ( pos >= X-START___s48 ) ^ ( pos < X-END___s48 );
+
+		in-segment___s49 = ( pos >= X-START___s49 ) ^ ( pos < X-END___s49 );
+
+		in-segment___s50 = ( pos >= X-START___s50 ) ^ ( pos < X-END___s50 );
+
+		in-segment___s51 = ( pos >= X-START___s51 ) ^ ( pos < X-END___s51 );
+
+		in-segment___s52 = ( pos >= X-START___s52 ) ^ ( pos < X-END___s52 );
+
+		in-segment___s53 = ( pos >= X-START___s53 ) ^ ( pos < X-END___s53 );
+
+		in-segment___s54 = ( pos >= X-START___s54 ) ^ ( pos < X-END___s54 );
+
+		in-segment___s55 = ( pos >= X-START___s55 ) ^ ( pos < X-END___s55 );
+
+		in-segment___s56 = ( pos >= X-START___s56 ) ^ ( pos < X-END___s56 );
+
+		in-segment___s57 = ( pos >= X-START___s57 ) ^ ( pos < X-END___s57 );
+
+		in-segment___s58 = ( pos >= X-START___s58 ) ^ ( pos < X-END___s58 );
+
+		in-segment___s59 = ( pos >= X-START___s59 ) ^ ( pos < X-END___s59 );
+
+		in-segment___s60 = ( pos >= X-START___s60 ) ^ ( pos < X-END___s60 );
+
+		in-segment___s61 = ( pos >= X-START___s61 ) ^ ( pos < X-END___s61 );
+
+		in-segment___s62 = ( pos >= X-START___s62 ) ^ ( pos < X-END___s62 );
+
+		in-segment___s63 = ( pos >= X-START___s63 ) ^ ( pos < X-END___s63 );
+
+		in-segment___s64 = ( pos >= X-START___s64 ) ^ ( pos < X-END___s64 );
+
+		in-segment___s65 = ( pos >= X-START___s65 ) ^ ( pos < X-END___s65 );
+
+		in-segment___s66 = ( pos >= X-START___s66 ) ^ ( pos < X-END___s66 );
+
+		in-segment___s67 = ( pos >= X-START___s67 ) ^ ( pos < X-END___s67 );
+
+		in-segment___s68 = ( pos >= X-START___s68 ) ^ ( pos < X-END___s68 );
+
+		in-segment___s69 = ( pos >= X-START___s69 ) ^ ( pos < X-END___s69 );
+
+		in-segment___s70 = ( pos >= X-START___s70 ) ^ ( pos < X-END___s70 );
+
+		in-segment___s71 = ( pos >= X-START___s71 ) ^ ( pos < X-END___s71 );
+
+		in-segment___s72 = ( pos >= X-START___s72 ) ^ ( pos < X-END___s72 );
+
+		in-segment___s73 = ( pos >= X-START___s73 ) ^ ( pos < X-END___s73 );
+
+		in-segment___s74 = ( pos >= X-START___s74 ) ^ ( pos < X-END___s74 );
+
+		in-segment___s75 = ( pos >= X-START___s75 ) ^ ( pos < X-END___s75 );
+
+		in-segment___s76 = ( pos >= X-START___s76 ) ^ ( pos < X-END___s76 );
+
+		in-segment___s77 = ( pos >= X-START___s77 ) ^ ( pos < X-END___s77 );
+
+		in-segment___s78 = ( pos >= X-START___s78 ) ^ ( pos < X-END___s78 );
+
+		in-segment___s79 = ( pos >= X-START___s79 ) ^ ( pos < X-END___s79 );
+
+		in-segment___s80 = ( pos >= X-START___s80 ) ^ ( pos < X-END___s80 );
+
+		in-segment___s81 = ( pos >= X-START___s81 ) ^ ( pos < X-END___s81 );
+
+		in-segment___s82 = ( pos >= X-START___s82 ) ^ ( pos < X-END___s82 );
+
+		in-segment___s83 = ( pos >= X-START___s83 ) ^ ( pos < X-END___s83 );
+
+		in-segment___s84 = ( pos >= X-START___s84 ) ^ ( pos < X-END___s84 );
+
+		in-segment___s85 = ( pos >= X-START___s85 ) ^ ( pos < X-END___s85 );
+
+		in-segment___s86 = ( pos >= X-START___s86 ) ^ ( pos < X-END___s86 );
+
+		in-segment___s87 = ( pos >= X-START___s87 ) ^ ( pos < X-END___s87 );
+
+		in-segment___s88 = ( pos >= X-START___s88 ) ^ ( pos < X-END___s88 );
+
+		in-segment___s89 = ( pos >= X-START___s89 ) ^ ( pos < X-END___s89 );
+
+		in-segment___s90 = ( pos >= X-START___s90 ) ^ ( pos < X-END___s90 );
+
+		in-segment___s91 = ( pos >= X-START___s91 ) ^ ( pos < X-END___s91 );
+
+		in-segment___s92 = ( pos >= X-START___s92 ) ^ ( pos < X-END___s92 );
+
+		in-segment___s93 = ( pos >= X-START___s93 ) ^ ( pos < X-END___s93 );
+
+		in-segment___s94 = ( pos >= X-START___s94 ) ^ ( pos < X-END___s94 );
+
+		in-segment___s95 = ( pos >= X-START___s95 ) ^ ( pos < X-END___s95 );
+
+		in-segment___s96 = ( pos >= X-START___s96 ) ^ ( pos < X-END___s96 );
+
+		in-segment___s97 = ( pos >= X-START___s97 ) ^ ( pos < X-END___s97 );
+
+		in-segment___s98 = ( pos >= X-START___s98 ) ^ ( pos < X-END___s98 );
+
+		in-segment___s99 = ( pos >= X-START___s99 ) ^ ( pos < X-END___s99 );
+
+		pos-slope = ( ( ( Y-END___s1 - Y-START___s1 ) / ( X-END___s1 - X-START___s1 ) ) * in-segment___s1 ) + ( ( ( Y-END___s2 - Y-START___s2 ) / ( X-END___s2 - X-START___s2 ) ) * in-segment___s2 ) + ( ( ( Y-END___s3 - Y-START___s3 ) / ( X-END___s3 - X-START___s3 ) ) * in-segment___s3 ) + ( ( ( Y-END___s4 - Y-START___s4 ) / ( X-END___s4 - X-START___s4 ) ) * in-segment___s4 ) + ( ( ( Y-END___s5 - Y-START___s5 ) / ( X-END___s5 - X-START___s5 ) ) * in-segment___s5 ) + ( ( ( Y-END___s6 - Y-START___s6 ) / ( X-END___s6 - X-START___s6 ) ) * in-segment___s6 ) + ( ( ( Y-END___s7 - Y-START___s7 ) / ( X-END___s7 - X-START___s7 ) ) * in-segment___s7 ) + ( ( ( Y-END___s8 - Y-START___s8 ) / ( X-END___s8 - X-START___s8 ) ) * in-segment___s8 ) + ( ( ( Y-END___s9 - Y-START___s9 ) / ( X-END___s9 - X-START___s9 ) ) * in-segment___s9 ) + ( ( ( Y-END___s10 - Y-START___s10 ) / ( X-END___s10 - X-START___s10 ) ) * in-segment___s10 ) + ( ( ( Y-END___s11 - Y-START___s11 ) / ( X-END___s11 - X-START___s11 ) ) * in-segment___s11 ) + ( ( ( Y-END___s12 - Y-START___s12 ) / ( X-END___s12 - X-START___s12 ) ) * in-segment___s12 ) + ( ( ( Y-END___s13 - Y-START___s13 ) / ( X-END___s13 - X-START___s13 ) ) * in-segment___s13 ) + ( ( ( Y-END___s14 - Y-START___s14 ) / ( X-END___s14 - X-START___s14 ) ) * in-segment___s14 ) + ( ( ( Y-END___s15 - Y-START___s15 ) / ( X-END___s15 - X-START___s15 ) ) * in-segment___s15 ) + ( ( ( Y-END___s16 - Y-START___s16 ) / ( X-END___s16 - X-START___s16 ) ) * in-segment___s16 ) + ( ( ( Y-END___s17 - Y-START___s17 ) / ( X-END___s17 - X-START___s17 ) ) * in-segment___s17 ) + ( ( ( Y-END___s18 - Y-START___s18 ) / ( X-END___s18 - X-START___s18 ) ) * in-segment___s18 ) + ( ( ( Y-END___s19 - Y-START___s19 ) / ( X-END___s19 - X-START___s19 ) ) * in-segment___s19 ) + ( ( ( Y-END___s20 - Y-START___s20 ) / ( X-END___s20 - X-START___s20 ) ) * in-segment___s20 ) + ( ( ( Y-END___s21 - Y-START___s21 ) / ( X-END___s21 - X-START___s21 ) ) * in-segment___s21 ) + ( ( ( Y-END___s22 - Y-START___s22 ) / ( X-END___s22 - X-START___s22 ) ) * in-segment___s22 ) + ( ( ( Y-END___s23 - Y-START___s23 ) / ( X-END___s23 - X-START___s23 ) ) * in-segment___s23 ) + ( ( ( Y-END___s24 - Y-START___s24 ) / ( X-END___s24 - X-START___s24 ) ) * in-segment___s24 ) + ( ( ( Y-END___s25 - Y-START___s25 ) / ( X-END___s25 - X-START___s25 ) ) * in-segment___s25 ) + ( ( ( Y-END___s26 - Y-START___s26 ) / ( X-END___s26 - X-START___s26 ) ) * in-segment___s26 ) + ( ( ( Y-END___s27 - Y-START___s27 ) / ( X-END___s27 - X-START___s27 ) ) * in-segment___s27 ) + ( ( ( Y-END___s28 - Y-START___s28 ) / ( X-END___s28 - X-START___s28 ) ) * in-segment___s28 ) + ( ( ( Y-END___s29 - Y-START___s29 ) / ( X-END___s29 - X-START___s29 ) ) * in-segment___s29 ) + ( ( ( Y-END___s30 - Y-START___s30 ) / ( X-END___s30 - X-START___s30 ) ) * in-segment___s30 ) + ( ( ( Y-END___s31 - Y-START___s31 ) / ( X-END___s31 - X-START___s31 ) ) * in-segment___s31 ) + ( ( ( Y-END___s32 - Y-START___s32 ) / ( X-END___s32 - X-START___s32 ) ) * in-segment___s32 ) + ( ( ( Y-END___s33 - Y-START___s33 ) / ( X-END___s33 - X-START___s33 ) ) * in-segment___s33 ) + ( ( ( Y-END___s34 - Y-START___s34 ) / ( X-END___s34 - X-START___s34 ) ) * in-segment___s34 ) + ( ( ( Y-END___s35 - Y-START___s35 ) / ( X-END___s35 - X-START___s35 ) ) * in-segment___s35 ) + ( ( ( Y-END___s36 - Y-START___s36 ) / ( X-END___s36 - X-START___s36 ) ) * in-segment___s36 ) + ( ( ( Y-END___s37 - Y-START___s37 ) / ( X-END___s37 - X-START___s37 ) ) * in-segment___s37 ) + ( ( ( Y-END___s38 - Y-START___s38 ) / ( X-END___s38 - X-START___s38 ) ) * in-segment___s38 ) + ( ( ( Y-END___s39 - Y-START___s39 ) / ( X-END___s39 - X-START___s39 ) ) * in-segment___s39 ) + ( ( ( Y-END___s40 - Y-START___s40 ) / ( X-END___s40 - X-START___s40 ) ) * in-segment___s40 ) + ( ( ( Y-END___s41 - Y-START___s41 ) / ( X-END___s41 - X-START___s41 ) ) * in-segment___s41 ) + ( ( ( Y-END___s42 - Y-START___s42 ) / ( X-END___s42 - X-START___s42 ) ) * in-segment___s42 ) + ( ( ( Y-END___s43 - Y-START___s43 ) / ( X-END___s43 - X-START___s43 ) ) * in-segment___s43 ) + ( ( ( Y-END___s44 - Y-START___s44 ) / ( X-END___s44 - X-START___s44 ) ) * in-segment___s44 ) + ( ( ( Y-END___s45 - Y-START___s45 ) / ( X-END___s45 - X-START___s45 ) ) * in-segment___s45 ) + ( ( ( Y-END___s46 - Y-START___s46 ) / ( X-END___s46 - X-START___s46 ) ) * in-segment___s46 ) + ( ( ( Y-END___s47 - Y-START___s47 ) / ( X-END___s47 - X-START___s47 ) ) * in-segment___s47 ) + ( ( ( Y-END___s48 - Y-START___s48 ) / ( X-END___s48 - X-START___s48 ) ) * in-segment___s48 ) + ( ( ( Y-END___s49 - Y-START___s49 ) / ( X-END___s49 - X-START___s49 ) ) * in-segment___s49 ) + ( ( ( Y-END___s50 - Y-START___s50 ) / ( X-END___s50 - X-START___s50 ) ) * in-segment___s50 ) + ( ( ( Y-END___s51 - Y-START___s51 ) / ( X-END___s51 - X-START___s51 ) ) * in-segment___s51 ) + ( ( ( Y-END___s52 - Y-START___s52 ) / ( X-END___s52 - X-START___s52 ) ) * in-segment___s52 ) + ( ( ( Y-END___s53 - Y-START___s53 ) / ( X-END___s53 - X-START___s53 ) ) * in-segment___s53 ) + ( ( ( Y-END___s54 - Y-START___s54 ) / ( X-END___s54 - X-START___s54 ) ) * in-segment___s54 ) + ( ( ( Y-END___s55 - Y-START___s55 ) / ( X-END___s55 - X-START___s55 ) ) * in-segment___s55 ) + ( ( ( Y-END___s56 - Y-START___s56 ) / ( X-END___s56 - X-START___s56 ) ) * in-segment___s56 ) + ( ( ( Y-END___s57 - Y-START___s57 ) / ( X-END___s57 - X-START___s57 ) ) * in-segment___s57 ) + ( ( ( Y-END___s58 - Y-START___s58 ) / ( X-END___s58 - X-START___s58 ) ) * in-segment___s58 ) + ( ( ( Y-END___s59 - Y-START___s59 ) / ( X-END___s59 - X-START___s59 ) ) * in-segment___s59 ) + ( ( ( Y-END___s60 - Y-START___s60 ) / ( X-END___s60 - X-START___s60 ) ) * in-segment___s60 ) + ( ( ( Y-END___s61 - Y-START___s61 ) / ( X-END___s61 - X-START___s61 ) ) * in-segment___s61 ) + ( ( ( Y-END___s62 - Y-START___s62 ) / ( X-END___s62 - X-START___s62 ) ) * in-segment___s62 ) + ( ( ( Y-END___s63 - Y-START___s63 ) / ( X-END___s63 - X-START___s63 ) ) * in-segment___s63 ) + ( ( ( Y-END___s64 - Y-START___s64 ) / ( X-END___s64 - X-START___s64 ) ) * in-segment___s64 ) + ( ( ( Y-END___s65 - Y-START___s65 ) / ( X-END___s65 - X-START___s65 ) ) * in-segment___s65 ) + ( ( ( Y-END___s66 - Y-START___s66 ) / ( X-END___s66 - X-START___s66 ) ) * in-segment___s66 ) + ( ( ( Y-END___s67 - Y-START___s67 ) / ( X-END___s67 - X-START___s67 ) ) * in-segment___s67 ) + ( ( ( Y-END___s68 - Y-START___s68 ) / ( X-END___s68 - X-START___s68 ) ) * in-segment___s68 ) + ( ( ( Y-END___s69 - Y-START___s69 ) / ( X-END___s69 - X-START___s69 ) ) * in-segment___s69 ) + ( ( ( Y-END___s70 - Y-START___s70 ) / ( X-END___s70 - X-START___s70 ) ) * in-segment___s70 ) + ( ( ( Y-END___s71 - Y-START___s71 ) / ( X-END___s71 - X-START___s71 ) ) * in-segment___s71 ) + ( ( ( Y-END___s72 - Y-START___s72 ) / ( X-END___s72 - X-START___s72 ) ) * in-segment___s72 ) + ( ( ( Y-END___s73 - Y-START___s73 ) / ( X-END___s73 - X-START___s73 ) ) * in-segment___s73 ) + ( ( ( Y-END___s74 - Y-START___s74 ) / ( X-END___s74 - X-START___s74 ) ) * in-segment___s74 ) + ( ( ( Y-END___s75 - Y-START___s75 ) / ( X-END___s75 - X-START___s75 ) ) * in-segment___s75 ) + ( ( ( Y-END___s76 - Y-START___s76 ) / ( X-END___s76 - X-START___s76 ) ) * in-segment___s76 ) + ( ( ( Y-END___s77 - Y-START___s77 ) / ( X-END___s77 - X-START___s77 ) ) * in-segment___s77 ) + ( ( ( Y-END___s78 - Y-START___s78 ) / ( X-END___s78 - X-START___s78 ) ) * in-segment___s78 ) + ( ( ( Y-END___s79 - Y-START___s79 ) / ( X-END___s79 - X-START___s79 ) ) * in-segment___s79 ) + ( ( ( Y-END___s80 - Y-START___s80 ) / ( X-END___s80 - X-START___s80 ) ) * in-segment___s80 ) + ( ( ( Y-END___s81 - Y-START___s81 ) / ( X-END___s81 - X-START___s81 ) ) * in-segment___s81 ) + ( ( ( Y-END___s82 - Y-START___s82 ) / ( X-END___s82 - X-START___s82 ) ) * in-segment___s82 ) + ( ( ( Y-END___s83 - Y-START___s83 ) / ( X-END___s83 - X-START___s83 ) ) * in-segment___s83 ) + ( ( ( Y-END___s84 - Y-START___s84 ) / ( X-END___s84 - X-START___s84 ) ) * in-segment___s84 ) + ( ( ( Y-END___s85 - Y-START___s85 ) / ( X-END___s85 - X-START___s85 ) ) * in-segment___s85 ) + ( ( ( Y-END___s86 - Y-START___s86 ) / ( X-END___s86 - X-START___s86 ) ) * in-segment___s86 ) + ( ( ( Y-END___s87 - Y-START___s87 ) / ( X-END___s87 - X-START___s87 ) ) * in-segment___s87 ) + ( ( ( Y-END___s88 - Y-START___s88 ) / ( X-END___s88 - X-START___s88 ) ) * in-segment___s88 ) + ( ( ( Y-END___s89 - Y-START___s89 ) / ( X-END___s89 - X-START___s89 ) ) * in-segment___s89 ) + ( ( ( Y-END___s90 - Y-START___s90 ) / ( X-END___s90 - X-START___s90 ) ) * in-segment___s90 ) + ( ( ( Y-END___s91 - Y-START___s91 ) / ( X-END___s91 - X-START___s91 ) ) * in-segment___s91 ) + ( ( ( Y-END___s92 - Y-START___s92 ) / ( X-END___s92 - X-START___s92 ) ) * in-segment___s92 ) + ( ( ( Y-END___s93 - Y-START___s93 ) / ( X-END___s93 - X-START___s93 ) ) * in-segment___s93 ) + ( ( ( Y-END___s94 - Y-START___s94 ) / ( X-END___s94 - X-START___s94 ) ) * in-segment___s94 ) + ( ( ( Y-END___s95 - Y-START___s95 ) / ( X-END___s95 - X-START___s95 ) ) * in-segment___s95 ) + ( ( ( Y-END___s96 - Y-START___s96 ) / ( X-END___s96 - X-START___s96 ) ) * in-segment___s96 ) + ( ( ( Y-END___s97 - Y-START___s97 ) / ( X-END___s97 - X-START___s97 ) ) * in-segment___s97 ) + ( ( ( Y-END___s98 - Y-START___s98 ) / ( X-END___s98 - X-START___s98 ) ) * in-segment___s98 ) + ( ( ( Y-END___s99 - Y-START___s99 ) / ( X-END___s99 - X-START___s99 ) ) * in-segment___s99 );
+
+		pos' = max[min[pos + vel, MAX-POS], MIN-POS];
+
+		vel' = max[min[( vel + ( action * FORCE-MAG ) ) + ( ( -GRAVITY-MAG ) * pos-slope ), MAX-VEL], -MAX-VEL];
+	};
+
+	reward = ( if (( pos' >= GOAL-MIN ) ^ ( vel' >= VEL-MIN ))
+			then GOAL-REWARD
+			else 0.0 ) - ( ACTION-PENALTY * pow[action, 2] );
+
+	state-invariants {
+		pos >= MIN-POS;
+		pos <= MAX-POS;
+		vel >= ( -MAX-VEL );
+		vel <= MAX-VEL;
+		( GRAVITY-MAG >= 0 ) ^ ( FORCE-MAG >= 0 );
+		( MAX-POS >= MIN-POS ) ^ ( MAX-VEL >= 0 );
+		( ( X-START___s1 >= MIN-POS ) ^ ( X-START___s1 <= MAX-POS ) ) ^ ( ( X-START___s2 >= MIN-POS ) ^ ( X-START___s2 <= MAX-POS ) ) ^ ( ( X-START___s3 >= MIN-POS ) ^ ( X-START___s3 <= MAX-POS ) ) ^ ( ( X-START___s4 >= MIN-POS ) ^ ( X-START___s4 <= MAX-POS ) ) ^ ( ( X-START___s5 >= MIN-POS ) ^ ( X-START___s5 <= MAX-POS ) ) ^ ( ( X-START___s6 >= MIN-POS ) ^ ( X-START___s6 <= MAX-POS ) ) ^ ( ( X-START___s7 >= MIN-POS ) ^ ( X-START___s7 <= MAX-POS ) ) ^ ( ( X-START___s8 >= MIN-POS ) ^ ( X-START___s8 <= MAX-POS ) ) ^ ( ( X-START___s9 >= MIN-POS ) ^ ( X-START___s9 <= MAX-POS ) ) ^ ( ( X-START___s10 >= MIN-POS ) ^ ( X-START___s10 <= MAX-POS ) ) ^ ( ( X-START___s11 >= MIN-POS ) ^ ( X-START___s11 <= MAX-POS ) ) ^ ( ( X-START___s12 >= MIN-POS ) ^ ( X-START___s12 <= MAX-POS ) ) ^ ( ( X-START___s13 >= MIN-POS ) ^ ( X-START___s13 <= MAX-POS ) ) ^ ( ( X-START___s14 >= MIN-POS ) ^ ( X-START___s14 <= MAX-POS ) ) ^ ( ( X-START___s15 >= MIN-POS ) ^ ( X-START___s15 <= MAX-POS ) ) ^ ( ( X-START___s16 >= MIN-POS ) ^ ( X-START___s16 <= MAX-POS ) ) ^ ( ( X-START___s17 >= MIN-POS ) ^ ( X-START___s17 <= MAX-POS ) ) ^ ( ( X-START___s18 >= MIN-POS ) ^ ( X-START___s18 <= MAX-POS ) ) ^ ( ( X-START___s19 >= MIN-POS ) ^ ( X-START___s19 <= MAX-POS ) ) ^ ( ( X-START___s20 >= MIN-POS ) ^ ( X-START___s20 <= MAX-POS ) ) ^ ( ( X-START___s21 >= MIN-POS ) ^ ( X-START___s21 <= MAX-POS ) ) ^ ( ( X-START___s22 >= MIN-POS ) ^ ( X-START___s22 <= MAX-POS ) ) ^ ( ( X-START___s23 >= MIN-POS ) ^ ( X-START___s23 <= MAX-POS ) ) ^ ( ( X-START___s24 >= MIN-POS ) ^ ( X-START___s24 <= MAX-POS ) ) ^ ( ( X-START___s25 >= MIN-POS ) ^ ( X-START___s25 <= MAX-POS ) ) ^ ( ( X-START___s26 >= MIN-POS ) ^ ( X-START___s26 <= MAX-POS ) ) ^ ( ( X-START___s27 >= MIN-POS ) ^ ( X-START___s27 <= MAX-POS ) ) ^ ( ( X-START___s28 >= MIN-POS ) ^ ( X-START___s28 <= MAX-POS ) ) ^ ( ( X-START___s29 >= MIN-POS ) ^ ( X-START___s29 <= MAX-POS ) ) ^ ( ( X-START___s30 >= MIN-POS ) ^ ( X-START___s30 <= MAX-POS ) ) ^ ( ( X-START___s31 >= MIN-POS ) ^ ( X-START___s31 <= MAX-POS ) ) ^ ( ( X-START___s32 >= MIN-POS ) ^ ( X-START___s32 <= MAX-POS ) ) ^ ( ( X-START___s33 >= MIN-POS ) ^ ( X-START___s33 <= MAX-POS ) ) ^ ( ( X-START___s34 >= MIN-POS ) ^ ( X-START___s34 <= MAX-POS ) ) ^ ( ( X-START___s35 >= MIN-POS ) ^ ( X-START___s35 <= MAX-POS ) ) ^ ( ( X-START___s36 >= MIN-POS ) ^ ( X-START___s36 <= MAX-POS ) ) ^ ( ( X-START___s37 >= MIN-POS ) ^ ( X-START___s37 <= MAX-POS ) ) ^ ( ( X-START___s38 >= MIN-POS ) ^ ( X-START___s38 <= MAX-POS ) ) ^ ( ( X-START___s39 >= MIN-POS ) ^ ( X-START___s39 <= MAX-POS ) ) ^ ( ( X-START___s40 >= MIN-POS ) ^ ( X-START___s40 <= MAX-POS ) ) ^ ( ( X-START___s41 >= MIN-POS ) ^ ( X-START___s41 <= MAX-POS ) ) ^ ( ( X-START___s42 >= MIN-POS ) ^ ( X-START___s42 <= MAX-POS ) ) ^ ( ( X-START___s43 >= MIN-POS ) ^ ( X-START___s43 <= MAX-POS ) ) ^ ( ( X-START___s44 >= MIN-POS ) ^ ( X-START___s44 <= MAX-POS ) ) ^ ( ( X-START___s45 >= MIN-POS ) ^ ( X-START___s45 <= MAX-POS ) ) ^ ( ( X-START___s46 >= MIN-POS ) ^ ( X-START___s46 <= MAX-POS ) ) ^ ( ( X-START___s47 >= MIN-POS ) ^ ( X-START___s47 <= MAX-POS ) ) ^ ( ( X-START___s48 >= MIN-POS ) ^ ( X-START___s48 <= MAX-POS ) ) ^ ( ( X-START___s49 >= MIN-POS ) ^ ( X-START___s49 <= MAX-POS ) ) ^ ( ( X-START___s50 >= MIN-POS ) ^ ( X-START___s50 <= MAX-POS ) ) ^ ( ( X-START___s51 >= MIN-POS ) ^ ( X-START___s51 <= MAX-POS ) ) ^ ( ( X-START___s52 >= MIN-POS ) ^ ( X-START___s52 <= MAX-POS ) ) ^ ( ( X-START___s53 >= MIN-POS ) ^ ( X-START___s53 <= MAX-POS ) ) ^ ( ( X-START___s54 >= MIN-POS ) ^ ( X-START___s54 <= MAX-POS ) ) ^ ( ( X-START___s55 >= MIN-POS ) ^ ( X-START___s55 <= MAX-POS ) ) ^ ( ( X-START___s56 >= MIN-POS ) ^ ( X-START___s56 <= MAX-POS ) ) ^ ( ( X-START___s57 >= MIN-POS ) ^ ( X-START___s57 <= MAX-POS ) ) ^ ( ( X-START___s58 >= MIN-POS ) ^ ( X-START___s58 <= MAX-POS ) ) ^ ( ( X-START___s59 >= MIN-POS ) ^ ( X-START___s59 <= MAX-POS ) ) ^ ( ( X-START___s60 >= MIN-POS ) ^ ( X-START___s60 <= MAX-POS ) ) ^ ( ( X-START___s61 >= MIN-POS ) ^ ( X-START___s61 <= MAX-POS ) ) ^ ( ( X-START___s62 >= MIN-POS ) ^ ( X-START___s62 <= MAX-POS ) ) ^ ( ( X-START___s63 >= MIN-POS ) ^ ( X-START___s63 <= MAX-POS ) ) ^ ( ( X-START___s64 >= MIN-POS ) ^ ( X-START___s64 <= MAX-POS ) ) ^ ( ( X-START___s65 >= MIN-POS ) ^ ( X-START___s65 <= MAX-POS ) ) ^ ( ( X-START___s66 >= MIN-POS ) ^ ( X-START___s66 <= MAX-POS ) ) ^ ( ( X-START___s67 >= MIN-POS ) ^ ( X-START___s67 <= MAX-POS ) ) ^ ( ( X-START___s68 >= MIN-POS ) ^ ( X-START___s68 <= MAX-POS ) ) ^ ( ( X-START___s69 >= MIN-POS ) ^ ( X-START___s69 <= MAX-POS ) ) ^ ( ( X-START___s70 >= MIN-POS ) ^ ( X-START___s70 <= MAX-POS ) ) ^ ( ( X-START___s71 >= MIN-POS ) ^ ( X-START___s71 <= MAX-POS ) ) ^ ( ( X-START___s72 >= MIN-POS ) ^ ( X-START___s72 <= MAX-POS ) ) ^ ( ( X-START___s73 >= MIN-POS ) ^ ( X-START___s73 <= MAX-POS ) ) ^ ( ( X-START___s74 >= MIN-POS ) ^ ( X-START___s74 <= MAX-POS ) ) ^ ( ( X-START___s75 >= MIN-POS ) ^ ( X-START___s75 <= MAX-POS ) ) ^ ( ( X-START___s76 >= MIN-POS ) ^ ( X-START___s76 <= MAX-POS ) ) ^ ( ( X-START___s77 >= MIN-POS ) ^ ( X-START___s77 <= MAX-POS ) ) ^ ( ( X-START___s78 >= MIN-POS ) ^ ( X-START___s78 <= MAX-POS ) ) ^ ( ( X-START___s79 >= MIN-POS ) ^ ( X-START___s79 <= MAX-POS ) ) ^ ( ( X-START___s80 >= MIN-POS ) ^ ( X-START___s80 <= MAX-POS ) ) ^ ( ( X-START___s81 >= MIN-POS ) ^ ( X-START___s81 <= MAX-POS ) ) ^ ( ( X-START___s82 >= MIN-POS ) ^ ( X-START___s82 <= MAX-POS ) ) ^ ( ( X-START___s83 >= MIN-POS ) ^ ( X-START___s83 <= MAX-POS ) ) ^ ( ( X-START___s84 >= MIN-POS ) ^ ( X-START___s84 <= MAX-POS ) ) ^ ( ( X-START___s85 >= MIN-POS ) ^ ( X-START___s85 <= MAX-POS ) ) ^ ( ( X-START___s86 >= MIN-POS ) ^ ( X-START___s86 <= MAX-POS ) ) ^ ( ( X-START___s87 >= MIN-POS ) ^ ( X-START___s87 <= MAX-POS ) ) ^ ( ( X-START___s88 >= MIN-POS ) ^ ( X-START___s88 <= MAX-POS ) ) ^ ( ( X-START___s89 >= MIN-POS ) ^ ( X-START___s89 <= MAX-POS ) ) ^ ( ( X-START___s90 >= MIN-POS ) ^ ( X-START___s90 <= MAX-POS ) ) ^ ( ( X-START___s91 >= MIN-POS ) ^ ( X-START___s91 <= MAX-POS ) ) ^ ( ( X-START___s92 >= MIN-POS ) ^ ( X-START___s92 <= MAX-POS ) ) ^ ( ( X-START___s93 >= MIN-POS ) ^ ( X-START___s93 <= MAX-POS ) ) ^ ( ( X-START___s94 >= MIN-POS ) ^ ( X-START___s94 <= MAX-POS ) ) ^ ( ( X-START___s95 >= MIN-POS ) ^ ( X-START___s95 <= MAX-POS ) ) ^ ( ( X-START___s96 >= MIN-POS ) ^ ( X-START___s96 <= MAX-POS ) ) ^ ( ( X-START___s97 >= MIN-POS ) ^ ( X-START___s97 <= MAX-POS ) ) ^ ( ( X-START___s98 >= MIN-POS ) ^ ( X-START___s98 <= MAX-POS ) ) ^ ( ( X-START___s99 >= MIN-POS ) ^ ( X-START___s99 <= MAX-POS ) );
+		( ( X-END___s1 >= MIN-POS ) ^ ( X-END___s1 <= MAX-POS ) ) ^ ( ( X-END___s2 >= MIN-POS ) ^ ( X-END___s2 <= MAX-POS ) ) ^ ( ( X-END___s3 >= MIN-POS ) ^ ( X-END___s3 <= MAX-POS ) ) ^ ( ( X-END___s4 >= MIN-POS ) ^ ( X-END___s4 <= MAX-POS ) ) ^ ( ( X-END___s5 >= MIN-POS ) ^ ( X-END___s5 <= MAX-POS ) ) ^ ( ( X-END___s6 >= MIN-POS ) ^ ( X-END___s6 <= MAX-POS ) ) ^ ( ( X-END___s7 >= MIN-POS ) ^ ( X-END___s7 <= MAX-POS ) ) ^ ( ( X-END___s8 >= MIN-POS ) ^ ( X-END___s8 <= MAX-POS ) ) ^ ( ( X-END___s9 >= MIN-POS ) ^ ( X-END___s9 <= MAX-POS ) ) ^ ( ( X-END___s10 >= MIN-POS ) ^ ( X-END___s10 <= MAX-POS ) ) ^ ( ( X-END___s11 >= MIN-POS ) ^ ( X-END___s11 <= MAX-POS ) ) ^ ( ( X-END___s12 >= MIN-POS ) ^ ( X-END___s12 <= MAX-POS ) ) ^ ( ( X-END___s13 >= MIN-POS ) ^ ( X-END___s13 <= MAX-POS ) ) ^ ( ( X-END___s14 >= MIN-POS ) ^ ( X-END___s14 <= MAX-POS ) ) ^ ( ( X-END___s15 >= MIN-POS ) ^ ( X-END___s15 <= MAX-POS ) ) ^ ( ( X-END___s16 >= MIN-POS ) ^ ( X-END___s16 <= MAX-POS ) ) ^ ( ( X-END___s17 >= MIN-POS ) ^ ( X-END___s17 <= MAX-POS ) ) ^ ( ( X-END___s18 >= MIN-POS ) ^ ( X-END___s18 <= MAX-POS ) ) ^ ( ( X-END___s19 >= MIN-POS ) ^ ( X-END___s19 <= MAX-POS ) ) ^ ( ( X-END___s20 >= MIN-POS ) ^ ( X-END___s20 <= MAX-POS ) ) ^ ( ( X-END___s21 >= MIN-POS ) ^ ( X-END___s21 <= MAX-POS ) ) ^ ( ( X-END___s22 >= MIN-POS ) ^ ( X-END___s22 <= MAX-POS ) ) ^ ( ( X-END___s23 >= MIN-POS ) ^ ( X-END___s23 <= MAX-POS ) ) ^ ( ( X-END___s24 >= MIN-POS ) ^ ( X-END___s24 <= MAX-POS ) ) ^ ( ( X-END___s25 >= MIN-POS ) ^ ( X-END___s25 <= MAX-POS ) ) ^ ( ( X-END___s26 >= MIN-POS ) ^ ( X-END___s26 <= MAX-POS ) ) ^ ( ( X-END___s27 >= MIN-POS ) ^ ( X-END___s27 <= MAX-POS ) ) ^ ( ( X-END___s28 >= MIN-POS ) ^ ( X-END___s28 <= MAX-POS ) ) ^ ( ( X-END___s29 >= MIN-POS ) ^ ( X-END___s29 <= MAX-POS ) ) ^ ( ( X-END___s30 >= MIN-POS ) ^ ( X-END___s30 <= MAX-POS ) ) ^ ( ( X-END___s31 >= MIN-POS ) ^ ( X-END___s31 <= MAX-POS ) ) ^ ( ( X-END___s32 >= MIN-POS ) ^ ( X-END___s32 <= MAX-POS ) ) ^ ( ( X-END___s33 >= MIN-POS ) ^ ( X-END___s33 <= MAX-POS ) ) ^ ( ( X-END___s34 >= MIN-POS ) ^ ( X-END___s34 <= MAX-POS ) ) ^ ( ( X-END___s35 >= MIN-POS ) ^ ( X-END___s35 <= MAX-POS ) ) ^ ( ( X-END___s36 >= MIN-POS ) ^ ( X-END___s36 <= MAX-POS ) ) ^ ( ( X-END___s37 >= MIN-POS ) ^ ( X-END___s37 <= MAX-POS ) ) ^ ( ( X-END___s38 >= MIN-POS ) ^ ( X-END___s38 <= MAX-POS ) ) ^ ( ( X-END___s39 >= MIN-POS ) ^ ( X-END___s39 <= MAX-POS ) ) ^ ( ( X-END___s40 >= MIN-POS ) ^ ( X-END___s40 <= MAX-POS ) ) ^ ( ( X-END___s41 >= MIN-POS ) ^ ( X-END___s41 <= MAX-POS ) ) ^ ( ( X-END___s42 >= MIN-POS ) ^ ( X-END___s42 <= MAX-POS ) ) ^ ( ( X-END___s43 >= MIN-POS ) ^ ( X-END___s43 <= MAX-POS ) ) ^ ( ( X-END___s44 >= MIN-POS ) ^ ( X-END___s44 <= MAX-POS ) ) ^ ( ( X-END___s45 >= MIN-POS ) ^ ( X-END___s45 <= MAX-POS ) ) ^ ( ( X-END___s46 >= MIN-POS ) ^ ( X-END___s46 <= MAX-POS ) ) ^ ( ( X-END___s47 >= MIN-POS ) ^ ( X-END___s47 <= MAX-POS ) ) ^ ( ( X-END___s48 >= MIN-POS ) ^ ( X-END___s48 <= MAX-POS ) ) ^ ( ( X-END___s49 >= MIN-POS ) ^ ( X-END___s49 <= MAX-POS ) ) ^ ( ( X-END___s50 >= MIN-POS ) ^ ( X-END___s50 <= MAX-POS ) ) ^ ( ( X-END___s51 >= MIN-POS ) ^ ( X-END___s51 <= MAX-POS ) ) ^ ( ( X-END___s52 >= MIN-POS ) ^ ( X-END___s52 <= MAX-POS ) ) ^ ( ( X-END___s53 >= MIN-POS ) ^ ( X-END___s53 <= MAX-POS ) ) ^ ( ( X-END___s54 >= MIN-POS ) ^ ( X-END___s54 <= MAX-POS ) ) ^ ( ( X-END___s55 >= MIN-POS ) ^ ( X-END___s55 <= MAX-POS ) ) ^ ( ( X-END___s56 >= MIN-POS ) ^ ( X-END___s56 <= MAX-POS ) ) ^ ( ( X-END___s57 >= MIN-POS ) ^ ( X-END___s57 <= MAX-POS ) ) ^ ( ( X-END___s58 >= MIN-POS ) ^ ( X-END___s58 <= MAX-POS ) ) ^ ( ( X-END___s59 >= MIN-POS ) ^ ( X-END___s59 <= MAX-POS ) ) ^ ( ( X-END___s60 >= MIN-POS ) ^ ( X-END___s60 <= MAX-POS ) ) ^ ( ( X-END___s61 >= MIN-POS ) ^ ( X-END___s61 <= MAX-POS ) ) ^ ( ( X-END___s62 >= MIN-POS ) ^ ( X-END___s62 <= MAX-POS ) ) ^ ( ( X-END___s63 >= MIN-POS ) ^ ( X-END___s63 <= MAX-POS ) ) ^ ( ( X-END___s64 >= MIN-POS ) ^ ( X-END___s64 <= MAX-POS ) ) ^ ( ( X-END___s65 >= MIN-POS ) ^ ( X-END___s65 <= MAX-POS ) ) ^ ( ( X-END___s66 >= MIN-POS ) ^ ( X-END___s66 <= MAX-POS ) ) ^ ( ( X-END___s67 >= MIN-POS ) ^ ( X-END___s67 <= MAX-POS ) ) ^ ( ( X-END___s68 >= MIN-POS ) ^ ( X-END___s68 <= MAX-POS ) ) ^ ( ( X-END___s69 >= MIN-POS ) ^ ( X-END___s69 <= MAX-POS ) ) ^ ( ( X-END___s70 >= MIN-POS ) ^ ( X-END___s70 <= MAX-POS ) ) ^ ( ( X-END___s71 >= MIN-POS ) ^ ( X-END___s71 <= MAX-POS ) ) ^ ( ( X-END___s72 >= MIN-POS ) ^ ( X-END___s72 <= MAX-POS ) ) ^ ( ( X-END___s73 >= MIN-POS ) ^ ( X-END___s73 <= MAX-POS ) ) ^ ( ( X-END___s74 >= MIN-POS ) ^ ( X-END___s74 <= MAX-POS ) ) ^ ( ( X-END___s75 >= MIN-POS ) ^ ( X-END___s75 <= MAX-POS ) ) ^ ( ( X-END___s76 >= MIN-POS ) ^ ( X-END___s76 <= MAX-POS ) ) ^ ( ( X-END___s77 >= MIN-POS ) ^ ( X-END___s77 <= MAX-POS ) ) ^ ( ( X-END___s78 >= MIN-POS ) ^ ( X-END___s78 <= MAX-POS ) ) ^ ( ( X-END___s79 >= MIN-POS ) ^ ( X-END___s79 <= MAX-POS ) ) ^ ( ( X-END___s80 >= MIN-POS ) ^ ( X-END___s80 <= MAX-POS ) ) ^ ( ( X-END___s81 >= MIN-POS ) ^ ( X-END___s81 <= MAX-POS ) ) ^ ( ( X-END___s82 >= MIN-POS ) ^ ( X-END___s82 <= MAX-POS ) ) ^ ( ( X-END___s83 >= MIN-POS ) ^ ( X-END___s83 <= MAX-POS ) ) ^ ( ( X-END___s84 >= MIN-POS ) ^ ( X-END___s84 <= MAX-POS ) ) ^ ( ( X-END___s85 >= MIN-POS ) ^ ( X-END___s85 <= MAX-POS ) ) ^ ( ( X-END___s86 >= MIN-POS ) ^ ( X-END___s86 <= MAX-POS ) ) ^ ( ( X-END___s87 >= MIN-POS ) ^ ( X-END___s87 <= MAX-POS ) ) ^ ( ( X-END___s88 >= MIN-POS ) ^ ( X-END___s88 <= MAX-POS ) ) ^ ( ( X-END___s89 >= MIN-POS ) ^ ( X-END___s89 <= MAX-POS ) ) ^ ( ( X-END___s90 >= MIN-POS ) ^ ( X-END___s90 <= MAX-POS ) ) ^ ( ( X-END___s91 >= MIN-POS ) ^ ( X-END___s91 <= MAX-POS ) ) ^ ( ( X-END___s92 >= MIN-POS ) ^ ( X-END___s92 <= MAX-POS ) ) ^ ( ( X-END___s93 >= MIN-POS ) ^ ( X-END___s93 <= MAX-POS ) ) ^ ( ( X-END___s94 >= MIN-POS ) ^ ( X-END___s94 <= MAX-POS ) ) ^ ( ( X-END___s95 >= MIN-POS ) ^ ( X-END___s95 <= MAX-POS ) ) ^ ( ( X-END___s96 >= MIN-POS ) ^ ( X-END___s96 <= MAX-POS ) ) ^ ( ( X-END___s97 >= MIN-POS ) ^ ( X-END___s97 <= MAX-POS ) ) ^ ( ( X-END___s98 >= MIN-POS ) ^ ( X-END___s98 <= MAX-POS ) ) ^ ( ( X-END___s99 >= MIN-POS ) ^ ( X-END___s99 <= MAX-POS ) );
+		( X-END___s1 > X-START___s1 ) ^ ( X-END___s2 > X-START___s2 ) ^ ( X-END___s3 > X-START___s3 ) ^ ( X-END___s4 > X-START___s4 ) ^ ( X-END___s5 > X-START___s5 ) ^ ( X-END___s6 > X-START___s6 ) ^ ( X-END___s7 > X-START___s7 ) ^ ( X-END___s8 > X-START___s8 ) ^ ( X-END___s9 > X-START___s9 ) ^ ( X-END___s10 > X-START___s10 ) ^ ( X-END___s11 > X-START___s11 ) ^ ( X-END___s12 > X-START___s12 ) ^ ( X-END___s13 > X-START___s13 ) ^ ( X-END___s14 > X-START___s14 ) ^ ( X-END___s15 > X-START___s15 ) ^ ( X-END___s16 > X-START___s16 ) ^ ( X-END___s17 > X-START___s17 ) ^ ( X-END___s18 > X-START___s18 ) ^ ( X-END___s19 > X-START___s19 ) ^ ( X-END___s20 > X-START___s20 ) ^ ( X-END___s21 > X-START___s21 ) ^ ( X-END___s22 > X-START___s22 ) ^ ( X-END___s23 > X-START___s23 ) ^ ( X-END___s24 > X-START___s24 ) ^ ( X-END___s25 > X-START___s25 ) ^ ( X-END___s26 > X-START___s26 ) ^ ( X-END___s27 > X-START___s27 ) ^ ( X-END___s28 > X-START___s28 ) ^ ( X-END___s29 > X-START___s29 ) ^ ( X-END___s30 > X-START___s30 ) ^ ( X-END___s31 > X-START___s31 ) ^ ( X-END___s32 > X-START___s32 ) ^ ( X-END___s33 > X-START___s33 ) ^ ( X-END___s34 > X-START___s34 ) ^ ( X-END___s35 > X-START___s35 ) ^ ( X-END___s36 > X-START___s36 ) ^ ( X-END___s37 > X-START___s37 ) ^ ( X-END___s38 > X-START___s38 ) ^ ( X-END___s39 > X-START___s39 ) ^ ( X-END___s40 > X-START___s40 ) ^ ( X-END___s41 > X-START___s41 ) ^ ( X-END___s42 > X-START___s42 ) ^ ( X-END___s43 > X-START___s43 ) ^ ( X-END___s44 > X-START___s44 ) ^ ( X-END___s45 > X-START___s45 ) ^ ( X-END___s46 > X-START___s46 ) ^ ( X-END___s47 > X-START___s47 ) ^ ( X-END___s48 > X-START___s48 ) ^ ( X-END___s49 > X-START___s49 ) ^ ( X-END___s50 > X-START___s50 ) ^ ( X-END___s51 > X-START___s51 ) ^ ( X-END___s52 > X-START___s52 ) ^ ( X-END___s53 > X-START___s53 ) ^ ( X-END___s54 > X-START___s54 ) ^ ( X-END___s55 > X-START___s55 ) ^ ( X-END___s56 > X-START___s56 ) ^ ( X-END___s57 > X-START___s57 ) ^ ( X-END___s58 > X-START___s58 ) ^ ( X-END___s59 > X-START___s59 ) ^ ( X-END___s60 > X-START___s60 ) ^ ( X-END___s61 > X-START___s61 ) ^ ( X-END___s62 > X-START___s62 ) ^ ( X-END___s63 > X-START___s63 ) ^ ( X-END___s64 > X-START___s64 ) ^ ( X-END___s65 > X-START___s65 ) ^ ( X-END___s66 > X-START___s66 ) ^ ( X-END___s67 > X-START___s67 ) ^ ( X-END___s68 > X-START___s68 ) ^ ( X-END___s69 > X-START___s69 ) ^ ( X-END___s70 > X-START___s70 ) ^ ( X-END___s71 > X-START___s71 ) ^ ( X-END___s72 > X-START___s72 ) ^ ( X-END___s73 > X-START___s73 ) ^ ( X-END___s74 > X-START___s74 ) ^ ( X-END___s75 > X-START___s75 ) ^ ( X-END___s76 > X-START___s76 ) ^ ( X-END___s77 > X-START___s77 ) ^ ( X-END___s78 > X-START___s78 ) ^ ( X-END___s79 > X-START___s79 ) ^ ( X-END___s80 > X-START___s80 ) ^ ( X-END___s81 > X-START___s81 ) ^ ( X-END___s82 > X-START___s82 ) ^ ( X-END___s83 > X-START___s83 ) ^ ( X-END___s84 > X-START___s84 ) ^ ( X-END___s85 > X-START___s85 ) ^ ( X-END___s86 > X-START___s86 ) ^ ( X-END___s87 > X-START___s87 ) ^ ( X-END___s88 > X-START___s88 ) ^ ( X-END___s89 > X-START___s89 ) ^ ( X-END___s90 > X-START___s90 ) ^ ( X-END___s91 > X-START___s91 ) ^ ( X-END___s92 > X-START___s92 ) ^ ( X-END___s93 > X-START___s93 ) ^ ( X-END___s94 > X-START___s94 ) ^ ( X-END___s95 > X-START___s95 ) ^ ( X-END___s96 > X-START___s96 ) ^ ( X-END___s97 > X-START___s97 ) ^ ( X-END___s98 > X-START___s98 ) ^ ( X-END___s99 > X-START___s99 );
+		( ( Y-START___s1 >= 0 ) ^ ( Y-START___s1 <= 1 ) ) ^ ( ( Y-START___s2 >= 0 ) ^ ( Y-START___s2 <= 1 ) ) ^ ( ( Y-START___s3 >= 0 ) ^ ( Y-START___s3 <= 1 ) ) ^ ( ( Y-START___s4 >= 0 ) ^ ( Y-START___s4 <= 1 ) ) ^ ( ( Y-START___s5 >= 0 ) ^ ( Y-START___s5 <= 1 ) ) ^ ( ( Y-START___s6 >= 0 ) ^ ( Y-START___s6 <= 1 ) ) ^ ( ( Y-START___s7 >= 0 ) ^ ( Y-START___s7 <= 1 ) ) ^ ( ( Y-START___s8 >= 0 ) ^ ( Y-START___s8 <= 1 ) ) ^ ( ( Y-START___s9 >= 0 ) ^ ( Y-START___s9 <= 1 ) ) ^ ( ( Y-START___s10 >= 0 ) ^ ( Y-START___s10 <= 1 ) ) ^ ( ( Y-START___s11 >= 0 ) ^ ( Y-START___s11 <= 1 ) ) ^ ( ( Y-START___s12 >= 0 ) ^ ( Y-START___s12 <= 1 ) ) ^ ( ( Y-START___s13 >= 0 ) ^ ( Y-START___s13 <= 1 ) ) ^ ( ( Y-START___s14 >= 0 ) ^ ( Y-START___s14 <= 1 ) ) ^ ( ( Y-START___s15 >= 0 ) ^ ( Y-START___s15 <= 1 ) ) ^ ( ( Y-START___s16 >= 0 ) ^ ( Y-START___s16 <= 1 ) ) ^ ( ( Y-START___s17 >= 0 ) ^ ( Y-START___s17 <= 1 ) ) ^ ( ( Y-START___s18 >= 0 ) ^ ( Y-START___s18 <= 1 ) ) ^ ( ( Y-START___s19 >= 0 ) ^ ( Y-START___s19 <= 1 ) ) ^ ( ( Y-START___s20 >= 0 ) ^ ( Y-START___s20 <= 1 ) ) ^ ( ( Y-START___s21 >= 0 ) ^ ( Y-START___s21 <= 1 ) ) ^ ( ( Y-START___s22 >= 0 ) ^ ( Y-START___s22 <= 1 ) ) ^ ( ( Y-START___s23 >= 0 ) ^ ( Y-START___s23 <= 1 ) ) ^ ( ( Y-START___s24 >= 0 ) ^ ( Y-START___s24 <= 1 ) ) ^ ( ( Y-START___s25 >= 0 ) ^ ( Y-START___s25 <= 1 ) ) ^ ( ( Y-START___s26 >= 0 ) ^ ( Y-START___s26 <= 1 ) ) ^ ( ( Y-START___s27 >= 0 ) ^ ( Y-START___s27 <= 1 ) ) ^ ( ( Y-START___s28 >= 0 ) ^ ( Y-START___s28 <= 1 ) ) ^ ( ( Y-START___s29 >= 0 ) ^ ( Y-START___s29 <= 1 ) ) ^ ( ( Y-START___s30 >= 0 ) ^ ( Y-START___s30 <= 1 ) ) ^ ( ( Y-START___s31 >= 0 ) ^ ( Y-START___s31 <= 1 ) ) ^ ( ( Y-START___s32 >= 0 ) ^ ( Y-START___s32 <= 1 ) ) ^ ( ( Y-START___s33 >= 0 ) ^ ( Y-START___s33 <= 1 ) ) ^ ( ( Y-START___s34 >= 0 ) ^ ( Y-START___s34 <= 1 ) ) ^ ( ( Y-START___s35 >= 0 ) ^ ( Y-START___s35 <= 1 ) ) ^ ( ( Y-START___s36 >= 0 ) ^ ( Y-START___s36 <= 1 ) ) ^ ( ( Y-START___s37 >= 0 ) ^ ( Y-START___s37 <= 1 ) ) ^ ( ( Y-START___s38 >= 0 ) ^ ( Y-START___s38 <= 1 ) ) ^ ( ( Y-START___s39 >= 0 ) ^ ( Y-START___s39 <= 1 ) ) ^ ( ( Y-START___s40 >= 0 ) ^ ( Y-START___s40 <= 1 ) ) ^ ( ( Y-START___s41 >= 0 ) ^ ( Y-START___s41 <= 1 ) ) ^ ( ( Y-START___s42 >= 0 ) ^ ( Y-START___s42 <= 1 ) ) ^ ( ( Y-START___s43 >= 0 ) ^ ( Y-START___s43 <= 1 ) ) ^ ( ( Y-START___s44 >= 0 ) ^ ( Y-START___s44 <= 1 ) ) ^ ( ( Y-START___s45 >= 0 ) ^ ( Y-START___s45 <= 1 ) ) ^ ( ( Y-START___s46 >= 0 ) ^ ( Y-START___s46 <= 1 ) ) ^ ( ( Y-START___s47 >= 0 ) ^ ( Y-START___s47 <= 1 ) ) ^ ( ( Y-START___s48 >= 0 ) ^ ( Y-START___s48 <= 1 ) ) ^ ( ( Y-START___s49 >= 0 ) ^ ( Y-START___s49 <= 1 ) ) ^ ( ( Y-START___s50 >= 0 ) ^ ( Y-START___s50 <= 1 ) ) ^ ( ( Y-START___s51 >= 0 ) ^ ( Y-START___s51 <= 1 ) ) ^ ( ( Y-START___s52 >= 0 ) ^ ( Y-START___s52 <= 1 ) ) ^ ( ( Y-START___s53 >= 0 ) ^ ( Y-START___s53 <= 1 ) ) ^ ( ( Y-START___s54 >= 0 ) ^ ( Y-START___s54 <= 1 ) ) ^ ( ( Y-START___s55 >= 0 ) ^ ( Y-START___s55 <= 1 ) ) ^ ( ( Y-START___s56 >= 0 ) ^ ( Y-START___s56 <= 1 ) ) ^ ( ( Y-START___s57 >= 0 ) ^ ( Y-START___s57 <= 1 ) ) ^ ( ( Y-START___s58 >= 0 ) ^ ( Y-START___s58 <= 1 ) ) ^ ( ( Y-START___s59 >= 0 ) ^ ( Y-START___s59 <= 1 ) ) ^ ( ( Y-START___s60 >= 0 ) ^ ( Y-START___s60 <= 1 ) ) ^ ( ( Y-START___s61 >= 0 ) ^ ( Y-START___s61 <= 1 ) ) ^ ( ( Y-START___s62 >= 0 ) ^ ( Y-START___s62 <= 1 ) ) ^ ( ( Y-START___s63 >= 0 ) ^ ( Y-START___s63 <= 1 ) ) ^ ( ( Y-START___s64 >= 0 ) ^ ( Y-START___s64 <= 1 ) ) ^ ( ( Y-START___s65 >= 0 ) ^ ( Y-START___s65 <= 1 ) ) ^ ( ( Y-START___s66 >= 0 ) ^ ( Y-START___s66 <= 1 ) ) ^ ( ( Y-START___s67 >= 0 ) ^ ( Y-START___s67 <= 1 ) ) ^ ( ( Y-START___s68 >= 0 ) ^ ( Y-START___s68 <= 1 ) ) ^ ( ( Y-START___s69 >= 0 ) ^ ( Y-START___s69 <= 1 ) ) ^ ( ( Y-START___s70 >= 0 ) ^ ( Y-START___s70 <= 1 ) ) ^ ( ( Y-START___s71 >= 0 ) ^ ( Y-START___s71 <= 1 ) ) ^ ( ( Y-START___s72 >= 0 ) ^ ( Y-START___s72 <= 1 ) ) ^ ( ( Y-START___s73 >= 0 ) ^ ( Y-START___s73 <= 1 ) ) ^ ( ( Y-START___s74 >= 0 ) ^ ( Y-START___s74 <= 1 ) ) ^ ( ( Y-START___s75 >= 0 ) ^ ( Y-START___s75 <= 1 ) ) ^ ( ( Y-START___s76 >= 0 ) ^ ( Y-START___s76 <= 1 ) ) ^ ( ( Y-START___s77 >= 0 ) ^ ( Y-START___s77 <= 1 ) ) ^ ( ( Y-START___s78 >= 0 ) ^ ( Y-START___s78 <= 1 ) ) ^ ( ( Y-START___s79 >= 0 ) ^ ( Y-START___s79 <= 1 ) ) ^ ( ( Y-START___s80 >= 0 ) ^ ( Y-START___s80 <= 1 ) ) ^ ( ( Y-START___s81 >= 0 ) ^ ( Y-START___s81 <= 1 ) ) ^ ( ( Y-START___s82 >= 0 ) ^ ( Y-START___s82 <= 1 ) ) ^ ( ( Y-START___s83 >= 0 ) ^ ( Y-START___s83 <= 1 ) ) ^ ( ( Y-START___s84 >= 0 ) ^ ( Y-START___s84 <= 1 ) ) ^ ( ( Y-START___s85 >= 0 ) ^ ( Y-START___s85 <= 1 ) ) ^ ( ( Y-START___s86 >= 0 ) ^ ( Y-START___s86 <= 1 ) ) ^ ( ( Y-START___s87 >= 0 ) ^ ( Y-START___s87 <= 1 ) ) ^ ( ( Y-START___s88 >= 0 ) ^ ( Y-START___s88 <= 1 ) ) ^ ( ( Y-START___s89 >= 0 ) ^ ( Y-START___s89 <= 1 ) ) ^ ( ( Y-START___s90 >= 0 ) ^ ( Y-START___s90 <= 1 ) ) ^ ( ( Y-START___s91 >= 0 ) ^ ( Y-START___s91 <= 1 ) ) ^ ( ( Y-START___s92 >= 0 ) ^ ( Y-START___s92 <= 1 ) ) ^ ( ( Y-START___s93 >= 0 ) ^ ( Y-START___s93 <= 1 ) ) ^ ( ( Y-START___s94 >= 0 ) ^ ( Y-START___s94 <= 1 ) ) ^ ( ( Y-START___s95 >= 0 ) ^ ( Y-START___s95 <= 1 ) ) ^ ( ( Y-START___s96 >= 0 ) ^ ( Y-START___s96 <= 1 ) ) ^ ( ( Y-START___s97 >= 0 ) ^ ( Y-START___s97 <= 1 ) ) ^ ( ( Y-START___s98 >= 0 ) ^ ( Y-START___s98 <= 1 ) ) ^ ( ( Y-START___s99 >= 0 ) ^ ( Y-START___s99 <= 1 ) );
+		( ( Y-END___s1 >= 0 ) ^ ( Y-END___s1 <= 1 ) ) ^ ( ( Y-END___s2 >= 0 ) ^ ( Y-END___s2 <= 1 ) ) ^ ( ( Y-END___s3 >= 0 ) ^ ( Y-END___s3 <= 1 ) ) ^ ( ( Y-END___s4 >= 0 ) ^ ( Y-END___s4 <= 1 ) ) ^ ( ( Y-END___s5 >= 0 ) ^ ( Y-END___s5 <= 1 ) ) ^ ( ( Y-END___s6 >= 0 ) ^ ( Y-END___s6 <= 1 ) ) ^ ( ( Y-END___s7 >= 0 ) ^ ( Y-END___s7 <= 1 ) ) ^ ( ( Y-END___s8 >= 0 ) ^ ( Y-END___s8 <= 1 ) ) ^ ( ( Y-END___s9 >= 0 ) ^ ( Y-END___s9 <= 1 ) ) ^ ( ( Y-END___s10 >= 0 ) ^ ( Y-END___s10 <= 1 ) ) ^ ( ( Y-END___s11 >= 0 ) ^ ( Y-END___s11 <= 1 ) ) ^ ( ( Y-END___s12 >= 0 ) ^ ( Y-END___s12 <= 1 ) ) ^ ( ( Y-END___s13 >= 0 ) ^ ( Y-END___s13 <= 1 ) ) ^ ( ( Y-END___s14 >= 0 ) ^ ( Y-END___s14 <= 1 ) ) ^ ( ( Y-END___s15 >= 0 ) ^ ( Y-END___s15 <= 1 ) ) ^ ( ( Y-END___s16 >= 0 ) ^ ( Y-END___s16 <= 1 ) ) ^ ( ( Y-END___s17 >= 0 ) ^ ( Y-END___s17 <= 1 ) ) ^ ( ( Y-END___s18 >= 0 ) ^ ( Y-END___s18 <= 1 ) ) ^ ( ( Y-END___s19 >= 0 ) ^ ( Y-END___s19 <= 1 ) ) ^ ( ( Y-END___s20 >= 0 ) ^ ( Y-END___s20 <= 1 ) ) ^ ( ( Y-END___s21 >= 0 ) ^ ( Y-END___s21 <= 1 ) ) ^ ( ( Y-END___s22 >= 0 ) ^ ( Y-END___s22 <= 1 ) ) ^ ( ( Y-END___s23 >= 0 ) ^ ( Y-END___s23 <= 1 ) ) ^ ( ( Y-END___s24 >= 0 ) ^ ( Y-END___s24 <= 1 ) ) ^ ( ( Y-END___s25 >= 0 ) ^ ( Y-END___s25 <= 1 ) ) ^ ( ( Y-END___s26 >= 0 ) ^ ( Y-END___s26 <= 1 ) ) ^ ( ( Y-END___s27 >= 0 ) ^ ( Y-END___s27 <= 1 ) ) ^ ( ( Y-END___s28 >= 0 ) ^ ( Y-END___s28 <= 1 ) ) ^ ( ( Y-END___s29 >= 0 ) ^ ( Y-END___s29 <= 1 ) ) ^ ( ( Y-END___s30 >= 0 ) ^ ( Y-END___s30 <= 1 ) ) ^ ( ( Y-END___s31 >= 0 ) ^ ( Y-END___s31 <= 1 ) ) ^ ( ( Y-END___s32 >= 0 ) ^ ( Y-END___s32 <= 1 ) ) ^ ( ( Y-END___s33 >= 0 ) ^ ( Y-END___s33 <= 1 ) ) ^ ( ( Y-END___s34 >= 0 ) ^ ( Y-END___s34 <= 1 ) ) ^ ( ( Y-END___s35 >= 0 ) ^ ( Y-END___s35 <= 1 ) ) ^ ( ( Y-END___s36 >= 0 ) ^ ( Y-END___s36 <= 1 ) ) ^ ( ( Y-END___s37 >= 0 ) ^ ( Y-END___s37 <= 1 ) ) ^ ( ( Y-END___s38 >= 0 ) ^ ( Y-END___s38 <= 1 ) ) ^ ( ( Y-END___s39 >= 0 ) ^ ( Y-END___s39 <= 1 ) ) ^ ( ( Y-END___s40 >= 0 ) ^ ( Y-END___s40 <= 1 ) ) ^ ( ( Y-END___s41 >= 0 ) ^ ( Y-END___s41 <= 1 ) ) ^ ( ( Y-END___s42 >= 0 ) ^ ( Y-END___s42 <= 1 ) ) ^ ( ( Y-END___s43 >= 0 ) ^ ( Y-END___s43 <= 1 ) ) ^ ( ( Y-END___s44 >= 0 ) ^ ( Y-END___s44 <= 1 ) ) ^ ( ( Y-END___s45 >= 0 ) ^ ( Y-END___s45 <= 1 ) ) ^ ( ( Y-END___s46 >= 0 ) ^ ( Y-END___s46 <= 1 ) ) ^ ( ( Y-END___s47 >= 0 ) ^ ( Y-END___s47 <= 1 ) ) ^ ( ( Y-END___s48 >= 0 ) ^ ( Y-END___s48 <= 1 ) ) ^ ( ( Y-END___s49 >= 0 ) ^ ( Y-END___s49 <= 1 ) ) ^ ( ( Y-END___s50 >= 0 ) ^ ( Y-END___s50 <= 1 ) ) ^ ( ( Y-END___s51 >= 0 ) ^ ( Y-END___s51 <= 1 ) ) ^ ( ( Y-END___s52 >= 0 ) ^ ( Y-END___s52 <= 1 ) ) ^ ( ( Y-END___s53 >= 0 ) ^ ( Y-END___s53 <= 1 ) ) ^ ( ( Y-END___s54 >= 0 ) ^ ( Y-END___s54 <= 1 ) ) ^ ( ( Y-END___s55 >= 0 ) ^ ( Y-END___s55 <= 1 ) ) ^ ( ( Y-END___s56 >= 0 ) ^ ( Y-END___s56 <= 1 ) ) ^ ( ( Y-END___s57 >= 0 ) ^ ( Y-END___s57 <= 1 ) ) ^ ( ( Y-END___s58 >= 0 ) ^ ( Y-END___s58 <= 1 ) ) ^ ( ( Y-END___s59 >= 0 ) ^ ( Y-END___s59 <= 1 ) ) ^ ( ( Y-END___s60 >= 0 ) ^ ( Y-END___s60 <= 1 ) ) ^ ( ( Y-END___s61 >= 0 ) ^ ( Y-END___s61 <= 1 ) ) ^ ( ( Y-END___s62 >= 0 ) ^ ( Y-END___s62 <= 1 ) ) ^ ( ( Y-END___s63 >= 0 ) ^ ( Y-END___s63 <= 1 ) ) ^ ( ( Y-END___s64 >= 0 ) ^ ( Y-END___s64 <= 1 ) ) ^ ( ( Y-END___s65 >= 0 ) ^ ( Y-END___s65 <= 1 ) ) ^ ( ( Y-END___s66 >= 0 ) ^ ( Y-END___s66 <= 1 ) ) ^ ( ( Y-END___s67 >= 0 ) ^ ( Y-END___s67 <= 1 ) ) ^ ( ( Y-END___s68 >= 0 ) ^ ( Y-END___s68 <= 1 ) ) ^ ( ( Y-END___s69 >= 0 ) ^ ( Y-END___s69 <= 1 ) ) ^ ( ( Y-END___s70 >= 0 ) ^ ( Y-END___s70 <= 1 ) ) ^ ( ( Y-END___s71 >= 0 ) ^ ( Y-END___s71 <= 1 ) ) ^ ( ( Y-END___s72 >= 0 ) ^ ( Y-END___s72 <= 1 ) ) ^ ( ( Y-END___s73 >= 0 ) ^ ( Y-END___s73 <= 1 ) ) ^ ( ( Y-END___s74 >= 0 ) ^ ( Y-END___s74 <= 1 ) ) ^ ( ( Y-END___s75 >= 0 ) ^ ( Y-END___s75 <= 1 ) ) ^ ( ( Y-END___s76 >= 0 ) ^ ( Y-END___s76 <= 1 ) ) ^ ( ( Y-END___s77 >= 0 ) ^ ( Y-END___s77 <= 1 ) ) ^ ( ( Y-END___s78 >= 0 ) ^ ( Y-END___s78 <= 1 ) ) ^ ( ( Y-END___s79 >= 0 ) ^ ( Y-END___s79 <= 1 ) ) ^ ( ( Y-END___s80 >= 0 ) ^ ( Y-END___s80 <= 1 ) ) ^ ( ( Y-END___s81 >= 0 ) ^ ( Y-END___s81 <= 1 ) ) ^ ( ( Y-END___s82 >= 0 ) ^ ( Y-END___s82 <= 1 ) ) ^ ( ( Y-END___s83 >= 0 ) ^ ( Y-END___s83 <= 1 ) ) ^ ( ( Y-END___s84 >= 0 ) ^ ( Y-END___s84 <= 1 ) ) ^ ( ( Y-END___s85 >= 0 ) ^ ( Y-END___s85 <= 1 ) ) ^ ( ( Y-END___s86 >= 0 ) ^ ( Y-END___s86 <= 1 ) ) ^ ( ( Y-END___s87 >= 0 ) ^ ( Y-END___s87 <= 1 ) ) ^ ( ( Y-END___s88 >= 0 ) ^ ( Y-END___s88 <= 1 ) ) ^ ( ( Y-END___s89 >= 0 ) ^ ( Y-END___s89 <= 1 ) ) ^ ( ( Y-END___s90 >= 0 ) ^ ( Y-END___s90 <= 1 ) ) ^ ( ( Y-END___s91 >= 0 ) ^ ( Y-END___s91 <= 1 ) ) ^ ( ( Y-END___s92 >= 0 ) ^ ( Y-END___s92 <= 1 ) ) ^ ( ( Y-END___s93 >= 0 ) ^ ( Y-END___s93 <= 1 ) ) ^ ( ( Y-END___s94 >= 0 ) ^ ( Y-END___s94 <= 1 ) ) ^ ( ( Y-END___s95 >= 0 ) ^ ( Y-END___s95 <= 1 ) ) ^ ( ( Y-END___s96 >= 0 ) ^ ( Y-END___s96 <= 1 ) ) ^ ( ( Y-END___s97 >= 0 ) ^ ( Y-END___s97 <= 1 ) ) ^ ( ( Y-END___s98 >= 0 ) ^ ( Y-END___s98 <= 1 ) ) ^ ( ( Y-END___s99 >= 0 ) ^ ( Y-END___s99 <= 1 ) );
+	};
+
+	action-preconditions {
+		action >= ( -1 );
+		action <= 1;
+	};
+
+	termination {
+		( pos >= GOAL-MIN ) ^ ( vel >= VEL-MIN );
+	};
+}

@@ -32,7 +32,7 @@ class TrainingParameters:
     epochs:             int
     seed:               jax.random.PRNGKey
     train_seconds:      int
-    policy_hyperparams: dict
+    policy_hyperparams: float | None
     stopping_rule:      JaxPlannerStoppingRule
 
 @dataclass(frozen=False)
@@ -40,7 +40,7 @@ class PlannerParameters:
     model_params:               PlanningModelParameters
     optimizer_params:           OptimizerParameters   
     training_params:            TrainingParameters
-    topology:                   List[int] = None
+    topology:                   List[int] | None = None
     
     def is_drp(self):
         return self.topology is not None
@@ -75,7 +75,7 @@ class DomainInstanceExperiment:
         
         return domain_file_path, instance_file_path
 
-def get_planner_parameters(model_weight : int, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: dict = None, topology : List[int] = None):
+def get_planner_parameters(model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] = None):
     return PlannerParameters(
         topology = topology,
         model_params = PlanningModelParameters(
@@ -152,11 +152,18 @@ def run_jax_planner(name : str, rddl_model : RDDLPlanningModel, planner_paramete
         optimizer_kwargs = {'learning_rate': planner_parameters.optimizer_params.learning_rate},
         action_bounds    = planner_parameters.optimizer_params.action_bounds)
 
+    policy_hyperparams = None
+    if planner_parameters.training_params.policy_hyperparams is not None:
+        policy_hyperparams = {
+            action: planner_parameters.training_params.policy_hyperparams
+            for action in rddl_model.action_fluents
+        }
+
     # run the planner as an optimization process
     planner_callbacks = planner.optimize_generator(
         planner_parameters.training_params.seed, 
         epochs                 = planner_parameters.training_params.epochs, 
-        policy_hyperparams     = planner_parameters.training_params.policy_hyperparams,
+        policy_hyperparams     = policy_hyperparams,
         train_seconds          = planner_parameters.training_params.train_seconds,
         guess                  = planner_parameters.optimizer_params.guess,
         print_summary          = not silent,

@@ -50,7 +50,7 @@ root_folder = os.path.dirname(__file__)
 def perform_experiment(domain_instance_experiment, strategy_name, threshold):
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Threshold: {threshold}')
     
-    domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
+    # domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
     fluents_to_freeze_path = f"{root_folder}/_results/fluents_to_ablate_{file_common_suffix}.csv"
@@ -58,7 +58,7 @@ def perform_experiment(domain_instance_experiment, strategy_name, threshold):
         print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
         return
 
-    regular_environment = pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path)
+    regular_environment = pyRDDLGym.make(domain=domain_instance_experiment.domain_name, instance=domain_instance_experiment.instance_name)
 
     fluents_to_ablate = get_ground_fluents_to_ablate(domain_instance_experiment, fluents_to_freeze_path)
     grounded_model = get_grounded_model_with_frozen_fluent(regular_environment, fluents_to_ablate)
