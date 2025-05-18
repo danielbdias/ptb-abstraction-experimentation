@@ -8,7 +8,7 @@ from dataclasses import dataclass
 tuning_seed = 42
 eval_trials = 5
 num_workers = 6
-gp_iters = 10
+gp_iters = 5
 
 silent = True
 run_drp = True
@@ -42,9 +42,9 @@ experiments = [
     # domain_instance_tuning_data('Reservoir_ippc2023', '3'),
     
     # Continuous and Discrete (Mixed) Domains
-    domain_instance_tuning_data('MarsRover_ippc2023', '3'),
-    domain_instance_tuning_data('HVAC_ippc2023', '3'),
-    domain_instance_tuning_data('PowerGen_ippc2023', '3'),
+    # domain_instance_tuning_data('MarsRover_ippc2023', '3'),
+    # domain_instance_tuning_data('HVAC_ippc2023', '3'),
+    # domain_instance_tuning_data('PowerGen_ippc2023', '3'),
     
     # Discrete Domains
     domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5'),

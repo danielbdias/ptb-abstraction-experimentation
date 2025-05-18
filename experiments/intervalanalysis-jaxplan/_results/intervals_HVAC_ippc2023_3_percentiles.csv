@@ -1,0 +1,16 @@
+Domain;Fluent;Accumulated Reward (LB);Accumulated Reward (UB);Range (fluent);Range (regular MDP);Score (as Diff);Score (as Explained Interval)
+HVAC_ippc2023;temp-zone___z1;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-zone___z2;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-zone___z3;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-zone___z4;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-zone___z5;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-heater___h1;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-heater___h2;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-heater___h3;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-heater___h4;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;temp-heater___h5;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;occupied___z1;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;occupied___z2;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;occupied___z3;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;occupied___z4;-inf;inf;inf;inf;nan;nan
+HVAC_ippc2023;occupied___z5;-inf;inf;inf;inf;nan;nan
