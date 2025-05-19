@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+import os
+import pyRDDLGym
 
 #####################################################################################################################################
 # This file provides configuration for the experiments directly in python variables,
@@ -8,7 +10,7 @@ from dataclasses import dataclass
 tuning_seed = 42
 eval_trials = 5
 num_workers = 6
-gp_iters = 5
+gp_iters = 10
 
 silent = True
 run_drp = True
@@ -25,6 +27,15 @@ class DomainInstanceTuningData:
         instance_file_path = f'{domain_path}/{self.instance_name}.rddl'
         
         return domain_file_path, instance_file_path
+    
+    def get_pyrddlgym_environment(self, root_folder : str, vectorized : bool = False):
+        domain_file_path, instance_file_path = self.get_experiment_paths(root_folder)
+        
+        # check if the domain and instance files exist
+        if os.path.exists(domain_file_path) and os.path.exists(instance_file_path):
+            return pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=vectorized)
+        
+        return pyRDDLGym.make(domain=self.domain_name, instance=self.instance_name, vectorized=vectorized)
 
 def domain_instance_tuning_data(domain_name, instance_name):
     experiment = DomainInstanceTuningData(
@@ -43,8 +54,8 @@ experiments = [
     
     # Continuous and Discrete (Mixed) Domains
     # domain_instance_tuning_data('MarsRover_ippc2023', '3'),
-    # domain_instance_tuning_data('HVAC_ippc2023', '3'),
-    # domain_instance_tuning_data('PowerGen_ippc2023', '3'),
+    domain_instance_tuning_data('HVAC', 'inst_5_zones_5_heaters'),
+    domain_instance_tuning_data('PowerGen', 'inst_5_gen'),
     
     # Discrete Domains
     domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5'),

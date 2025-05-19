@@ -80,12 +80,12 @@ class DomainInstanceExperiment:
         domain_file_path, instance_file_path = self.get_experiment_paths(root_folder)
         
         # check if the domain and instance files exist
-        if not os.path.exists(domain_file_path) or not os.path.exists(instance_file_path):
-            return pyRDDLGym.make(domain=self.domain_name, instance=self.instance_name, vectorized=vectorized)
+        if os.path.exists(domain_file_path) and os.path.exists(instance_file_path):
+            return pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=vectorized)
         
-        return pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=vectorized)
+        return pyRDDLGym.make(domain=self.domain_name, instance=self.instance_name, vectorized=vectorized)
 
-def get_planner_parameters(model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] = None):
+def get_planner_parameters(model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] | None = None):
     return PlannerParameters(
         topology = topology,
         model_params = PlanningModelParameters(

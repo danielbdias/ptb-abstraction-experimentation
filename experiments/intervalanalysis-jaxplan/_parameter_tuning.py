@@ -1,4 +1,3 @@
-import pyRDDLGym
 from pyRDDLGym_jax.core.tuning import JaxParameterTuning, Hyperparameter
 
 from _config_tuning import experiments, tuning_seed, eval_trials, num_workers, gp_iters
@@ -41,7 +40,7 @@ if __name__ == '__main__':
         ]
 
         # set up the environment   
-        env = pyRDDLGym.make(domain_file_path, instance_file_path, vectorized=True)
+        env = domain_instance_experiment.get_pyrddlgym_environment(root_folder, vectorized=True)
 
         # build the tuner and tune
         tuning = JaxParameterTuning(env=env,
