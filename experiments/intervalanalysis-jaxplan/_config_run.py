@@ -71,31 +71,31 @@ experiments = [
     # ),
     
     # Continuous and Discrete (Mixed) Domains
+    # domain_instance_experiment(
+    #     'MarsRover_ippc2023', '3', iter_cutting_point=4_000,
+    #     drp_experiment_params = get_planner_parameters(model_weight=9733.585251841243, learning_rate=0.010597465543046915, batch_size=32, epochs=10_000, topology=[174, 92], policy_hyperparams=60.07439949582946126)
+    # ),
     domain_instance_experiment(
-        'MarsRover_ippc2023', '3', iter_cutting_point=4_000,
-        drp_experiment_params = get_planner_parameters(model_weight=9733.585251841243, learning_rate=0.010597465543046915, batch_size=32, epochs=10_000, topology=[174, 92], policy_hyperparams=60.07439949582946126)
-    ),
-    domain_instance_experiment(
-        'HVAC_ippc2023', '3', iter_cutting_point=10_000,
+        'HVAC', 'inst_5_zones_5_heaters', iter_cutting_point=10_000,
         drp_experiment_params = get_planner_parameters(model_weight=5, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[64, 64])
     ),
     domain_instance_experiment(
-        'PowerGen_ippc2023', '3', iter_cutting_point=8_000,
+        'PowerGen', 'inst_5_gen', iter_cutting_point=8_000,
         drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=10_000, topology=[256, 128])
     ),
     
     # Discrete Domains
-    # domain_instance_experiment(
-    #     'Wildfire', 'inst_5x5_grid',
-    #     drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
-    # ),
-    # domain_instance_experiment(
-    #     'SysAdmin', 'instance2',
-    #     drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
-    # ),
-    # domain_instance_experiment(
-    #     'TriangleTireworld', 'instance4',
-    #     drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
-    # ),
-    # 
+    domain_instance_experiment(
+        'Wildfire', 'inst_5x5_grid', iter_cutting_point=10_000,
+        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
+    ),
+    domain_instance_experiment(
+        'SysAdmin', 'instance2', iter_cutting_point=10_000,
+        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
+    ),
+    domain_instance_experiment(
+        'TriangleTireworld', 'instance4', iter_cutting_point=10_000,
+        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
+    ),
+    
 ]

@@ -2,6 +2,7 @@ import jax
 import optax
 import os
 import time
+import pyRDDLGym
 
 from dataclasses import dataclass
 from typing import List, Set
@@ -68,12 +69,21 @@ class DomainInstanceExperiment:
     def get_state_fluents(self, rddl_model):
         return list(rddl_model.state_fluents.keys())
     
-    def get_experiment_paths(self, root_folder):
+    def get_experiment_paths(self, root_folder : str):
         domain_path = f"{root_folder}/domains/{self.domain_name}"
         domain_file_path = f'{domain_path}/domain.rddl'
         instance_file_path = f'{domain_path}/{self.instance_name}.rddl'
         
         return domain_file_path, instance_file_path
+    
+    def get_pyrddlgym_environment(self, root_folder : str, vectorized : bool = False):
+        domain_file_path, instance_file_path = self.get_experiment_paths(root_folder)
+        
+        # check if the domain and instance files exist
+        if not os.path.exists(domain_file_path) or not os.path.exists(instance_file_path):
+            return pyRDDLGym.make(domain=self.domain_name, instance=self.instance_name, vectorized=vectorized)
+        
+        return pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=vectorized)
 
 def get_planner_parameters(model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] = None):
     return PlannerParameters(

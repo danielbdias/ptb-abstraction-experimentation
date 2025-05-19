@@ -21,7 +21,7 @@ def perform_experiment(domain_instance_experiment, planner_type, experiment_para
     #########################################################################################################
     # domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
-    regular_environment = pyRDDLGym.make(domain=domain_instance_experiment.domain_name, instance=domain_instance_experiment.instance_name)
+    regular_environment = domain_instance_experiment.get_pyrddlgym_environment(root_folder)
     grounder = RDDLGrounder(regular_environment.model.ast)
     grounded_model = grounder.ground() # we need to run the base model on the same way as the other models
 

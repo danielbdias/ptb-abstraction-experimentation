@@ -174,7 +174,7 @@ def perform_interval_analysis(domain_instance_experiment, strategy_name, strateg
 
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Interval Analysis Metric: {strategy_name}')
     
-    environment = pyRDDLGym.make(domain=domain_instance_experiment.domain_name, instance=domain_instance_experiment.instance_name, vectorized=True)
+    environment = domain_instance_experiment.get_pyrddlgym_environment(root_folder, vectorized=True)
 
     discount_factor = environment.model.discount
     horizon = environment.model.horizon

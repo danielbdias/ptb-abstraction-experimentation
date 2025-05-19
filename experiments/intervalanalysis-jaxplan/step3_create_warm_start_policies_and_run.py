@@ -39,7 +39,7 @@ def perform_experiment(domain_instance_experiment, strategy_name, threshold, pla
         print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
         return
 
-    regular_environment = pyRDDLGym.make(domain=domain_instance_experiment.domain_name, instance=domain_instance_experiment.instance_name)
+    regular_environment = domain_instance_experiment.get_pyrddlgym_environment(root_folder)
     grounder = RDDLGrounder(regular_environment.model.ast)
     regular_grounded_model = grounder.ground()
     
