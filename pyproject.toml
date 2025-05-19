@@ -23,7 +23,7 @@ dependencies = [
     "tqdm>=4.66",
     "pyRDDLGym",
     "pyRDDLGym-jax @ file:///${PROJECT_ROOT}/pyRDDLGym-jax",
-    "pyRDDLGym-gurobi"
-    "scikit-learn"
+    "pyRDDLGym-gurobi",
+    "scikit-learn",
     "bayesian-optimization"
 ]
