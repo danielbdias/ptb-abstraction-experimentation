@@ -54,8 +54,8 @@ experiments = [
     
     # Continuous and Discrete (Mixed) Domains
     # domain_instance_tuning_data('MarsRover_ippc2023', '3'),
-    domain_instance_tuning_data('HVAC', 'inst_5_zones_5_heaters'),
-    domain_instance_tuning_data('PowerGen', 'inst_5_gen'),
+    # domain_instance_tuning_data('HVAC', 'inst_5_zones_5_heaters'),
+    # domain_instance_tuning_data('PowerGen', 'inst_5_gen'),
     
     # Discrete Domains
     domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5'),
