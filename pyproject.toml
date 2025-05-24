@@ -25,5 +25,7 @@ dependencies = [
     "pyRDDLGym-jax @ file:///${PROJECT_ROOT}/pyRDDLGym-jax",
     "pyRDDLGym-gurobi",
     "scikit-learn",
-    "bayesian-optimization"
+    "bayesian-optimization",
+    "rddlrepository"
+
 ]
