@@ -22,7 +22,7 @@ dependencies = [
     "termcolor",
     "tqdm>=4.66",
     "pyRDDLGym",
-    "pyRDDLGym-jax @ file:///${PROJECT_ROOT}/pyRDDLGym-jax",
+    "pyRDDLGym-jax @ git+https://github.com/danielbdias/pyRDDLGym-jax.git@update/drp-initialization",
     "pyRDDLGym-gurobi",
     "scikit-learn",
     "bayesian-optimization",

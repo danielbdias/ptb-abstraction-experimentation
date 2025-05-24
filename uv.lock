@@ -818,7 +818,7 @@ requires-dist = [
     { name = "pygame" },
     { name = "pyrddlgym" },
     { name = "pyrddlgym-gurobi" },
-    { name = "pyrddlgym-jax", directory = "pyRDDLGym-jax" },
+    { name = "pyrddlgym-jax", git = "https://github.com/danielbdias/pyRDDLGym-jax.git?rev=update%2Fdrp-initialization" },
     { name = "rddlrepository" },
     { name = "scikit-learn" },
     { name = "scipy" },
@@ -892,7 +892,7 @@ wheels = [
 [[package]]
 name = "pyrddlgym-jax"
 version = "2.4.1"
-source = { directory = "pyRDDLGym-jax" }
+source = { git = "https://github.com/danielbdias/pyRDDLGym-jax.git?rev=update%2Fdrp-initialization#404572f551badfd6d478b4d38a79fb2cb47044bc" }
 dependencies = [
     { name = "dm-haiku" },
     { name = "jax" },
@@ -900,20 +900,6 @@ dependencies = [
     { name = "pyrddlgym" },
     { name = "tensorflow-probability" },
     { name = "tqdm" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "bayesian-optimization", marker = "extra == 'extra'", specifier = ">=2.0.0" },
-    { name = "dash", marker = "extra == 'dashboard'", specifier = ">=2.18.0" },
-    { name = "dash-bootstrap-components", marker = "extra == 'dashboard'", specifier = ">=1.6.0" },
-    { name = "dm-haiku", specifier = ">=0.0.10" },
-    { name = "jax", specifier = ">=0.4.12" },
-    { name = "optax", specifier = ">=0.1.9" },
-    { name = "pyrddlgym", specifier = ">=2.0" },
-    { name = "rddlrepository", marker = "extra == 'extra'", specifier = ">=2.0" },
-    { name = "tensorflow-probability", specifier = ">=0.21.0" },
-    { name = "tqdm", specifier = ">=4.66" },
 ]
 
 [[package]]
