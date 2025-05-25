@@ -77,25 +77,25 @@ experiments = [
     # ),
     domain_instance_experiment(
         'HVAC', 'inst_5_zones_5_heaters', iter_cutting_point=10_000,
-        drp_experiment_params = get_planner_parameters(model_weight=5, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[64, 64])
+        drp_experiment_params = get_planner_parameters(model_weight=156.24303824917484, learning_rate=0.04034411767966345, batch_size=32, epochs=10_000, topology=[30, 220], policy_hyperparams=0.04589450016024262)
     ),
     domain_instance_experiment(
         'PowerGen', 'inst_5_gen', iter_cutting_point=8_000,
-        drp_experiment_params = get_planner_parameters(model_weight=10, learning_rate=0.0001, batch_size=32, epochs=10_000, topology=[256, 128])
+        drp_experiment_params = get_planner_parameters(model_weight=1.1526449540315609, learning_rate=0.14528246637516035, batch_size=32, epochs=10_000, topology=[8, 230], policy_hyperparams=0.05337032762603955)
     ),
     
     # Discrete Domains
     domain_instance_experiment(
         'Wildfire', 'inst_5x5_grid', iter_cutting_point=10_000,
-        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
+        drp_experiment_params = get_planner_parameters(model_weight=1062.8867303429126, learning_rate=0.013984638078471815, batch_size=32, epochs=10_000, topology=[43, 121], policy_hyperparams=0.9278118476829581)
     ),
-    domain_instance_experiment(
-        'SysAdmin', 'instance2', iter_cutting_point=10_000,
-        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
-    ),
-    domain_instance_experiment(
-        'TriangleTireworld', 'instance4', iter_cutting_point=10_000,
-        drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
-    ),
+    # domain_instance_experiment(
+    #     'SysAdmin', 'instance2', iter_cutting_point=10_000,
+    #     drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
+    # ),
+    # domain_instance_experiment(
+    #     'TriangleTireworld', 'instance4', iter_cutting_point=10_000,
+    #     drp_experiment_params = get_planner_parameters(model_weight=100, learning_rate=0.001, batch_size=32, epochs=10_000, topology=[128, 64])
+    # ),
     
 ]
