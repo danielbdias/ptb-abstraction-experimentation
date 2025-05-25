@@ -58,7 +58,7 @@ experiments = [
     # domain_instance_tuning_data('PowerGen', 'inst_5_gen'),
     
     # Discrete Domains
-    domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5'),
+    # domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5'),
     domain_instance_tuning_data('SysAdmin_POMDP_ippc2011', '2'),
     domain_instance_tuning_data('TriangleTireworld_MDP_ippc2014', '4'),
 ]
