@@ -10,7 +10,7 @@ from multiprocessing import get_context, freeze_support
 
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic, SigmoidComparison, SoftRounding, SoftControlFlow
-from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxPlannerStoppingRule
+from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxPlannerStoppingRule, JaxDeepReactivePolicy, JaxStraightLinePlan
 
 from _config_multiprocess import pool_context, num_workers, timeout
 
@@ -84,8 +84,19 @@ class DomainInstanceExperiment:
             return pyRDDLGym.make(domain=domain_file_path, instance=instance_file_path, vectorized=vectorized)
         
         return pyRDDLGym.make(domain=self.domain_name, instance=self.instance_name, vectorized=vectorized)
+    
+    def drp_experiment_params_builder(self, warm_start_policy=None):
+        experiment_params = self.drp_experiment_params
+        experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(self.drp_experiment_params.topology, initializer_per_layer=warm_start_policy)
+        return experiment_params
 
-def get_planner_parameters(model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] | None = None):
+    def slp_experiment_params_builder(self, warm_start_policy=None):
+        experiment_params = self.slp_experiment_params
+        experiment_params.optimizer_params.plan = JaxStraightLinePlan()
+        experiment_params.optimizer_params.guess = warm_start_policy
+        return experiment_params
+
+def get_planner_parameters(domain_name : str, instance_name : str, model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] | None = None):
     return PlannerParameters(
         topology = topology,
         model_params = PlanningModelParameters(

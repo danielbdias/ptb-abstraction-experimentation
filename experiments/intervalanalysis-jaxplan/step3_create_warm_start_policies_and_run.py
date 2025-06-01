@@ -2,27 +2,13 @@ import os
 import time
 import jax
 
-import pyRDDLGym
 from pyRDDLGym.core.grounder import RDDLGrounder
-
-from pyRDDLGym_jax.core.planner import JaxStraightLinePlan, JaxDeepReactivePolicy
 
 from _config_run import experiments, jax_seeds, silent, run_drp, run_slp, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_jax_planner
 from _fileio import save_pickle_data, load_pickle_data, file_exists
 
 root_folder = os.path.dirname(__file__)
-
-def drp_experiment_params_builder(domain_instance_experiment, warm_start_policy=None):    
-    experiment_params = domain_instance_experiment.drp_experiment_params
-    experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(domain_instance_experiment.drp_experiment_params.topology, initializer_per_layer=warm_start_policy)
-    return experiment_params
-
-def slp_experiment_params_builder(domain_instance_experiment, warm_start_policy=None):
-    experiment_params = domain_instance_experiment.slp_experiment_params
-    experiment_params.optimizer_params.plan = JaxStraightLinePlan()
-    experiment_params.optimizer_params.guess = warm_start_policy
-    return experiment_params
 
 def perform_experiment(domain_instance_experiment, strategy_name, threshold, planner_type, experiment_params_builder):
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Threshold: {threshold} - Planner: {planner_type}')
@@ -90,9 +76,9 @@ if __name__ == '__main__':
         for strategy_name in domain_instance_experiment.bound_strategies.keys():
             for threshold in threshold_to_choose_fluents:
                 if run_drp:
-                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'drp', drp_experiment_params_builder) )  
+                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'drp', domain_instance_experiment.drp_experiment_params_builder) )  
                 if run_slp:
-                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'slp', slp_experiment_params_builder) )
+                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'slp', domain_instance_experiment.slp_experiment_params_builder) )
         
     # run experiment in parallel
     run_experiment_in_parallel(perform_experiment, args_list)
