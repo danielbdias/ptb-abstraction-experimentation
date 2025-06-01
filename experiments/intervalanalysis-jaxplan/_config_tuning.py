@@ -37,11 +37,12 @@ class DomainInstanceTuningData:
         
         return pyRDDLGym.make(domain=self.domain_name, instance=self.instance_name, vectorized=vectorized)
 
-def domain_instance_tuning_data(domain_name, instance_name):
+def domain_instance_tuning_data(domain_name, instance_name, eval_trials=5):
     experiment = DomainInstanceTuningData(
         domain_name = domain_name, 
         instance_name = instance_name, 
-        drp_template_file = '_template_tuning_drp.toml'
+        drp_template_file = '_template_tuning_drp.toml',
+        eval_trials = eval_trials
     )
     
     return experiment
