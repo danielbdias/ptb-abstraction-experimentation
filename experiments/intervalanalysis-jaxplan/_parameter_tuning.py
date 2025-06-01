@@ -1,6 +1,6 @@
 from pyRDDLGym_jax.core.tuning import JaxParameterTuning, Hyperparameter
 
-from _config_tuning import experiments, tuning_seed, eval_trials, num_workers, gp_iters
+from _config_tuning import experiments, tuning_seed, num_workers, gp_iters
 from _fileio import save_raw_data, read_file
 from _experiment import prepare_parallel_experiment_on_main
 
@@ -35,8 +35,7 @@ if __name__ == '__main__':
             Hyperparameter('MODEL_WEIGHT_TUNE', -1., 4., power_10),
             Hyperparameter('POLICY_WEIGHT_TUNE', -2., 2., power_10),
             Hyperparameter('LEARNING_RATE_TUNE', -5., 0., power_10),
-            Hyperparameter('LAYER1_TUNE', 3, 8, power_2),
-            Hyperparameter('LAYER2_TUNE', 3, 8, power_2)
+            Hyperparameter('LAYER1_TUNE', 3, 8, power_2)
         ]
 
         # set up the environment   
@@ -47,9 +46,9 @@ if __name__ == '__main__':
                                     config_template=drp_config_template,
                                     hyperparams=hyperparams,
                                     online=False,
-                                    eval_trials=eval_trials,
+                                    eval_trials=domain_instance_experiment.eval_trials,
                                     num_workers=num_workers,
                                     gp_iters=gp_iters)
         
         best_params = tuning.tune(key=tuning_seed, log_file=f'{root_folder}/_intermediate/log_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.csv')
-        save_raw_data(str(best_params), f'{root_folder}/_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.txt')
+        save_raw_data(str(best_params), f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.txt')

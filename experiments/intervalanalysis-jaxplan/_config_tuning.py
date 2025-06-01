@@ -8,7 +8,6 @@ import pyRDDLGym
 #####################################################################################################################################
 
 tuning_seed = 42
-eval_trials = 5
 num_workers = 6
 gp_iters = 10
 
@@ -20,6 +19,7 @@ class DomainInstanceTuningData:
     domain_name: str
     instance_name: str
     drp_template_file: str
+    eval_trials: int
     
     def get_experiment_paths(self, root_folder):
         domain_path = f"{root_folder}/domains/{self.domain_name}"
@@ -48,17 +48,17 @@ def domain_instance_tuning_data(domain_name, instance_name):
 
 experiments = [    
     # Continuous Domains
-    # domain_instance_tuning_data('UAV_ippc2023', '3'),
-    # domain_instance_tuning_data('MountainCar_ippc2023', '1'),
-    # domain_instance_tuning_data('Reservoir_ippc2023', '3'),
+    domain_instance_tuning_data('UAV_ippc2023', '3', eval_trials=1),
+    # domain_instance_tuning_data('MountainCar_ippc2023', '1', eval_trials=5),
+    # domain_instance_tuning_data('Reservoir_ippc2023', '3', eval_trials=5),
     
     # Continuous and Discrete (Mixed) Domains
-    # domain_instance_tuning_data('MarsRover_ippc2023', '3'),
-    # domain_instance_tuning_data('HVAC', 'inst_5_zones_5_heaters'),
+    # domain_instance_tuning_data('MarsRover_ippc2023', '3', eval_trials=5),
+    domain_instance_tuning_data('HVAC', 'inst_5_zones_5_heaters', eval_trials=5),
     # domain_instance_tuning_data('PowerGen', 'inst_5_gen'),
     
     # Discrete Domains
-    # domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5'),
-    domain_instance_tuning_data('SysAdmin_POMDP_ippc2011', '2'),
-    domain_instance_tuning_data('TriangleTireworld_MDP_ippc2014', '4'),
+    # domain_instance_tuning_data('Wildfire_MDP_ippc2014', '5', eval_trials=5),
+    # domain_instance_tuning_data('SysAdmin_POMDP_ippc2011', '2', eval_trials=5),
+    # domain_instance_tuning_data('TriangleTireworld_MDP_ippc2014', '4', eval_trials=5),
 ]
