@@ -6,7 +6,7 @@ control_kwargs={'weight': MODEL_WEIGHT_TUNE}
 
 [Optimizer]
 method='JaxDeepReactivePolicy'
-method_kwargs={'topology': [LAYER1_TUNE], 'initializer': { 'scale': VARIANCE_TUNE }}
+method_kwargs={'topology': [LAYER1_TUNE], 'initializer': 'VarianceScaling', 'initializer_kwargs': { 'scale': VARIANCE_TUNE }}
 optimizer='rmsprop'
 optimizer_kwargs={'learning_rate': LEARNING_RATE_TUNE}
 batch_size_train=32
