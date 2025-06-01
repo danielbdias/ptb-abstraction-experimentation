@@ -86,7 +86,7 @@ experiments = [
     
     # Discrete Domains
     domain_instance_experiment(
-        'Wildfire', 'inst_5x5_grid', iter_cutting_point=10_000,
+        'Wildfire_MDP_ippc2014', '5', iter_cutting_point=10_000,
         drp_experiment_params = get_planner_parameters(model_weight=1062.8867303429126, learning_rate=0.013984638078471815, batch_size=32, epochs=10_000, topology=[43, 121], policy_hyperparams=0.9278118476829581)
     ),
     # domain_instance_experiment(
