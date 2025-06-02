@@ -9,7 +9,7 @@ echo "Installing Golang..."
 
 # Install go
 sudo apt update && sudo apt upgrade
-sudo apt install golang-go
+sudo apt install golang-go -y
 
 echo "Golang installed"
 echo ""
@@ -17,8 +17,10 @@ echo ""
 echo "Installing asdf..."
 
 # Install asdf
-apt install git
+apt install git -y
 go install github.com/asdf-vm/asdf/cmd/asdf@v0.17.0
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH" > ~/.bashrc
+source ~/.bashrc
 
 echo "asdf installed"
 echo ""
