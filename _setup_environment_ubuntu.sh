@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# fail if any errors
+set -ex
+
 # Function to print a title with decoration
 print_title() {
     local title="$1"
