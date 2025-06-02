@@ -54,6 +54,10 @@ def perform_experiment(domain_instance_experiment, strategy_name, threshold, pla
     save_pickle_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_{planner_type}_run_data_{file_common_suffix}.pickle')
     save_pickle_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}.pickle')
 
+def drp_experiment_params_builder(domain_instance_experiment, warm_start_policy=None):
+    return domain_instance_experiment.drp_experiment_params_builder(warm_start_policy)
+def slp_experiment_params_builder(domain_instance_experiment, warm_start_policy=None):
+    return domain_instance_experiment.slp_experiment_params_builder(warm_start_policy)
 
 if __name__ == '__main__':
     prepare_parallel_experiment_on_main()
@@ -76,9 +80,9 @@ if __name__ == '__main__':
         for strategy_name in domain_instance_experiment.bound_strategies.keys():
             for threshold in threshold_to_choose_fluents:
                 if run_drp:
-                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'drp', domain_instance_experiment.drp_experiment_params_builder) )  
+                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'drp', drp_experiment_params_builder) )  
                 if run_slp:
-                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'slp', domain_instance_experiment.slp_experiment_params_builder) )
+                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'slp', slp_experiment_params_builder) )
         
     # run experiment in parallel
     run_experiment_in_parallel(perform_experiment, args_list)

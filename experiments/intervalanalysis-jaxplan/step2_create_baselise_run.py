@@ -35,6 +35,11 @@ def perform_experiment(domain_instance_experiment, planner_type, experiment_para
 
     save_pickle_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
 
+def drp_experiment_params_builder(domain_instance_experiment):
+    return domain_instance_experiment.drp_experiment_params_builder()
+def slp_experiment_params_builder(domain_instance_experiment):
+    return domain_instance_experiment.slp_experiment_params_builder()
+
 if __name__ == '__main__':
     prepare_parallel_experiment_on_main()
 
@@ -54,9 +59,9 @@ if __name__ == '__main__':
     
     for experiment in experiments:
         if run_drp:
-            args_list.append( (experiment, 'drp', experiment.drp_experiment_params_builder) )  
+            args_list.append( (experiment, 'drp', drp_experiment_params_builder) )  
         if run_slp:
-            args_list.append( (experiment, 'slp', experiment.slp_experiment_params_builder) )
+            args_list.append( (experiment, 'slp', slp_experiment_params_builder) )
         
     # run experiment in parallel
     run_experiment_in_parallel(perform_experiment, args_list)
