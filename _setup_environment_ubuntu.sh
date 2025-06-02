@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # fail if any errors
-set -ex
+set -e
 
 # Function to print a title with decoration
 print_title() {
@@ -105,12 +105,18 @@ else
 fi
 echo ""
 
-# Install uv
-asdf plugin add uv
-asdf install uv 0.7.5
-
-echo "uv installed"
-echo ""
+# Check if python is installed via asdf
+if asdf list uv | grep -q "0.7.5"; then
+    echo "uv 0.7.5 is already installed via asdf"
+else
+    echo "Installing uv 0.7.5 via asdf..."
+    
+    asdf plugin add uv
+    asdf install uv 0.7.5
+    
+    echo "uv installed"
+    echo ""
+fi
 
 echo "Performing uv sync..."
 
