@@ -33,6 +33,13 @@ else
     # Install go
     sudo apt update && sudo apt upgrade
     sudo apt install golang-go -y
+
+    # Add go to path
+    export PATH="$PATH:$HOME/go/bin"
+    
+    # Add to bashrc
+    echo "export PATH=\"\$PATH:$HOME/go/bin\"" >> ~/.bashrc
+
     echo "Golang installed"
 fi
 
@@ -46,22 +53,56 @@ if command -v asdf &> /dev/null; then
     echo "asdf is already installed: $(asdf --version)"
 else
     echo "Installing asdf..."
+    
     # Install asdf
     apt install git -y
     go install github.com/asdf-vm/asdf/cmd/asdf@v0.17.0
-    export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH" > ~/.bashrc
+    
+    # Add to bashrc
+    export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+    echo "export PATH=\"\${ASDF_DATA_DIR:-\$HOME/.asdf}/shims:\$PATH\"" >> ~/.bashrc
+    
     echo "asdf installed"
 fi
 echo ""
 
 print_title "Python Setup"
-echo "Installing python..."
+echo "Checking Python installation..."
 
-# Install python
-asdf plugin add python
-asdf install python 3.12.4
+# Check if python is installed via asdf
+if asdf list python | grep -q "3.12.4"; then
+    echo "Python 3.12.4 is already installed via asdf"
+else
+    echo "Installing Python 3.12.4 via asdf..."
 
-echo "python installed"
+    apt update && apt install -y \
+        make \
+        build-essential \
+        libssl-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libncursesw5-dev \
+        libgdbm-dev \
+        liblzma-dev \
+        tk-dev \
+        uuid-dev \
+        libffi-dev \
+        libdb-dev \
+        libnss3-dev \
+        libxml2-dev \
+        libxmlsec1-dev \
+        xz-utils \
+        wget \
+        curl \
+        llvm
+    
+    asdf plugin add python
+    asdf install python 3.12.4
+    
+    echo "Python installed"
+fi
 echo ""
 
 # Install uv
