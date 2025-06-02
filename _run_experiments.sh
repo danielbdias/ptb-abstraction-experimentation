@@ -4,7 +4,7 @@
 #SBATCH --mem-per-cpu=4G
 
 # fail if any errors
-set -ex
+set -e
 
 # Function to get current timestamp in seconds
 get_timestamp() {
