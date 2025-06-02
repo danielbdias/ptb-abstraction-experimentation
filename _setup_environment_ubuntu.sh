@@ -3,6 +3,21 @@
 # fail if any errors
 set -e
 
+# Function to get current timestamp in seconds
+get_timestamp() {
+    date +%s
+}
+
+# Function to calculate elapsed time
+calculate_elapsed_time() {
+    local start_time=$1
+    local end_time=$2
+    local elapsed=$((end_time - start_time))
+    local minutes=$((elapsed / 60))
+    local seconds=$((elapsed % 60))
+    printf "%02d:%02d" $minutes $seconds
+}
+
 # Function to print a title with decoration
 print_title() {
     local title="$1"
@@ -16,12 +31,17 @@ print_title() {
     echo ""
 }
 
+# Start timing the entire script
+SCRIPT_START_TIME=$(get_timestamp)
+
 # Script to setup the environment for the experiments
 print_title "Environment Setup"
 
 echo "Installing dependencies..."
 echo ""
 
+# Start timing Golang setup
+GOLANG_START_TIME=$(get_timestamp)
 print_title "Golang Setup"
 echo "Checking Golang installation..."
 
@@ -43,8 +63,13 @@ else
     echo "Golang installed"
 fi
 
+# End timing Golang setup
+GOLANG_END_TIME=$(get_timestamp)
+echo "Golang setup completed in $(calculate_elapsed_time $GOLANG_START_TIME $GOLANG_END_TIME)"
 echo ""
 
+# Start timing ASDF setup
+ASDF_START_TIME=$(get_timestamp)
 print_title "ASDF Setup"
 echo "Checking asdf installation..."
 
@@ -66,6 +91,13 @@ else
 fi
 echo ""
 
+# End timing ASDF setup
+ASDF_END_TIME=$(get_timestamp)
+echo "ASDF setup completed in $(calculate_elapsed_time $ASDF_START_TIME $ASDF_END_TIME)"
+echo ""
+
+# Start timing Python setup
+PYTHON_START_TIME=$(get_timestamp)
 print_title "Python Setup"
 echo "Checking Python installation..."
 
@@ -126,6 +158,23 @@ uv sync
 echo "uv sync completed"
 echo ""
 
+# End timing Python setup
+PYTHON_END_TIME=$(get_timestamp)
+echo "Python setup completed in $(calculate_elapsed_time $PYTHON_START_TIME $PYTHON_END_TIME)"
+echo ""
+
+# Start timing UV setup
+UV_START_TIME=$(get_timestamp)
+print_title "UV Setup"
+echo "Checking UV installation..."
+
+# End timing UV setup
+UV_END_TIME=$(get_timestamp)
+echo "UV setup completed in $(calculate_elapsed_time $UV_START_TIME $UV_END_TIME)"
+echo ""
+
+# Calculate total script execution time
+SCRIPT_END_TIME=$(get_timestamp)
 print_title "Setup Complete"
-echo "Environment setup complete!"
+echo "Environment setup completed in $(calculate_elapsed_time $SCRIPT_START_TIME $SCRIPT_END_TIME)"
 echo ""
