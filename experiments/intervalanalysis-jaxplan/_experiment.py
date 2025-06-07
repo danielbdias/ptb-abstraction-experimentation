@@ -13,6 +13,10 @@ from pyRDDLGym_jax.core.logic import ProductTNorm, FuzzyLogic, SigmoidComparison
 from pyRDDLGym_jax.core.planner import JaxBackpropPlanner, JaxPlan, JaxPlannerStoppingRule, JaxDeepReactivePolicy, JaxStraightLinePlan
 
 from _config_multiprocess import pool_context, num_workers, timeout
+from _fileio import read_json, file_exists
+
+
+root_folder = os.path.dirname(__file__)
 
 @dataclass(frozen=True)
 class PlanningModelParameters:
@@ -34,7 +38,13 @@ class TrainingParameters:
     seed:               jax.random.PRNGKey
     train_seconds:      int
     policy_hyperparams: float | None
+    policy_variance:    float | None
     stopping_rule:      JaxPlannerStoppingRule
+
+@dataclass(frozen=True)
+class TuningParameters:
+    drp_template_file: str
+    eval_trials: int
 
 @dataclass(frozen=False)
 class PlannerParameters:
@@ -42,6 +52,7 @@ class PlannerParameters:
     optimizer_params:           OptimizerParameters   
     training_params:            TrainingParameters
     topology:                   List[int] | None = None
+    tuning_params:              TuningParameters | None = None
     
     def is_drp(self):
         return self.topology is not None
@@ -57,7 +68,8 @@ class DomainInstanceExperiment:
     bound_strategies:                    dict
     drp_experiment_params:               PlannerParameters | None
     slp_experiment_params:               PlannerParameters | None
-    iter_cutting_point:         int = 10000
+    
+    iter_cutting_point:                  int = 10000
     """
     This is the number of iterations considered for plotting the best reward curve.
     """
@@ -96,7 +108,72 @@ class DomainInstanceExperiment:
         experiment_params.optimizer_params.guess = warm_start_policy
         return experiment_params
 
-def get_planner_parameters(domain_name : str, instance_name : str, model_weight : float, learning_rate : float, batch_size : int, epochs : int, policy_hyperparams: float | None = None, topology : List[int] | None = None):
+def get_domain_instance_experiment(
+    domain_name : str, 
+    instance_name : str, 
+    iter_cutting_point : int, 
+    bound_strategies : dict, 
+    model_weight : float, 
+    learning_rate : float, 
+    batch_size : int, 
+    epochs : int, 
+    policy_hyperparams: float | None = None, 
+    topology : List[int] | None = None, 
+    eval_trials : int = 5,
+    policy_variance : float | None = None,
+    train_seconds : int = 3_600):
+    experiment = DomainInstanceExperiment(
+        domain_name = domain_name, 
+        instance_name = instance_name, 
+        iter_cutting_point = iter_cutting_point,
+        ground_fluents_to_freeze = set(),
+        bound_strategies = bound_strategies,
+        slp_experiment_params = None, # not used for now
+        drp_experiment_params = get_planner_parameters(
+            domain_name = domain_name, 
+            instance_name = instance_name, 
+            model_weight = model_weight, 
+            learning_rate = learning_rate, 
+            batch_size = batch_size, 
+            epochs = epochs, 
+            policy_hyperparams=policy_hyperparams, 
+            topology=topology, 
+            eval_trials=eval_trials, 
+            policy_variance=policy_variance, 
+            train_seconds=train_seconds
+        )
+    )
+    
+    return experiment
+
+def get_planner_parameters(
+    domain_name : str, 
+    instance_name : str, 
+    model_weight : float, 
+    learning_rate : float, 
+    batch_size : int, 
+    epochs : int, 
+    policy_hyperparams: float | None = None, 
+    topology : List[int] | None = None, 
+    eval_trials : int = 5,
+    policy_variance : float | None = None,
+    train_seconds : int = 3_600):
+    
+    # validate if hyperparams file exists, to allow overwritting the default values
+    hyperparams_file = f'{root_folder}/_hyperparam_results/_best_params_{domain_name}_{instance_name}.txt'
+    
+    if file_exists(hyperparams_file):
+        print(f'Using hyperparams from {hyperparams_file}')
+        
+        hyperparams = read_json(hyperparams_file)
+        model_weight = hyperparams['MODEL_WEIGHT_TUNE']
+        learning_rate = hyperparams['LEARNING_RATE_TUNE']
+        policy_hyperparams = hyperparams['POLICY_WEIGHT_TUNE']
+        topology = [
+            hyperparams['LAYER1_TUNE']
+        ]
+        policy_variance = hyperparams['VARIANCE_TUNE']
+    
     return PlannerParameters(
         topology = topology,
         model_params = PlanningModelParameters(
@@ -119,9 +196,14 @@ def get_planner_parameters(domain_name : str, instance_name : str, model_weight 
         training_params = TrainingParameters(
             seed               = 42,
             epochs             = epochs,
-            train_seconds      = 3_600,
+            train_seconds      = train_seconds,
             policy_hyperparams = policy_hyperparams,
+            policy_variance    = policy_variance,
             stopping_rule      = None
+        ),
+        tuning_params = TuningParameters(
+            drp_template_file = '_template_tuning_drp.toml',
+            eval_trials       = eval_trials
         )
     )
 

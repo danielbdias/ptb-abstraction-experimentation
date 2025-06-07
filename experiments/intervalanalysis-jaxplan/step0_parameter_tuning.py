@@ -1,6 +1,8 @@
 from pyRDDLGym_jax.core.tuning import JaxParameterTuning, Hyperparameter
 
-from _config_tuning import experiments, tuning_seed, num_workers, gp_iters
+from _config_multiprocess import num_workers
+from _config_tuning import run_tuning, tuning_seed, gp_iters
+from _config_run import get_experiments
 from _fileio import save_raw_data, read_file
 from _experiment import prepare_parallel_experiment_on_main
 
@@ -12,8 +14,10 @@ root_folder = os.path.dirname(__file__)
 def power_2(x): return int(2 ** x)
 def power_10(x): return 10.0 ** x
     
-if __name__ == '__main__':
+if __name__ == '__main__' and run_tuning:
     prepare_parallel_experiment_on_main()
+    
+    experiments = get_experiments()
     
     # the tuner has a para
     for domain_instance_experiment in experiments:
@@ -21,15 +25,8 @@ if __name__ == '__main__':
         print('Parameter Tuning - ', domain_instance_experiment.domain_name, domain_instance_experiment.instance_name)
         print()
         
-        # domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
-        domain_file_path = domain_instance_experiment.domain_name
-        instance_file_path = domain_instance_experiment.instance_name
-        
-        drp_config_template = read_file(f"{root_folder}/{domain_instance_experiment.drp_template_file}")
+        drp_config_template = read_file(f"{root_folder}/{domain_instance_experiment.drp_experiment_params.tuning_params.drp_template_file}")
 
-        print('Domain file: ', domain_file_path)
-        print('Instance file: ', instance_file_path)
-        print()
         print('--------------------------------------------------------------------------------')
             
         hyperparams = [
@@ -48,7 +45,7 @@ if __name__ == '__main__':
                                     config_template=drp_config_template,
                                     hyperparams=hyperparams,
                                     online=False,
-                                    eval_trials=domain_instance_experiment.eval_trials,
+                                    eval_trials=domain_instance_experiment.drp_experiment_params.tuning_params.eval_trials,
                                     num_workers=num_workers,
                                     gp_iters=gp_iters)
         

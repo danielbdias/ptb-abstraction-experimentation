@@ -4,7 +4,7 @@ import jax
 
 from pyRDDLGym.core.grounder import RDDLGrounder
 
-from _config_run import experiments, jax_seeds, silent, run_drp, run_slp, threshold_to_choose_fluents
+from _config_run import get_experiments, jax_seeds, silent, run_drp, run_slp, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_jax_planner
 from _fileio import save_pickle_data, load_pickle_data, file_exists
 
@@ -73,6 +73,7 @@ if __name__ == '__main__':
 
     # create combination of parameters that we will use to run models
     args_list = []
+    experiments = get_experiments()
     
     for domain_instance_experiment in experiments:
         for strategy_name in domain_instance_experiment.bound_strategies.keys():

@@ -4,7 +4,7 @@ import jax
 
 from pyRDDLGym.core.grounder import RDDLGrounder
 
-from _config_run import experiments, jax_seeds, silent, run_drp, run_slp
+from _config_run import get_experiments, jax_seeds, silent, run_drp, run_slp
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main, run_jax_planner
 from _fileio import save_pickle_data
 
@@ -55,6 +55,7 @@ if __name__ == '__main__':
 
     # create combination of parameters that we will use to run baseline models
     args_list = []
+    experiments = get_experiments()
     
     for experiment in experiments:
         if run_drp:

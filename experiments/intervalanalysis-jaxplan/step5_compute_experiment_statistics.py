@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-from _config_run import experiments, run_drp, run_slp, threshold_to_choose_fluents
+from _config_run import get_experiments, run_drp, run_slp, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 from _fileio import load_pickle_data, file_exists
 
@@ -236,6 +236,8 @@ if __name__ == '__main__':
     print('Abstraction Experiment - Generating graphs for PtB with warm start')
     print('--------------------------------------------------------------------------------')
     print()
+
+    experiments = get_experiments()
 
     # create combination of parameters that we will use to create single plots
     args_list_plots = []

@@ -9,7 +9,7 @@ from pyRDDLGym.core.grounder import RDDLGrounder
 from pyRDDLGym.core.compiler.model import RDDLPlanningModel
 from pyRDDLGym.core.parser.expr import Expression
 
-from _config_run import experiments, threshold_to_choose_fluents
+from _config_run import get_experiments, threshold_to_choose_fluents
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 
 from _fileio import file_exists, get_ground_fluents_to_ablate_from_csv, save_pickle_data, save_raw_data
@@ -85,6 +85,7 @@ if __name__ == '__main__':
 
     # create combination of parameters that we will use to create ground models
     args_list = []
+    experiments = get_experiments()
     
     for domain_instance_experiment in experiments:
         for strategy_name in domain_instance_experiment.bound_strategies.keys():
