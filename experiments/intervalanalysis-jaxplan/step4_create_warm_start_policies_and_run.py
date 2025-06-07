@@ -17,8 +17,6 @@ def perform_experiment(domain_instance_experiment, strategy_name, threshold, pla
     # Runs PtB with modified domain (that has ground fluents frozen with initial state values)
     #########################################################################################################
 
-    # regular_domain_file_path, regular_instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
-
     file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
     fluents_to_freeze_path = f"{root_folder}/_results/fluents_to_ablate_{file_common_suffix}.csv"
     if not file_exists(fluents_to_freeze_path):

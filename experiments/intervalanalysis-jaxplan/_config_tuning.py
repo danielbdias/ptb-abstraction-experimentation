@@ -13,6 +13,7 @@ gp_iters = 10
 
 silent = True
 run_drp = True
+run_tuning = True
 
 @dataclass(frozen=True)
 class DomainInstanceTuningData:

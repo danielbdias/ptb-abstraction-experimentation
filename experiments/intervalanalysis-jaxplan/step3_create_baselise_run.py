@@ -16,7 +16,6 @@ def perform_experiment(domain_instance_experiment, planner_type, experiment_para
     #########################################################################################################
     # Runs with regular domain (just to use as comparison)
     #########################################################################################################
-    # domain_file_path, instance_file_path = domain_instance_experiment.get_experiment_paths(root_folder)
 
     regular_environment = domain_instance_experiment.get_pyrddlgym_environment(root_folder)
     grounder = RDDLGrounder(regular_environment.model.ast)

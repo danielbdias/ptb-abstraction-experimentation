@@ -5,6 +5,7 @@ from _fileio import save_raw_data, read_file
 from _experiment import prepare_parallel_experiment_on_main
 
 import os
+import json
 
 root_folder = os.path.dirname(__file__)
 
@@ -53,3 +54,13 @@ if __name__ == '__main__':
         
         best_params = tuning.tune(key=tuning_seed, log_file=f'{root_folder}/_intermediate/log_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.csv')
         save_raw_data(str(best_params), f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.txt')
+        
+        # convert best_params to json
+        params = {
+            'MODEL_WEIGHT_TUNE': float(best_params['MODEL_WEIGHT_TUNE']), 
+            'POLICY_WEIGHT_TUNE': float(best_params['POLICY_WEIGHT_TUNE']),
+            'LEARNING_RATE_TUNE': float(best_params['LEARNING_RATE_TUNE']),
+            'VARIANCE_TUNE': float(best_params['VARIANCE_TUNE']),
+            'LAYER1_TUNE': best_params['LAYER1_TUNE']
+        }
+        save_raw_data(f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.json', json.dumps(params))
