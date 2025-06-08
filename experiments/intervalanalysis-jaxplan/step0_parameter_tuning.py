@@ -50,7 +50,15 @@ if __name__ == '__main__' and run_tuning:
                                     gp_iters=gp_iters)
         
         best_params = tuning.tune(key=tuning_seed, log_file=f'{root_folder}/_intermediate/log_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.csv')
-        save_raw_data(str(best_params), f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.txt')
+        
+        print('--------------------------------------------------------------------------------')
+        print('Tuning Complete')
+        print('Saving Best Parameters')
+        print('--------------------------------------------------------------------------------')
+        
+        file_to_save = f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}'
+        
+        save_raw_data(str(best_params), f'{file_to_save}.txt')
         
         # convert best_params to json
         params = {
@@ -60,4 +68,4 @@ if __name__ == '__main__' and run_tuning:
             'VARIANCE_TUNE': float(best_params['VARIANCE_TUNE']),
             'LAYER1_TUNE': best_params['LAYER1_TUNE']
         }
-        save_raw_data(f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.json', json.dumps(params))
+        save_raw_data(json.dumps(params), f'{file_to_save}.json')
