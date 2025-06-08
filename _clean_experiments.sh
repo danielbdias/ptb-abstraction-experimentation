@@ -8,6 +8,9 @@ PLANNER_TYPE=$1
 PLANNER_TYPE=${PLANNER_TYPE:-jaxplan}
 
 time {
+    # clean hyperparam results
+    rm ./experiments/intervalanalysis-$PLANNER_TYPE/_hyperparam_results/*
+    
     # clean intermediate files
     rm ./experiments/intervalanalysis-$PLANNER_TYPE/_intermediate/*.model
     rm ./experiments/intervalanalysis-$PLANNER_TYPE/_intermediate/*.rddl
