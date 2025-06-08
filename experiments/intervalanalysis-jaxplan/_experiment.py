@@ -3,6 +3,7 @@ import optax
 import os
 import time
 import pyRDDLGym
+import haiku as hk
 
 from dataclasses import dataclass
 from typing import List, Set
@@ -99,7 +100,14 @@ class DomainInstanceExperiment:
     
     def drp_experiment_params_builder(self, warm_start_policy=None):
         experiment_params = self.drp_experiment_params
-        experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(self.drp_experiment_params.topology, initializer_per_layer=warm_start_policy)
+        
+        experiment_params.optimizer_params.plan = JaxDeepReactivePolicy(
+            topology = self.drp_experiment_params.topology, 
+            initializer = hk.initializers.VarianceScaling(self.drp_experiment_params.training_params.policy_variance),
+            normalize = True,
+            initializer_per_layer = warm_start_policy
+        )
+        
         return experiment_params
 
     def slp_experiment_params_builder(self, warm_start_policy=None):
