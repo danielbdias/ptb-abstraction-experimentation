@@ -21,6 +21,16 @@ if __name__ == '__main__' and run_tuning:
     
     # the tuner has a para
     for domain_instance_experiment in experiments:
+<<<<<<< HEAD
+=======
+        file_to_save = f'{root_folder}/_hyperparam_results/_best_params_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}'
+        if file_exists(f'{file_to_save}.json'):
+            print('--------------------------------------------------------------------------------')
+            print('Skipping Tuning - ', domain_instance_experiment.domain_name, domain_instance_experiment.instance_name)
+            print('--------------------------------------------------------------------------------')
+            continue
+        
+>>>>>>> daffd77 (adding skip tuning step)
         print('--------------------------------------------------------------------------------')
         print('Parameter Tuning - ', domain_instance_experiment.domain_name, domain_instance_experiment.instance_name)
         print()
