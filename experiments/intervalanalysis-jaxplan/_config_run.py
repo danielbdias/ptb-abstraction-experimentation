@@ -54,7 +54,7 @@ experiments = {
     
     # Continuous and Discrete (Mixed) Domains
     'marsrover': domain_instance_experiment('MarsRover_ippc2023', '3', model_weight=9733.585251841243, learning_rate=0.010597465543046915, topology=[174, 92], policy_hyperparams=60.07439949582946126, eval_trials=1),
-    'hvac': domain_instance_experiment('HVAC', 'inst_5_zones_5_heaters', model_weight=156.24303824917484, learning_rate=0.04034411767966345, topology=[30, 220], policy_hyperparams=0.04589450016024262, iter_cutting_point=10_000), 
+    'hvac': domain_instance_experiment('HVAC', 'inst_5_zones_5_heaters', model_weight=10000.0, learning_rate=0.9999921581729762, topology=[241], policy_hyperparams=31.10043825447387, policy_variance=0.01060498463719597, iter_cutting_point=10_000), 
     'powergen': domain_instance_experiment('PowerGen', 'inst_5_gen', model_weight=1.1526449540315609, learning_rate=0.14528246637516035, topology=[8, 230], policy_hyperparams=0.05337032762603955, iter_cutting_point=8_000),
     
     # Discrete Domains
