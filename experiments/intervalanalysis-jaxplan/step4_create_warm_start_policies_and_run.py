@@ -10,7 +10,7 @@ from _fileio import save_pickle_data, load_pickle_data, file_exists
 
 root_folder = os.path.dirname(__file__)
 
-def perform_experiment(domain_instance_experiment, strategy_name, threshold, planner_type, experiment_params_builder):
+def perform_experiment(domain_instance_experiment, strategy_name, threshold, planner_type, experiment_params_builder, jax_seed):
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Threshold: {threshold} - Planner: {planner_type}')
 
     #########################################################################################################
@@ -33,24 +33,23 @@ def perform_experiment(domain_instance_experiment, strategy_name, threshold, pla
     warm_start_creation_experiment_stats = []
     warm_start_run_experiment_stats = []
 
-    for jax_seed in jax_seeds:
-        experiment_params = experiment_params_builder(domain_instance_experiment)
-        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
+    experiment_params = experiment_params_builder(domain_instance_experiment)
+    experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
 
-        env_params = experiment_params
+    env_params = experiment_params
 
-        warm_start_creation_run_name = f"{domain_instance_experiment.domain_name} (creating warm-start) - {planner_type} - {strategy_name} - {threshold} - seed {jax_seed}"
-        abstraction_env_experiment_summary = run_jax_planner(warm_start_creation_run_name, rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
-        warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
+    warm_start_creation_run_name = f"{domain_instance_experiment.domain_name} (creating warm-start) - {planner_type} - {strategy_name} - {threshold} - seed {jax_seed}"
+    abstraction_env_experiment_summary = run_jax_planner(warm_start_creation_run_name, rddl_model=ablated_grounded_model, planner_parameters=env_params, silent=silent)
+    warm_start_creation_experiment_stats.append(abstraction_env_experiment_summary)
 
-        warm_start_env_params = experiment_params_builder(domain_instance_experiment, abstraction_env_experiment_summary.final_policy_weights)
+    warm_start_env_params = experiment_params_builder(domain_instance_experiment, abstraction_env_experiment_summary.final_policy_weights)
 
-        warm_start_run_name = f"{domain_instance_experiment.domain_name} (running with warm-start) - {planner_type} - {strategy_name} - {threshold} - seed {jax_seed}"
-        warm_start_env_experiment_summary = run_jax_planner(warm_start_run_name, rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
-        warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)
+    warm_start_run_name = f"{domain_instance_experiment.domain_name} (running with warm-start) - {planner_type} - {strategy_name} - {threshold} - seed {jax_seed}"
+    warm_start_env_experiment_summary = run_jax_planner(warm_start_run_name, rddl_model=regular_grounded_model, planner_parameters=warm_start_env_params, silent=silent)
+    warm_start_run_experiment_stats.append(warm_start_env_experiment_summary)
 
-    save_pickle_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_{planner_type}_run_data_{file_common_suffix}.pickle')
-    save_pickle_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}.pickle')
+    save_pickle_data(warm_start_creation_experiment_stats, f'{root_folder}/_results/warmstart_creation_{planner_type}_run_data_{file_common_suffix}_seed_{jax_seed}.pickle')
+    save_pickle_data(warm_start_run_experiment_stats, f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}_seed_{jax_seed}.pickle')
 
 def drp_experiment_params_builder(domain_instance_experiment, warm_start_policy=None):
     return domain_instance_experiment.drp_experiment_params_builder(warm_start_policy)
@@ -78,10 +77,11 @@ if __name__ == '__main__':
     for domain_instance_experiment in experiments:
         for strategy_name in domain_instance_experiment.bound_strategies.keys():
             for threshold in threshold_to_choose_fluents:
-                if run_drp:
-                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'drp', drp_experiment_params_builder) )  
-                if run_slp:
-                    args_list.append( (domain_instance_experiment, strategy_name, threshold, 'slp', slp_experiment_params_builder) )
+                for jax_seed in jax_seeds:
+                    if run_drp:
+                        args_list.append( (domain_instance_experiment, strategy_name, threshold, 'drp', drp_experiment_params_builder, jax_seed) )  
+                    if run_slp:
+                        args_list.append( (domain_instance_experiment, strategy_name, threshold, 'slp', slp_experiment_params_builder, jax_seed) )
         
     # run experiment in parallel
     run_experiment_in_parallel(perform_experiment, args_list)

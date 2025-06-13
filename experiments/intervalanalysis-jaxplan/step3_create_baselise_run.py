@@ -10,7 +10,7 @@ from _fileio import save_pickle_data
 
 root_folder = os.path.dirname(__file__)
 
-def perform_experiment(domain_instance_experiment, planner_type, experiment_params_builder):
+def perform_experiment(domain_instance_experiment, planner_type, experiment_params_builder, jax_seed):
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - {planner_type}')
 
     #########################################################################################################
@@ -25,14 +25,13 @@ def perform_experiment(domain_instance_experiment, planner_type, experiment_para
 
     regular_experiment_name = f"{domain_instance_experiment.domain_name} (regular) - {planner_type}"
 
-    for jax_seed in jax_seeds:
-        experiment_params = experiment_params_builder(domain_instance_experiment)
-        experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
+    experiment_params = experiment_params_builder(domain_instance_experiment)
+    experiment_params.training_params.seed = jax.random.PRNGKey(jax_seed)
         
-        experiment_summary = run_jax_planner(regular_experiment_name, rddl_model=grounded_model, planner_parameters=experiment_params, silent=silent)
-        regular_env_experiment_stats.append(experiment_summary)
+    experiment_summary = run_jax_planner(regular_experiment_name, rddl_model=grounded_model, planner_parameters=experiment_params, silent=silent)
+    regular_env_experiment_stats.append(experiment_summary)
 
-    save_pickle_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
+    save_pickle_data(regular_env_experiment_stats, f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_seed_{jax_seed}.pickle')
 
 def drp_experiment_params_builder(domain_instance_experiment):
     return domain_instance_experiment.drp_experiment_params_builder()
@@ -58,10 +57,11 @@ if __name__ == '__main__':
     experiments = get_experiments()
     
     for experiment in experiments:
-        if run_drp:
-            args_list.append( (experiment, 'drp', drp_experiment_params_builder) )  
-        if run_slp:
-            args_list.append( (experiment, 'slp', slp_experiment_params_builder) )
+        for jax_seed in jax_seeds:
+            if run_drp:
+                args_list.append( (experiment, 'drp', drp_experiment_params_builder, jax_seed) )  
+            if run_slp:
+                args_list.append( (experiment, 'slp', slp_experiment_params_builder, jax_seed) )
         
     # run experiment in parallel
     run_experiment_in_parallel(perform_experiment, args_list)
