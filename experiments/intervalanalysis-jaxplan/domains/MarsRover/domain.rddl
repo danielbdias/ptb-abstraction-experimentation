@@ -27,14 +27,15 @@ domain mars_rover_science_mission {
         MAX-POWER(rover): { non-fluent, real, default = 0.1 };         // control norm constraint
         SCALE-FACTOR    : { non-fluent, real, default = 0.1 };          // time scale factor for dynamic equations
 
+        // problem restrictions
+        CLIPPING-MIN    : { non-fluent, real, default = -1000000.0 };   // values used to clip during interval analysis
+		CLIPPING-MAX    : { non-fluent, real, default = 1000000.0 };    // values used to clip during interval analysis
+
         // minerals constants
         MINERAL-AREA(mineral) : { non-fluent, real, default = 1 };            // mineral harvesting area
         MINERAL-VALUE(mineral): { non-fluent, real, default = 1 };            // mineral harvesting value
         MINERAL-POS-X(mineral): { non-fluent, real, default = 0 };            // mineral x location
         MINERAL-POS-Y(mineral): { non-fluent, real, default = 0 };            // mineral y location
-
-        CLIPPING-MIN            : { non-fluent, real, default = -1000000.0 };   // values used to clip during interval analysis
-		CLIPPING-MAX            : { non-fluent, real, default = 1000000.0 };    // values used to clip during interval analysis
 
         // interm & derived fluents
         power(rover) : { interm-fluent, real };                          // derived fluent for control input norm calculation

@@ -50,11 +50,10 @@ domain_instance_experiment = partial(
 experiments = {
     # Continuous Domains
     'uav': domain_instance_experiment('UAV_ippc2023', '3', model_weight=64.95630307266005, learning_rate=0.01662497762967736, topology=[23, 163], policy_hyperparams=0.013498252680281307, eval_trials=1),
-    'mountaincar': domain_instance_experiment('MountainCar_ippc2023', '1', model_weight=98.46738873614564, learning_rate=0.04570563099801451, topology=[29, 215], policy_hyperparams=0.04207988669606635, eval_trials=1),
     'reservoir': domain_instance_experiment('Reservoir_ippc2023', '3', model_weight=101.29197956845731, learning_rate=0.2142302175774106, topology=[13, 9], policy_hyperparams=6.7965780907581514),
     
     # Continuous and Discrete (Mixed) Domains
-    'marsrover': domain_instance_experiment('MarsRover_ippc2023', '3', model_weight=9733.585251841243, learning_rate=0.010597465543046915, topology=[174, 92], policy_hyperparams=60.07439949582946126, eval_trials=1),
+    # 'marsrover': domain_instance_experiment('MarsRover', 'inst_6_rovers_7_minerals', model_weight=9733.585251841243, learning_rate=0.010597465543046915, topology=[174, 92], policy_hyperparams=60.07439949582946126, eval_trials=1),
     'hvac': domain_instance_experiment('HVAC', 'inst_5_zones_5_heaters', model_weight=10000.0, learning_rate=0.9999921581729762, topology=[241], policy_hyperparams=31.10043825447387, policy_variance=0.01060498463719597, iter_cutting_point=10_000), 
     'powergen': domain_instance_experiment('PowerGen', 'inst_5_gen', model_weight=1.1526449540315609, learning_rate=0.14528246637516035, topology=[8, 230], policy_hyperparams=0.05337032762603955, iter_cutting_point=8_000),
     
