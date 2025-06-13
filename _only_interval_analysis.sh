@@ -42,10 +42,10 @@ export PYTHONWARNINGS=ignore # ignore warnings from the experiments
 
 # Start timing the entire script
 SCRIPT_START_TIME=$(get_timestamp)
-print_title "Parameter Tuning for $PLANNER_TYPE on $DOMAINS"
+print_title "Interval Analysis for $PLANNER_TYPE on $DOMAINS"
 
-uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step0_parameter_tuning.py --domains $DOMAINS
+uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step1_evaluate_fluents.py --domains $DOMAINS
 
 SCRIPT_END_TIME=$(get_timestamp)
-print_title "Parameter Tuning Complete"
+print_title "Interval Analysis Complete"
 print_title "Total execution time: $(calculate_elapsed_time $SCRIPT_START_TIME $SCRIPT_END_TIME)"
