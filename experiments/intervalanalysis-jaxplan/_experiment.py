@@ -171,7 +171,7 @@ def get_planner_parameters(
     hyperparams_file = f'{root_folder}/_hyperparam_results/_best_params_{domain_name}_{instance_name}.json'
     
     if file_exists(hyperparams_file):
-        print(f'Using hyperparams from {hyperparams_file}')
+        # print(f'Using hyperparams from {hyperparams_file}')
         
         hyperparams = read_json(hyperparams_file)
         model_weight = hyperparams['MODEL_WEIGHT_TUNE']
