@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-from _config_run import get_experiments, run_drp, run_slp, threshold_to_choose_fluents
+from _config_run import get_experiments, run_drp, run_slp, threshold_to_choose_fluents, jax_seeds
 from _experiment import run_experiment_in_parallel, prepare_parallel_experiment_on_main
 from _fileio import load_pickle_data, file_exists
 
@@ -166,20 +166,39 @@ def plot_cost_curve_per_iteration_with_thresholds(plot_path, domain_instance_exp
 root_folder = os.path.dirname(__file__)
 plot_folder = f'{root_folder}/_plots'
 
+def rebuild_stats_with_seeds(stats_file_partial_path):
+    first_seed = jax_seeds[0]
+    next_seeds = jax_seeds[1:]
+    
+    file_path = f'{stats_file_partial_path}_seed_{first_seed}.pickle'
+    
+    if not file_exists(file_path):
+        print(f'File {file_path} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
+        return None
+    
+    stats_with_seed = load_pickle_data(file_path)
+    
+    for seed in next_seeds:
+        file_path = f'{stats_file_partial_path}_seed_{seed}.pickle'
+        next_stats_with_seed = load_pickle_data(file_path)
+        
+        stats_with_seed.append(next_stats_with_seed[0])
+    
+    return stats_with_seed
+
 def plot_experiments(domain_instance_experiment, strategy_name, threshold, planner_type):    
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Threshold: {threshold} - Planner: {planner_type}')
     
     file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
 
-    warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}.pickle'
+    warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}'
+    warm_start_execution_experiment_stats = rebuild_stats_with_seeds(warm_start_execution_experiment_stats_file_path)
 
-    if not file_exists(warm_start_execution_experiment_stats_file_path):
-        print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
+    if warm_start_execution_experiment_stats is None:
         return
 
-    baseline_execution_stats = load_pickle_data(f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
-    warm_start_execution_experiment_stats = load_pickle_data(warm_start_execution_experiment_stats_file_path)
-    
+    baseline_execution_stats = rebuild_stats_with_seeds(f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}')
+        
     ############################################################
     # Convergence value
     ############################################################
@@ -191,7 +210,7 @@ def plot_experiments(domain_instance_experiment, strategy_name, threshold, plann
     # Convergence time
     ############################################################
 
-    warm_start_creation_experiment_stats = load_pickle_data(f'{root_folder}/_results/warmstart_creation_{planner_type}_run_data_{file_common_suffix}.pickle')
+    warm_start_creation_experiment_stats = rebuild_stats_with_seeds(f'{root_folder}/_results/warmstart_creation_{planner_type}_run_data_{file_common_suffix}')
 
     evaluation_time = read_fluent_evaluation_time_csv(f'{root_folder}/_results/time_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}.csv')
     warm_start_computation = np.mean(list(map(lambda item : item.elapsed_time, warm_start_creation_experiment_stats)))
@@ -204,19 +223,18 @@ def plot_experiments(domain_instance_experiment, strategy_name, threshold, plann
 def plot_summarizations(domain_instance_experiment, strategy_name, planner_type):    
     print(f'[{os.getpid()}] Domain: {domain_instance_experiment.domain_name} - Instance: {domain_instance_experiment.instance_name} - Ablation Metric: {strategy_name} - Planner: {planner_type}')
     
-    baseline_execution_stats = load_pickle_data(f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}.pickle')
+    baseline_execution_stats = rebuild_stats_with_seeds(f'{root_folder}/_results/baseline_{planner_type}_run_data_{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}')
     
     warm_start_stats_with_thresholds = {}
     
     for threshold in threshold_to_choose_fluents:
         file_common_suffix = f'{domain_instance_experiment.domain_name}_{domain_instance_experiment.instance_name}_{strategy_name}_{threshold}'
-        warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}.pickle'
-
-        if not file_exists(warm_start_execution_experiment_stats_file_path):
-            print(f'File for domain {domain_instance_experiment.domain_name} considering {strategy_name} strategy at threshold {threshold} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
+        warm_start_execution_experiment_stats_file_path = f'{root_folder}/_results/warmstart_execution_{planner_type}_run_data_{file_common_suffix}'
+        warm_start_execution_experiment_stats = rebuild_stats_with_seeds(warm_start_execution_experiment_stats_file_path)
+        
+        if warm_start_execution_experiment_stats is None:
             return
 
-        warm_start_execution_experiment_stats = load_pickle_data(warm_start_execution_experiment_stats_file_path)
         warm_start_stats_with_thresholds[threshold] = warm_start_execution_experiment_stats
     
     ############################################################

@@ -44,12 +44,12 @@ export PYTHONWARNINGS=ignore # ignore warnings from the experiments
 SCRIPT_START_TIME=$(get_timestamp)
 print_title "Running Experiments for $PLANNER_TYPE on $DOMAINS"
 
-uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step0_parameter_tuning.py --domains $DOMAINS
+# uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step0_parameter_tuning.py --domains $DOMAINS
 uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step1_evaluate_fluents.py --domains $DOMAINS
 uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step2_create_grounded_ablated_model.py --domains $DOMAINS
 uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step3_create_baselise_run.py --domains $DOMAINS
 uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step4_create_warm_start_policies_and_run.py --domains $DOMAINS
-uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step5_compute_experiment_statistics.py --domains $DOMAINS
+# uv run python ./experiments/intervalanalysis-$PLANNER_TYPE/step5_compute_experiment_statistics.py --domains $DOMAINS
 
 SCRIPT_END_TIME=$(get_timestamp)
 print_title "Experiments Complete"
