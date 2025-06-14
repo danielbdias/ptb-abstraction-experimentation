@@ -165,6 +165,7 @@ def get_planner_parameters(
     batch_size : int, 
     epochs : int, 
     policy_hyperparams: float | None = None, 
+    normalize_input : bool = True,
     topology : List[int] | None = None, 
     eval_trials : int = 5,
     policy_variance : float | None = None,
@@ -187,6 +188,7 @@ def get_planner_parameters(
     
     return PlannerParameters(
         topology = topology,
+        normalize_input = normalize_input,
         model_params = PlanningModelParameters(
             logic=FuzzyLogic(
                 tnorm      = ProductTNorm(),
