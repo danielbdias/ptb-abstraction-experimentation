@@ -53,6 +53,7 @@ class PlannerParameters:
     optimizer_params:           OptimizerParameters   
     training_params:            TrainingParameters
     topology:                   List[int] | None = None
+    normalize_input:            bool = True
     tuning_params:              TuningParameters | None = None
     
     def is_drp(self):
@@ -127,6 +128,7 @@ def get_domain_instance_experiment(
     epochs : int, 
     policy_hyperparams: float | None = None, 
     topology : List[int] | None = None, 
+    normalize_input : bool = True,
     eval_trials : int = 5,
     policy_variance : float | None = None,
     train_seconds : int = 3_600):
@@ -146,6 +148,7 @@ def get_domain_instance_experiment(
             epochs = epochs, 
             policy_hyperparams=policy_hyperparams, 
             topology=topology, 
+            normalize_input=normalize_input,
             eval_trials=eval_trials, 
             policy_variance=policy_variance, 
             train_seconds=train_seconds

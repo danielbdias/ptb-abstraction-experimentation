@@ -9,12 +9,14 @@ method='JaxDeepReactivePolicy'
 method_kwargs={'topology': [LAYER1_TUNE], 'initializer': 'VarianceScaling', 'initializer_kwargs': { 'scale': VARIANCE_TUNE }, 'normalize': True }
 optimizer='rmsprop'
 optimizer_kwargs={'learning_rate': LEARNING_RATE_TUNE}
+pgpe=None
 batch_size_train=32
 batch_size_test=32
 print_warnings=False
 
 [Training]
 train_seconds=1800
+epochs=10000
 policy_hyperparams=POLICY_WEIGHT_TUNE
 print_summary=False
 print_progress=False
