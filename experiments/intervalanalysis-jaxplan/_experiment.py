@@ -263,7 +263,8 @@ def run_jax_planner(name : str, rddl_model : RDDLPlanningModel, planner_paramete
         optimizer_kwargs = {'learning_rate': planner_parameters.optimizer_params.learning_rate},
         action_bounds    = planner_parameters.optimizer_params.action_bounds,
         pgpe             = None,
-        parallel_updates = None)
+        parallel_updates = None
+    )
 
     policy_hyperparams = None
     if planner_parameters.training_params.policy_hyperparams is not None:
