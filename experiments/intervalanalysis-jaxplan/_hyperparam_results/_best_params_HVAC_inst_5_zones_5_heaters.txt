@@ -1,0 +1,1 @@
+{'MODEL_WEIGHT_TUNE': np.float64(0.1), 'POLICY_WEIGHT_TUNE': np.float64(0.01), 'LEARNING_RATE_TUNE': np.float64(1e-05), 'VARIANCE_TUNE': np.float64(0.01), 'LAYER1_TUNE': 8}
