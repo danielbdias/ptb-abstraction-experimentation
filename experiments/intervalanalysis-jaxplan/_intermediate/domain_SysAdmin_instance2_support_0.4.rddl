@@ -1,0 +1,180 @@
+domain sysadmin_mdp {
+
+
+	pvariables {
+
+		REBOOT-PROB : { non-fluent, real, default = 0.1 };
+		REBOOT-PENALTY : { non-fluent, real, default = 0.75 };
+		CONNECTED___c1__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c1__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c2__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c3__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c4__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c5__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c6__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c7__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c8__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c9__c10 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c1 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c2 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c3 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c4 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c5 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c6 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c7 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c8 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c9 : { non-fluent, bool, default = false };
+		CONNECTED___c10__c10 : { non-fluent, bool, default = false };
+
+		running___c1 : { state-fluent, bool, default = false };
+		running___c2 : { state-fluent, bool, default = false };
+		running___c3 : { state-fluent, bool, default = false };
+		running___c4 : { state-fluent, bool, default = false };
+		running___c5 : { state-fluent, bool, default = false };
+		running___c6 : { state-fluent, bool, default = false };
+		running___c7 : { state-fluent, bool, default = false };
+		running___c8 : { state-fluent, bool, default = false };
+		running___c9 : { state-fluent, bool, default = false };
+		running___c10 : { state-fluent, bool, default = false };
+
+		reboot___c1 : { action-fluent, bool, default = false };
+		reboot___c2 : { action-fluent, bool, default = false };
+		reboot___c3 : { action-fluent, bool, default = false };
+		reboot___c4 : { action-fluent, bool, default = false };
+		reboot___c5 : { action-fluent, bool, default = false };
+		reboot___c6 : { action-fluent, bool, default = false };
+		reboot___c7 : { action-fluent, bool, default = false };
+		reboot___c8 : { action-fluent, bool, default = false };
+		reboot___c9 : { action-fluent, bool, default = false };
+		reboot___c10 : { action-fluent, bool, default = false };
+	};
+
+	cpfs {
+
+		running___c1' = running___c1;
+
+		running___c2' = running___c2;
+
+		running___c3' = running___c3;
+
+		running___c4' = running___c4;
+
+		running___c5' = if (reboot___c5)
+			then KronDelta(true)
+			else ( if (running___c5)
+				then Bernoulli(0.45 + ( ( 0.5 * ( 1 + ( ( CONNECTED___c1__c5 ^ running___c1 ) + ( CONNECTED___c2__c5 ^ running___c2 ) + ( CONNECTED___c3__c5 ^ running___c3 ) + ( CONNECTED___c4__c5 ^ running___c4 ) + ( CONNECTED___c5__c5 ^ running___c5 ) + ( CONNECTED___c6__c5 ^ running___c6 ) + ( CONNECTED___c7__c5 ^ running___c7 ) + ( CONNECTED___c8__c5 ^ running___c8 ) + ( CONNECTED___c9__c5 ^ running___c9 ) + ( CONNECTED___c10__c5 ^ running___c10 ) ) ) ) / ( 1 + ( CONNECTED___c1__c5 + CONNECTED___c2__c5 + CONNECTED___c3__c5 + CONNECTED___c4__c5 + CONNECTED___c5__c5 + CONNECTED___c6__c5 + CONNECTED___c7__c5 + CONNECTED___c8__c5 + CONNECTED___c9__c5 + CONNECTED___c10__c5 ) ) ))
+				else Bernoulli(REBOOT-PROB) );
+
+		running___c6' = if (reboot___c6)
+			then KronDelta(true)
+			else ( if (running___c6)
+				then Bernoulli(0.45 + ( ( 0.5 * ( 1 + ( ( CONNECTED___c1__c6 ^ running___c1 ) + ( CONNECTED___c2__c6 ^ running___c2 ) + ( CONNECTED___c3__c6 ^ running___c3 ) + ( CONNECTED___c4__c6 ^ running___c4 ) + ( CONNECTED___c5__c6 ^ running___c5 ) + ( CONNECTED___c6__c6 ^ running___c6 ) + ( CONNECTED___c7__c6 ^ running___c7 ) + ( CONNECTED___c8__c6 ^ running___c8 ) + ( CONNECTED___c9__c6 ^ running___c9 ) + ( CONNECTED___c10__c6 ^ running___c10 ) ) ) ) / ( 1 + ( CONNECTED___c1__c6 + CONNECTED___c2__c6 + CONNECTED___c3__c6 + CONNECTED___c4__c6 + CONNECTED___c5__c6 + CONNECTED___c6__c6 + CONNECTED___c7__c6 + CONNECTED___c8__c6 + CONNECTED___c9__c6 + CONNECTED___c10__c6 ) ) ))
+				else Bernoulli(REBOOT-PROB) );
+
+		running___c7' = if (reboot___c7)
+			then KronDelta(true)
+			else ( if (running___c7)
+				then Bernoulli(0.45 + ( ( 0.5 * ( 1 + ( ( CONNECTED___c1__c7 ^ running___c1 ) + ( CONNECTED___c2__c7 ^ running___c2 ) + ( CONNECTED___c3__c7 ^ running___c3 ) + ( CONNECTED___c4__c7 ^ running___c4 ) + ( CONNECTED___c5__c7 ^ running___c5 ) + ( CONNECTED___c6__c7 ^ running___c6 ) + ( CONNECTED___c7__c7 ^ running___c7 ) + ( CONNECTED___c8__c7 ^ running___c8 ) + ( CONNECTED___c9__c7 ^ running___c9 ) + ( CONNECTED___c10__c7 ^ running___c10 ) ) ) ) / ( 1 + ( CONNECTED___c1__c7 + CONNECTED___c2__c7 + CONNECTED___c3__c7 + CONNECTED___c4__c7 + CONNECTED___c5__c7 + CONNECTED___c6__c7 + CONNECTED___c7__c7 + CONNECTED___c8__c7 + CONNECTED___c9__c7 + CONNECTED___c10__c7 ) ) ))
+				else Bernoulli(REBOOT-PROB) );
+
+		running___c8' = if (reboot___c8)
+			then KronDelta(true)
+			else ( if (running___c8)
+				then Bernoulli(0.45 + ( ( 0.5 * ( 1 + ( ( CONNECTED___c1__c8 ^ running___c1 ) + ( CONNECTED___c2__c8 ^ running___c2 ) + ( CONNECTED___c3__c8 ^ running___c3 ) + ( CONNECTED___c4__c8 ^ running___c4 ) + ( CONNECTED___c5__c8 ^ running___c5 ) + ( CONNECTED___c6__c8 ^ running___c6 ) + ( CONNECTED___c7__c8 ^ running___c7 ) + ( CONNECTED___c8__c8 ^ running___c8 ) + ( CONNECTED___c9__c8 ^ running___c9 ) + ( CONNECTED___c10__c8 ^ running___c10 ) ) ) ) / ( 1 + ( CONNECTED___c1__c8 + CONNECTED___c2__c8 + CONNECTED___c3__c8 + CONNECTED___c4__c8 + CONNECTED___c5__c8 + CONNECTED___c6__c8 + CONNECTED___c7__c8 + CONNECTED___c8__c8 + CONNECTED___c9__c8 + CONNECTED___c10__c8 ) ) ))
+				else Bernoulli(REBOOT-PROB) );
+
+		running___c9' = if (reboot___c9)
+			then KronDelta(true)
+			else ( if (running___c9)
+				then Bernoulli(0.45 + ( ( 0.5 * ( 1 + ( ( CONNECTED___c1__c9 ^ running___c1 ) + ( CONNECTED___c2__c9 ^ running___c2 ) + ( CONNECTED___c3__c9 ^ running___c3 ) + ( CONNECTED___c4__c9 ^ running___c4 ) + ( CONNECTED___c5__c9 ^ running___c5 ) + ( CONNECTED___c6__c9 ^ running___c6 ) + ( CONNECTED___c7__c9 ^ running___c7 ) + ( CONNECTED___c8__c9 ^ running___c8 ) + ( CONNECTED___c9__c9 ^ running___c9 ) + ( CONNECTED___c10__c9 ^ running___c10 ) ) ) ) / ( 1 + ( CONNECTED___c1__c9 + CONNECTED___c2__c9 + CONNECTED___c3__c9 + CONNECTED___c4__c9 + CONNECTED___c5__c9 + CONNECTED___c6__c9 + CONNECTED___c7__c9 + CONNECTED___c8__c9 + CONNECTED___c9__c9 + CONNECTED___c10__c9 ) ) ))
+				else Bernoulli(REBOOT-PROB) );
+
+		running___c10' = if (reboot___c10)
+			then KronDelta(true)
+			else ( if (running___c10)
+				then Bernoulli(0.45 + ( ( 0.5 * ( 1 + ( ( CONNECTED___c1__c10 ^ running___c1 ) + ( CONNECTED___c2__c10 ^ running___c2 ) + ( CONNECTED___c3__c10 ^ running___c3 ) + ( CONNECTED___c4__c10 ^ running___c4 ) + ( CONNECTED___c5__c10 ^ running___c5 ) + ( CONNECTED___c6__c10 ^ running___c6 ) + ( CONNECTED___c7__c10 ^ running___c7 ) + ( CONNECTED___c8__c10 ^ running___c8 ) + ( CONNECTED___c9__c10 ^ running___c9 ) + ( CONNECTED___c10__c10 ^ running___c10 ) ) ) ) / ( 1 + ( CONNECTED___c1__c10 + CONNECTED___c2__c10 + CONNECTED___c3__c10 + CONNECTED___c4__c10 + CONNECTED___c5__c10 + CONNECTED___c6__c10 + CONNECTED___c7__c10 + CONNECTED___c8__c10 + CONNECTED___c9__c10 + CONNECTED___c10__c10 ) ) ))
+				else Bernoulli(REBOOT-PROB) );
+	};
+
+	reward = ( running___c1 - ( REBOOT-PENALTY * reboot___c1 ) ) + ( running___c2 - ( REBOOT-PENALTY * reboot___c2 ) ) + ( running___c3 - ( REBOOT-PENALTY * reboot___c3 ) ) + ( running___c4 - ( REBOOT-PENALTY * reboot___c4 ) ) + ( running___c5 - ( REBOOT-PENALTY * reboot___c5 ) ) + ( running___c6 - ( REBOOT-PENALTY * reboot___c6 ) ) + ( running___c7 - ( REBOOT-PENALTY * reboot___c7 ) ) + ( running___c8 - ( REBOOT-PENALTY * reboot___c8 ) ) + ( running___c9 - ( REBOOT-PENALTY * reboot___c9 ) ) + ( running___c10 - ( REBOOT-PENALTY * reboot___c10 ) );
+}
