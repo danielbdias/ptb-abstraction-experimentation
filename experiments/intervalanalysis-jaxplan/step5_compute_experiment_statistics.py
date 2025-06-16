@@ -180,6 +180,9 @@ def rebuild_stats_with_seeds(stats_file_partial_path):
     
     for seed in next_seeds:
         file_path = f'{stats_file_partial_path}_seed_{seed}.pickle'
+        if not file_exists(file_path):
+            print(f'File {file_path} not found. This means that it was not possible to get valid intervals on interval analysis. Skipping experiment')
+            return None
         next_stats_with_seed = load_pickle_data(file_path)
         
         stats_with_seed.append(next_stats_with_seed[0])
